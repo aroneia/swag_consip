@@ -1,60 +1,37 @@
-import React from 'react';
-import {View, Text, StyleSheet ,ScrollView} from 'react-native';
-import Block from './components/Block'
-import ShowDate from './components/ShowDate'
-import MainBlock from './components/MainBlock'
+import React, {useState} from 'react';
+import {AppLoading} from "expo";
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useFonts } from 'expo-font';
+import Home from './screens/Home';
+import Timetable from './screens/Timetable'
+import Report from './screens/Report'
+import MyPage from './screens/MyPage'
 
-const App = () => {
-  return (
-    <View style = {styles.container}>
-      <View style = {{flex :0.5 }}>
-        <View style = {{flex : 1, flexDirection: "row" }}>
-          <ShowDate style = {{flex :1, flexDirection: "row"}}/>
-        <View/>
-        <View style = {{flex :1, flexDirection: "row", justifyContent : "flex-end"}}>
-          <Text style = {{ fontSize : 20, textAlign : 'left'}}> 우체국 </Text>
-        </View>
-      </View >
+const Tab = createBottomTabNavigator();
 
-    </View>
-      <View style= {{flex :0.5}}>
-        <Text style = {styles.text}> TODAY </Text>
-      </View>
-      <View style = {{flex : 2}} >
-      <ScrollView style = {styles.blocks} horizontal = {true}>
-        <Block />
-        <Block /> 
-        <Block />
-      </ScrollView>
-      </View>
-      <View style = {styles.mainBlock}>
-        <MainBlock />
-      </View>
-    </View>
-  )
-}
-
-const styles = StyleSheet.create({
-  container :{
-    flex : 1,
-    paddingTop : 60,
-    backgroundColor : '#5235BB'
-    
-  },
-  text : {
-    fontSize : 30,
-    fontFamily : 'NanumSquareEB',
-    color : '#fff'
-    
-   
-  },
-  blocks : {
-    //backgroundColor : 'green'
-  },
-  mainBlock :{
-    flex :4.5,
-    //backgroundColor : 'orange'
+export default function App() {
+  //fonts
+  const [fontsLoaded] = useFonts({
+    'NanumSquareB': require('./assets/fonts/NanumSquareB.ttf'),
+    'NanumSquareEB': require('./assets/fonts/NanumSquareEB.ttf'),
+    'NanumSquareL': require('./assets/fonts/NanumSquareL.ttf'),
+    'NanumSquareR': require('./assets/fonts/NanumSquareR.ttf'),
+  });
+  
+  if (!fontsLoaded) {
+    return <AppLoading onError={console.error}/>;
+  } else {
+    //Font loading successful 
+    return (
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name = "Home" component = {Home}></Tab.Screen>
+          <Tab.Screen name = "Timetable" component = {Timetable}></Tab.Screen>
+          <Tab.Screen name = "Report" component = {Report}></Tab.Screen>
+          <Tab.Screen name = "MyPage" component = {MyPage}></Tab.Screen>
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
   }
-});
-
-export default App;
+};
