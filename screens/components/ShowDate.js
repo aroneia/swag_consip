@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'; 
+import React, {useState} from 'react'; 
 import {View,Text, StyleSheet} from 'react-native';
 
 const ShowDate = () => {
@@ -11,9 +11,9 @@ const ShowDate = () => {
     const dateString = currentMonth + "월 " + currentDate + "일 " + days[currentDay]
     
     const [date, setDate] = useState(dateString);
-    console.log("month " + currentMonth);
+    console.log("inside showdate current month is :" + currentMonth);
     //console.log(today);
-    
+
     return (
         <View>
             <Text style = {styles.text}>{date}</Text>
