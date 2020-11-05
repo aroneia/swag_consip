@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 const Report = () => {
     return(
         <View style = {styles.container}>
-        <Text style = {styles.text}> 리포트 </Text>
+            <Calendar 
+            renderHeader={(date) => {return(<Text>{`${date.getYear()}년 ${date.getMonth()}월`}</Text>)}}
+            />
         </View>
     );
 }
