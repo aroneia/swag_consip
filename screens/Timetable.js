@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Modal,TouchableHighlight } from 'react-native';
+import TimeTableView from './components/TimetableCom/Timetable'
 
 const Timetable = () => {
     return(
@@ -10,6 +11,8 @@ const Timetable = () => {
           </View>
 
           <View style = {styles.timetable}>
+          <TimeTableView
+              numberOfDays = {7}/>
 
           </View>
 
@@ -21,7 +24,8 @@ const styles = StyleSheet.create(
     {
         container :{
             flex : 1,
-            justifyContent : 'center'
+            justifyContent : 'center',
+            backgroundColor:'white'
         },
         text: {
             fontSize : 50,
