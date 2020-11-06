@@ -7,6 +7,7 @@ import Home from './screens/Home';
 import Timetable from './screens/Timetable'
 import Report from './screens/Report'
 import MyPage from './screens/MyPage'
+import StackReport from './screens/navigation/StackReport'
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,7 @@ export default function App() {
         <Tab.Navigator>
           <Tab.Screen name = "Home" component = {Home}></Tab.Screen>
           <Tab.Screen name = "Timetable" component = {Timetable}></Tab.Screen>
-          <Tab.Screen name = "Report" component = {Report}></Tab.Screen>
+          <Tab.Screen name = "Report" component = {StackReport}></Tab.Screen>
           <Tab.Screen name = "MyPage" component = {MyPage}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
