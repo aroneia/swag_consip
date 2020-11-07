@@ -3,37 +3,31 @@ import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import { backgroundColor } from 'react-native-calendars/src/style';
 import {createStackNavigator} from '@react-navigation/stack'
-import LectureMode from './LectureMode'
-
-
-const swagPurple = '#5235BB';
-const lightPurple = 'rgba(82, 53, 187, 0.09)';
 
 const Report = ({navigation}) => {   
     return(
         <View style = {styles.container}>
-        <Button
-        style = {{flex:1}}
-        title="to Lecture"
-        onPress={() =>
-          navigation.navigate('LectureMode')
-        }
-      />
         <View style = {styles.buttonContainer}>
             <View style ={styles.buttonClicked}>
                 <Text style ={styles.text}>캘린더모드</Text>
             </View>
-            <View style ={{flex:1, justifyContent : 'center'}}>
+            
+            <TouchableOpacity
+                style = {{flex:1, justifyContent : 'center'}}
+                title="to Lecture"
+                onPress={() => navigation.navigate('LectureMode')}
+            >
                 <Text style ={styles.textDark}>강의모드</Text>
-            </View>  
+            </TouchableOpacity>
+          
         </View>
         <Calendar
         hideDayNames ={true}
         theme={{
-            arrowColor: swagPurple,
-            monthTextColor: swagPurple,
-            dayTextColor: swagPurple,
-            indicatorColor: swagPurple,
+            arrowColor: SWAG_PURPLE,
+            monthTextColor: SWAG_PURPLE,
+            dayTextColor: SWAG_PURPLE,
+            indicatorColor: SWAG_PURPLE,
             textDayFontFamily: 'NanumSquareB',
             textMonthFontFamily: 'NanumSquareB',
         }}
@@ -87,7 +81,8 @@ const styles = StyleSheet.create(
         container :{
             flex : 1,
             justifyContent : 'center',
-            backgroundColor : 'white'
+            backgroundColor : 'white',
+            marginTop : 80
         },
         text: {
             fontSize : 18,
@@ -99,17 +94,17 @@ const styles = StyleSheet.create(
             fontSize : 18,
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
-            color : swagPurple   
+            color : SWAG_PURPLE   
         },
         buttonClicked :{
             flex :1,
-            backgroundColor : swagPurple,
+            backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
             borderRadius : 30
         },
         buttonContainer : {
             flex:0.4, flexDirection: 'row', 
-            backgroundColor : lightPurple,
+            backgroundColor : LIGHT_PURPLE,
             justifyContent : 'center',
             borderRadius : 30,
             marginBottom :20,

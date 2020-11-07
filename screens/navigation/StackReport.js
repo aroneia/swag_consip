@@ -6,7 +6,7 @@ import Report from '../Report'
 const Stack = createStackNavigator();
 
 export default () => (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Report"component={Report}/>
         <Stack.Screen name="LectureMode"component={LectureMode}/>
     </Stack.Navigator>
