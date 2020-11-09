@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import moment from 'moment';
 
-import { getFormattedDate } from './utils';
+import { getFormattedDate } from '../utils';
+
+import styles from './Header.styles';
 
 const getColumns = (numberOfDays, selectedDate) => {
   const columns = [];
@@ -16,26 +18,12 @@ const getColumns = (numberOfDays, selectedDate) => {
   return columns;
 };
 
-const getFontSizeHeader = (numberOfDays) => {
-  if (numberOfDays > 1) {
-    return 12;
-  }
-  return 16;
-};
-
-const getDayTextStyles = (numberOfDays) => {
-  const fontSize = numberOfDays === 6 ? 10 : 12;
-  return {
-    fontSize,
-  };
-};
-
 const Column = ({
   column, numberOfDays, format,
 }) => {
   return (
     <View style={styles.column}>
-      <Text style={[styles.text, getDayTextStyles(numberOfDays)]}>
+      <Text style={[styles.text]}>
         {getFormattedDate(column, format)}
       </Text>
     </View>
@@ -63,8 +51,9 @@ const Title = ({ numberOfDays }) => {
   return (
     <View style={styles.title}>
       <Text
-        style={[styles.text, { fontSize: getFontSizeHeader(numberOfDays) }]}
+        style={[styles.text, { fontSize: 14}]}
       >
+
       </Text>
     </View>
   );
@@ -90,39 +79,7 @@ WeekViewHeader.propTypes = {
 };
 
 WeekViewHeader.defaultProps = {
-  formatDate: 'dd', // day of week
+  formatDate: 'dddd', // day of week
 };
-
-import { StyleSheet } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  title: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#F8F8F8',
-    borderTopWidth: 1,
-    width: 26,
-  },
-  columns: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  column: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#F8F8F8',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-  },
-  text: {
-    color: '#5235BB',
-  },
-});
 
 export default WeekViewHeader;

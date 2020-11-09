@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Dimensions, View, StyleSheet} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import moment from 'moment';
 
-import Event from './Event';
+import Event from '../Event/Event';
 
-
-const GREY_COLOR = '#E9EDF0';
-const ROW_HEIGHT = 60;
-const CONTENT_OFFSET = 0;
-
+import styles, {CONTENT_OFFSET, ROW_HEIGHT} from './Events.styles';
+import HeaderStyle from '../Header/Header.styles';
 
 const TIME_LABELS_COUNT = 24;
 const { width: screenWidth } = Dimensions.get('window');
@@ -17,7 +14,7 @@ const { width: screenWidth } = Dimensions.get('window');
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = MINUTES_IN_HOUR * 24;
 const CONTENT_HEIGHT = ROW_HEIGHT * TIME_LABELS_COUNT;
-const TIME_LABEL_WIDTH = 26;
+const TIME_LABEL_WIDTH = HeaderStyle.title.width;
 const EVENTS_CONTAINER_WIDTH = screenWidth - TIME_LABEL_WIDTH;
 
 class Events extends Component {
@@ -177,37 +174,5 @@ Events.defaultProps = {
   pivotTime: 8,
   selectedDate: new Date(),
 };
-
-const styles = StyleSheet.create({
-    container: {
-      paddingTop: CONTENT_OFFSET,
-    },
-    timeRow: {
-      flex: 0,
-      height: ROW_HEIGHT,
-    },
-    timeLabelLine: {
-      height: 1,
-      backgroundColor: GREY_COLOR,
-      position: 'absolute',
-      right: 0,
-      left: 0,
-    },
-    event: {
-      flex: 1,
-      overflow: 'hidden',
-      borderColor: GREY_COLOR,
-      borderLeftWidth: 1,
-    },
-    events: {
-      position: 'absolute',
-      flexDirection: 'row',
-      left: 0,
-      right: 0,
-      bottom: 0,
-      top: 0,
-      backgroundColor: 'transparent',
-    },
-  });
 
 export default Events;

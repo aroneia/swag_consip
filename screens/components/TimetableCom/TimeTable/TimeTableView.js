@@ -4,14 +4,12 @@ import {
   View,
   ScrollView,
   Text,
-  Dimensions, StyleSheet
 } from 'react-native';
 import moment from 'moment';
-import { setLocale, addColor, genTimeBlock } from './utils';
-import Header from './TTheader';
-import Events from './Events';
-
-
+import { setLocale, addColor, genTimeBlock } from '../utils';
+import Events from '../Events/Events';
+import Header from '../Header/Header';
+import styles from './TimeTableView.styles';
 
 export default class TimeTableView extends Component {
   constructor(props) {
@@ -73,13 +71,15 @@ export default class TimeTableView extends Component {
         </View>
         <ScrollView ref={this.props.scrollViewRef}>
           <View style={styles.scrollViewContent}>
+
             <View style={styles.timeColumn}>
               {this.times.map(time => (
                 <View key={time} style={styles.timeLabel}>
-                  <Text style={styles.timeText}>{time === 12 ? 12 : time % 12}</Text>
+                  <Text style={styles.timeText}>{time === 12 ? 12 : time % 24}</Text>
                 </View>
               ))}
             </View>
+
             <View
               key={date}
               style={styles.eventsContainer}
@@ -94,6 +94,7 @@ export default class TimeTableView extends Component {
                 events={events}
               />
             </View>
+
           </View>
         </ScrollView>
       </View>
@@ -120,37 +121,5 @@ TimeTableView.defaultProps = {
   pivotTime: 8,
   pivotEndTime: 22,
   pivotDate: genTimeBlock('mon'),
-  formatDateHeader: "dd",
+  formatDateHeader: "d",
 };
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    flexDirection: 'row',
-  },
-  header: {
-    height: 21,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  timeLabel: {
-    flex: -1,
-    height: 60,
-  },
-  timeText: {
-    fontSize: 12,
-    textAlign: 'center',
-  },
-  timeColumn: {
-    paddingTop: 4,
-    width: 26,
-  },
-  eventsContainer: {
-    flex: 1, width: SCREEN_WIDTH - 26,
-  },
-});

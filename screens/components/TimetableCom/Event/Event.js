@@ -3,23 +3,27 @@ import PropTypes from 'prop-types';
 import {
   Text,
   TouchableOpacity,
-  StyleSheet
 } from 'react-native';
+import styles from './Event.styles';
+import Moment from 'moment';
+
 
 const Event = ({ event, onPress, style }) => {
   event.extra_descriptions = event.extra_descriptions || [];
   return (
     <TouchableOpacity
-      onPress={() => onPress(event)}
+      //onPress={() => onPress(event)}
       style={[styles.item, style, {
         backgroundColor: event.color,
       }]}
     >
+
+      <Text style={styles.title}>{Moment(event.startTime).format('hh:mm')}</Text>
       <Text style={styles.title}>{event.title}</Text>
-      <Text style={styles.location}>{event.location}</Text>
-      {event.extra_descriptions.map((description, idx) => (
+      {/* <Text style={styles.location}>{event.location}</Text> */}
+      {/* {event.extra_descriptions.map((description, idx) => (
         <Text key={idx} style={styles.description}>{description}</Text>
-      ))}
+      ))} */}
     </TouchableOpacity>
   );
 };
@@ -39,34 +43,5 @@ Event.propTypes = {
   onPress: PropTypes.func,
   style: PropTypes.object,
 };
-
-const styles = StyleSheet.create({
-    item: {
-      // alignItems: 'center',
-      position: 'absolute',
-      paddingVertical: 2,
-      paddingHorizontal: 2,
-      borderRadius: 7,
-      flex: 1,
-    },
-    title: {
-      color: '#322425',
-      textAlign: 'left',
-      fontSize: 13,
-    },
-    description: {
-      color: '#777',
-      textAlign: 'left',
-      fontSize: 9,
-    },
-    location: {
-      color: '#777',
-      textAlign: 'left',
-      paddingTop: 4,
-      paddingBottom: 2,
-      fontSize: 11,
-    },
-  });
-  
 
 export default Event;
