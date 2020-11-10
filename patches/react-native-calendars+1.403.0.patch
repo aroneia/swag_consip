@@ -1,0 +1,197 @@
+diff --git a/node_modules/react-native-calendars/src/calendar/day/basic/style.js b/node_modules/react-native-calendars/src/calendar/day/basic/style.js
+index 14dae05..db82b93 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/basic/style.js
++++ b/node_modules/react-native-calendars/src/calendar/day/basic/style.js
+@@ -25,7 +25,7 @@ export default function styleConstructor(theme={}) {
+     },
+     selected: {
+       backgroundColor: appStyle.selectedDayBackgroundColor,
+-      borderRadius: 16
++      borderRadius: 0
+     },
+     today: {
+       backgroundColor: appStyle.todayBackgroundColor,
+diff --git a/node_modules/react-native-calendars/src/calendar/day/custom/index.js b/node_modules/react-native-calendars/src/calendar/day/custom/index.js
+index bf62de7..fe99375 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/custom/index.js
++++ b/node_modules/react-native-calendars/src/calendar/day/custom/index.js
+@@ -11,6 +11,7 @@ class Day extends Component {
+   
+   static propTypes = {
+     // TODO: disabled props should be removed
++    //late, absent, perfect 
+     state: PropTypes.oneOf(['selected', 'disabled', 'today', '']),
+     // Specify theme properties to override specific styles for calendar parts. Default = {}
+     theme: PropTypes.object,
+@@ -67,7 +68,7 @@ class Day extends Component {
+       const styles = marking.customStyles;
+       if (styles.container) {
+         if (styles.container.borderRadius === undefined) {
+-          styles.container.borderRadius = 16;
++          styles.container.borderRadius = 0;
+         }
+         containerStyle.push(styles.container);
+       }
+diff --git a/node_modules/react-native-calendars/src/calendar/day/custom/style.js b/node_modules/react-native-calendars/src/calendar/day/custom/style.js
+index 92bfe7b..f71e3b9 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/custom/style.js
++++ b/node_modules/react-native-calendars/src/calendar/day/custom/style.js
+@@ -7,12 +7,15 @@ export default function styleConstructor(theme={}) {
+   const appStyle = {...defaultStyle, ...theme};
+   return StyleSheet.create({
+     base: {
+-      width: 32,
+-      height: 32,
+-      alignItems: 'center'
++      width: 50,
++      height: 50,
++      alignItems: 'center',
++      borderColor: '#5235BB',
++      borderWidth: 1,
+     },
+     text: {
+-      marginTop: Platform.OS === 'android' ? 4 : 6,
++      //안드로이드에서 확인해보고 안드로이드도 중앙으로 맞춰야함
++      marginTop: Platform.OS === 'android' ? 4 : 14,
+       fontSize: appStyle.textDayFontSize,
+       fontFamily: appStyle.textDayFontFamily,
+       fontWeight: appStyle.textDayFontWeight,
+@@ -20,14 +23,16 @@ export default function styleConstructor(theme={}) {
+       backgroundColor: 'rgba(255, 255, 255, 0)'
+     },
+     alignedText: {
+-      marginTop: Platform.OS === 'android' ? 4 : 6
++      //안드로이드에서 확인해보고 안드로이드도 중앙으로 맞춰야함
++      marginTop: Platform.OS === 'android' ? 4 : 14
+     },
+     selected: {
+       backgroundColor: appStyle.selectedDayBackgroundColor,
+-      borderRadius: 16
+     },
+     today: {
+-      backgroundColor: appStyle.todayBackgroundColor
++      //backgroundColor: appStyle.todayBackgroundColor,
++      borderColor: '#5235BB',
++      borderWidth: 1,
+     },
+     todayText: {
+       color: appStyle.todayTextColor
+@@ -35,6 +40,7 @@ export default function styleConstructor(theme={}) {
+     selectedText: {
+       color: appStyle.selectedDayTextColor
+     },
++    //late, absent style 추가하기
+     disabledText: {
+       color: appStyle.textDisabledColor
+     },
+diff --git a/node_modules/react-native-calendars/src/calendar/day/multi-dot/style.js b/node_modules/react-native-calendars/src/calendar/day/multi-dot/style.js
+index d514eae..5a2ec36 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/multi-dot/style.js
++++ b/node_modules/react-native-calendars/src/calendar/day/multi-dot/style.js
+@@ -24,7 +24,7 @@ export default function styleConstructor(theme={}) {
+     },
+     selected: {
+       backgroundColor: appStyle.selectedDayBackgroundColor,
+-      borderRadius: 16
++      borderRadius: 0
+     },
+     today: {
+       backgroundColor: appStyle.todayBackgroundColor
+diff --git a/node_modules/react-native-calendars/src/calendar/header/index.js b/node_modules/react-native-calendars/src/calendar/header/index.js
+index dd77e90..4d5ac1a 100644
+--- a/node_modules/react-native-calendars/src/calendar/header/index.js
++++ b/node_modules/react-native-calendars/src/calendar/header/index.js
+@@ -203,6 +203,7 @@ class CalendarHeader extends Component {
+         accessibilityElementsHidden={this.props.accessibilityElementsHidden} // iOS
+         importantForAccessibility={this.props.importantForAccessibility} // Android
+       >
++        <Text style ={this.style.textLight}>에일루와 함께한{console.log("에일루!")}</Text>
+         <View style={this.style.header}>
+           {leftArrow}
+           <View style={this.style.headerContainer}>
+@@ -211,6 +212,9 @@ class CalendarHeader extends Component {
+           </View>
+           {rightArrow}
+         </View>
++
++        <View style={this.style.thickLine}></View>
++
+         {!this.props.hideDayNames &&
+           <View style={this.style.week}>
+             {this.props.weekNumbers &&
+diff --git a/node_modules/react-native-calendars/src/calendar/header/style.js b/node_modules/react-native-calendars/src/calendar/header/style.js
+index 61cb68f..97131de 100644
+--- a/node_modules/react-native-calendars/src/calendar/header/style.js
++++ b/node_modules/react-native-calendars/src/calendar/header/style.js
+@@ -14,6 +14,21 @@ export default function(theme={}) {
+       marginTop: 6,
+       alignItems: 'center'
+     },
++    //added by eunji
++    thickLine :{
++      borderBottomColor: '#5235BB',
++      borderBottomWidth: 2,
++      marginTop : 20,
++      marginBottom : 10,
++      marginLeft : 3,
++      marginRight : 3,
++    },
++    textLight:{
++      fontFamily : 'NanumSquareL',
++      fontSize : 14,
++      color:'#5235BB',
++      textAlign: 'center' 
++    },
+     headerContainer: {
+       flexDirection: 'row'
+     },
+diff --git a/node_modules/react-native-calendars/src/calendar/index.js b/node_modules/react-native-calendars/src/calendar/index.js
+index 92d5bd5..27e2307 100644
+--- a/node_modules/react-native-calendars/src/calendar/index.js
++++ b/node_modules/react-native-calendars/src/calendar/index.js
+@@ -400,6 +400,7 @@ class Calendar extends Component {
+             : <CalendarHeader {...headerProps}/>
+           }
+           <View style={this.style.monthView}>{weeks}</View>
++          <View style={this.style.thickLine}></View>
+         </View>
+       </GestureComponent>
+     );
+diff --git a/node_modules/react-native-calendars/src/calendar/style.js b/node_modules/react-native-calendars/src/calendar/style.js
+index 358f5b4..f0751dc 100644
+--- a/node_modules/react-native-calendars/src/calendar/style.js
++++ b/node_modules/react-native-calendars/src/calendar/style.js
+@@ -7,18 +7,27 @@ export default function getStyle(theme={}) {
+   const appStyle = {...defaultStyle, ...theme};
+   return StyleSheet.create({
+     container: {
+-      paddingLeft: 5,
+-      paddingRight: 5,
++      marginLeft :20,
++      marginRight :20,
+       backgroundColor: appStyle.calendarBackground
+     },
+     monthView: {
+-      backgroundColor: appStyle.calendarBackground
++      backgroundColor: appStyle.calendarBackground,
++      //borderColor: '#5235BB',
++      //borderWidth: 1
++    },
++    thickLine :{
++      borderBottomColor: '#5235BB',
++      borderBottomWidth: 2,
++      marginTop : 0,
++      marginBottom : 10,
++      marginLeft : 3,
++      marginRight : 3,
+     },
+     week: {
+-      marginTop: 7,
+-      marginBottom: 7,
++      marginBottom: 10,
+       flexDirection: 'row',
+-      justifyContent: 'space-around'
++      justifyContent: 'space-around',
+     },
+     ...(theme[STYLESHEET_ID] || {})
+   });
