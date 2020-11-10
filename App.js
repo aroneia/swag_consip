@@ -11,7 +11,7 @@ import StackReport from './screens/navigation/StackReport'
 
 const Tab = createBottomTabNavigator();
 
-//색깔은 글로벌 변수로 지정했습니다
+//색깔은 글로벌 변수로 지정
 global.SWAG_PURPLE = '#5235BB';
 global.LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 

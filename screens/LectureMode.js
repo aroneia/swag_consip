@@ -16,7 +16,8 @@ const LectureMode = ({navigation}) => {
                 <View style ={styles.buttonClicked}>
                     <Text style ={styles.text}>강의모드</Text>
                 </View>
-        </View>
+            </View>
+            <View style = {{flex : 6}}></View>
         </View>
     );
 }
@@ -25,7 +26,9 @@ const styles = StyleSheet.create(
     {
         container :{
             flex : 1,
-            justifyContent : 'center'
+            justifyContent : 'center',
+            backgroundColor : 'white',
+            paddingTop : 80
         },
         text: {
             fontSize : 18,

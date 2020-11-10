@@ -1,8 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import { backgroundColor } from 'react-native-calendars/src/style';
-import {createStackNavigator} from '@react-navigation/stack'
+
+SWAG_PURPLE = '#5235BB';
+LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
+
+const getYearMonth = (date) =>{
+    const year = date.getFullYear();
+    //console.log(year);
+    const month = date.getMonth();
+    //console.log(month);
+    const yearMonth = year + "년" + " " + month + "월"
+    return yearMonth;
+}
 
 const Report = ({navigation}) => {   
     return(
@@ -23,6 +33,9 @@ const Report = ({navigation}) => {
         </View>
         <Calendar
         hideDayNames ={true}
+        style={{
+            height: 480
+          }}
         theme={{
             arrowColor: SWAG_PURPLE,
             monthTextColor: SWAG_PURPLE,
@@ -33,7 +46,7 @@ const Report = ({navigation}) => {
         }}
         //monthFormat={'yyyy MM'}
         renderHeader={(date) => {
-           return(<Text>hi</Text>)
+        return(<Text style = {styles.textDark}>{getYearMonth(date)}</Text>)
         }}
         // Date marking style [simple/period/multi-dot/single]. Default = 'simple'
         markingType={'custom'}
@@ -82,7 +95,7 @@ const styles = StyleSheet.create(
             flex : 1,
             justifyContent : 'center',
             backgroundColor : 'white',
-            marginTop : 80
+            paddingTop : 80
         },
         text: {
             fontSize : 18,
