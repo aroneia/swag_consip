@@ -8,7 +8,7 @@ LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 const getYearMonth = (date) =>{
     const year = date.getFullYear();
     //console.log(year);
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     //console.log(month);
     const yearMonth = year + "년" + " " + month + "월"
     return yearMonth;
