@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 const text_now = "NOW"
 const lectureName = "브랜드스토리텔링";
@@ -9,9 +9,9 @@ const MainBlock = () => {
     return(
         <View style = {styles.mainBlock} >
             <View style ={{flex:1,paddingTop : 30}}>
-                <Text style = {styles.text_bold}>{text_now}</Text>
+                <Text style = {styles.text_title}>{text_now}</Text>
             </View>
-            <View style = {{flex :2, justifyContent : 'center', backgroundColor : 'yellow'}}>
+            <View style = {{flex :2, justifyContent : 'center'}}>
                 <Text style = {styles.text_body}>아직은
                 {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{lectureName}</Text>
                 </Text>
@@ -20,8 +20,12 @@ const MainBlock = () => {
             <View style = {{flex:2,  backgroundColor : 'grey'}}>
                 <Text style = {{justifyContent : 'center', textAlign: 'center',}}> 수업시작 끝 버튼</Text>
             </View>
-            <View style = {{flex:5}}>
-                <Text style = {styles.text_body}> 캐릭터 이미지</Text>
+            <View style = {{flex:5, justifyContent : 'flex-end', }}>
+            <Image
+                style = {styles.animal}
+                source={require('../../../assets/images/animal1.png')}
+                resizeMode="contain"
+            />
             </View>
         </View>)
 }
@@ -31,20 +35,27 @@ const MainBlock = () => {
 const styles = StyleSheet.create({
     mainBlock :{
         aspectRatio: 0.8,
-        backgroundColor : '#F2F2F2',
+        backgroundColor : '#FFF',
         borderTopLeftRadius: 35,
         borderTopRightRadius: 35
     },
-    text_bold :{
+    text_title :{
         color : '#5235BB',
         fontFamily : 'NanumSquareEB',
-        fontSize : 30,
-        //backgroundColor : 'red'
+        fontSize : 25,
+        marginLeft : 20,
     },
         text_body :{
         color : '#5235BB',
         fontSize : 30,
         textAlign: 'center',
+    },
+    animal:{
+        height: 100,
+        width: undefined,
+        alignSelf : 'stretch',
+        marginBottom : 80 
+        
     }
 
 

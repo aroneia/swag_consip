@@ -11,12 +11,11 @@ import StackReport from './screens/navigation/StackReport'
 
 const Tab = createBottomTabNavigator();
 
-//색깔은 글로벌 변수로 지정
+//색깔
 global.SWAG_PURPLE = '#5235BB';
 global.LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
 export default function App() {
-  //font다
   const [fontsLoaded] = useFonts({
     'NanumSquareB': require('./assets/fonts/NanumSquareB.ttf'),
     'NanumSquareEB': require('./assets/fonts/NanumSquareEB.ttf'),

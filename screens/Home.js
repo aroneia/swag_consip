@@ -1,25 +1,31 @@
 import React from 'react';
-import {View, Text, StyleSheet ,ScrollView} from 'react-native';
-import Block from './components/Block'
-import ShowDate from './components/ShowDate'
-import MainBlock from './components/MainBlock'
+import {View, Text, StyleSheet ,ScrollView, Image} from 'react-native';
+import Block from './components/home/Block'
+import ShowDate from './components/home/ShowDate'
+import MainBlock from './components/home/MainBlock'
 
+//우체통 이미지 수정해야함 !!
 
 const Home = () => {
   return (
     <View style = {styles.container}>
       <View style = {{flex :0.5 }}>
         <View style = {{flex : 1, flexDirection: "row" }}>
-          <ShowDate style = {{flex :1, flexDirection: "row"}}/>
+          <View style = {styles.date}>
+            <ShowDate />
+          </View>
         <View/>
-        <View style = {{flex :1, flexDirection: "row", justifyContent : "flex-end"}}>
-          <Text style = {{ fontSize : 20, textAlign : 'left'}}> 우체국 </Text>
+        <View style = {{flex :1, flexDirection:'row', justifyContent : 'flex-end'}}>
+          <Image
+          style = {styles.letterIcon}
+          source={require('../assets/icons/letter.png')}
+          resizeMode="contain"
+          ></Image>
         </View>
       </View >
-
     </View>
       <View style= {{flex :0.5}}>
-        <Text style = {styles.text}> TODAY </Text>
+        <Text style = {styles.text_title}> TODAY </Text>
       </View>
       <View style = {{flex : 2}} >
       <ScrollView style = {styles.blocks} horizontal = {true}>
@@ -44,19 +50,32 @@ const styles = StyleSheet.create({
     backgroundColor : '#5235BB'
     
   },
-  text : {
-    fontSize : 30,
+  date :{
+    flex :1, 
+    marginLeft : 10,
+    //backgroundColor:'yellow'
+  },
+  text_title : {
+    fontSize : 25,
     fontFamily : 'NanumSquareEB',
-    color : '#fff'
-    
-   
+    color : '#fff',
+    marginLeft : 10,
+    textAlign : 'left'
   },
   blocks : {
     //backgroundColor : 'green'
+    marginLeft : 10
   },
   mainBlock :{
     flex :4.5,
     //backgroundColor : 'orange'
+  },
+  letterIcon : {
+    width : 60, height:30,
+    alignSelf: 'stretch',
+    //width: undefined,
+    //height: undefined,
+    //backgroundColor : 'orange' 
   }
 });
 

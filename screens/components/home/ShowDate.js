@@ -22,7 +22,7 @@ const ShowDate = () => {
 }
 const styles = StyleSheet.create({
     text : {
-        fontSize : 20,
+        fontSize : 25,
         fontFamily : 'NanumSquareEB',
         color : '#fff'
         
