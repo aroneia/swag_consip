@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderLeftWidth: 1,
 
-
   },
   text: {
     color: '#5235BB',
