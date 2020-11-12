@@ -1,17 +1,24 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 
 const Block = () => {
     return (
-        <View style = {styles.block}>
-        </View>
+
+        <Image 
+        style = {styles.block}
+        source = {require('../../../assets/images/block.png')}
+        />
     )
 }
 
 const styles = StyleSheet.create({
     block : {
 
-        aspectRatio: 0.8,
+        width: '30%',
+        // Without height undefined it won't work
+        height: undefined,
+        // figure out your image aspect ratio
+        aspectRatio: 0.74,
         marginRight : 10,
         marginLeft : 10,
         //flexDirection : 'row',
