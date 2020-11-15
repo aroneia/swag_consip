@@ -1,37 +1,40 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, ImageBackground, StyleSheet,Text} from 'react-native';
+import Dash from 'react-native-dash'
 
 const Block = () => {
     return (
-
-        <Image 
-        style = {styles.block}
-        source = {require('../../../assets/images/block.png')}
-        />
+        <View style ={styles.container}>
+            <ImageBackground
+            style = {styles.blockImage}
+            source = {require('../../../assets/images/block.png')} >
+            <View style = {{flex:1}}></View>
+            <Dash dashGap ={5} dashColor ={'#5235BB'}/>
+            <View style={{flex: 0.5}}>
+                <Text style = {{textAlign : 'center'}}>브랜드스토리텔링</Text>
+                <Text style = {{textAlign : 'center'}}>11:00</Text>
+            </View>
+            </ImageBackground>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    block : {
-
-        width: '30%',
-        // Without height undefined it won't work
-        height: undefined,
-        // figure out your image aspect ratio
+    container :{
         aspectRatio: 0.74,
         marginRight : 10,
-        marginLeft : 10,
-        //flexDirection : 'row',
-        backgroundColor : '#FFF',
-        //borderColor : 'orange',
-        //border: 1 solid #5235BB,
-        
+        marginLeft : 5,
+    },
+    blockImage : {
+        width : '100%',
+        height : '100%',
         //boxShadow: 4px 4px 5px 'rgba(0, 0, 0, 0.2)',
         //borderRadius: 20
     },
     text : {
         fontSize :20
-    }
+    },
+    
 })
 
 export default Block;

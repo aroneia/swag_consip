@@ -1,9 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, ImageBackground} from 'react-native';
 
 const text_now = "NOW"
 const lectureName = "브랜드스토리텔링";
 const lectureTimeLeft = 2;
+const SWAG_PURPLE = '#5235BB';
+
+
 
 const MainBlock = () => {
     return(
@@ -17,10 +20,16 @@ const MainBlock = () => {
                 </Text>
                 <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
             </View>
-            <View style = {{flex:2,  backgroundColor : 'grey'}}>
-                <Text style = {{justifyContent : 'center', textAlign: 'center',}}> 수업시작 끝 버튼</Text>
+            <View style = {{flex:2 , flexDirection : 'row'}}>
+                <ImageBackground
+                    source = {require('../../../assets/icons/circleButtonOn.png')} style ={styles.buttonImage}>
+                </ImageBackground>
+                <ImageBackground
+                    source = {require('../../../assets/icons/circleButtonOff.png')} style ={styles.buttonImage}>
+                </ImageBackground>
+
             </View>
-            <View style = {{flex:5, justifyContent : 'flex-end', }}>
+            <View style = {{flex: 5, justifyContent : 'flex-end' }}>
             <Image
                 style = {styles.animal}
                 source={require('../../../assets/images/animal1.png')}
@@ -50,8 +59,14 @@ const styles = StyleSheet.create({
         fontSize : 30,
         textAlign: 'center',
     },
+    buttonImage: {
+        flex :1,
+        width : '50%',
+        height: '50%',
+        aspectRatio: 1
+    },
     animal:{
-        height: 100,
+        height: 150,
         width: undefined,
         alignSelf : 'stretch',
         marginBottom : 80 
