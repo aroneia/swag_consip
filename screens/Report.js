@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 SWAG_PURPLE = '#5235BB';
@@ -34,7 +34,7 @@ const Report = ({navigation}) => {
         <Calendar
         hideDayNames ={true}
         style={{
-            height: 480
+            height: 450
           }}
         theme={{
             arrowColor: SWAG_PURPLE,
@@ -75,11 +75,27 @@ const Report = ({navigation}) => {
         }}
         /> 
         <View style = {{flex: 2, flexDirection: 'row'}}>
-            <View style ={{flex:1,backgroundColor:'red'}}>
+            <View style ={{flex:1}}>
+                <Image
+                source = {require('../assets/images/animal1.png')}
+                style = {styles.animalImage}
+                ></Image>
             </View>
-            <View style ={{flex:2,backgroundColor:'yellow', flexDirection: 'column'}}>
-                <View style ={{flex:2,backgroundColor:'yellow'}}></View>
-                <View style ={{flex:1,backgroundColor:'blue'}}></View>
+            <View style ={{flex:2.5,flexDirection: 'column'}}>
+                <View style ={{flex:2, flexDirection : 'row'}}>
+                    <View style ={styles.blockContainer}>
+                        <Text>퍼펙트 데이</Text>
+                        <Text>15일</Text>
+                    </View>
+                    <View style ={styles.blockContainer}>
+                        <Text>퍼펙트 데이</Text>
+                        <Text>15일</Text>
+                    </View>
+                </View>
+                <View style ={styles.longBlockContainer}>
+                    <Text>친밀도</Text>
+                   
+                </View>
             </View>
                
         </View>
@@ -123,6 +139,28 @@ const styles = StyleSheet.create(
             marginBottom :20,
             marginHorizontal :20,
             
+        },
+        animalImage :{
+            width : 100,
+            height : null,
+            flex :1,
+            alignSelf : 'center',
+            resizeMode : 'contain',
+            transform: [{rotateY: '180deg'}]
+        },
+        blockContainer :{
+            flex:1,
+            backgroundColor : '#F3F2F7',
+            borderRadius : 20,
+            margin : 10,
+            marginTop : 20
+        },
+        longBlockContainer :{
+            flex:1,
+            backgroundColor : '#F3F2F7',
+            borderRadius : 20,
+            marginLeft : 10,
+            marginRight : 10,
         }
     }
 )

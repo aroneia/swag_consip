@@ -3,10 +3,12 @@ import {View, Text, StyleSheet ,ScrollView, Image} from 'react-native';
 import Block from './components/home/Block'
 import ShowDate from './components/home/ShowDate'
 import MainBlock from './components/home/MainBlock'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import PostBox from './PostBox'
 
 //우체통 이미지 수정해야함 !!
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View style = {styles.container}>
       <View style = {{flex :0.5 }}>
@@ -16,11 +18,17 @@ const Home = () => {
           </View>
         <View/>
         <View style = {{flex :1, flexDirection:'row', justifyContent : 'flex-end'}}>
+        <TouchableOpacity
+                style = {{flex:1, justifyContent : 'center'}}
+                title="to PostBox"
+                onPress={() => navigation.navigate('PostBox')}
+            >
           <Image
           style = {styles.letterIcon}
           source={require('../assets/icons/letter.png')}
           resizeMode="contain"
           ></Image>
+         </TouchableOpacity>
         </View>
       </View >
     </View>
