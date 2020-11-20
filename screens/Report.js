@@ -11,18 +11,18 @@ let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 
 const colorDay = (day) => {
     console.log(day);
+    //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
     //data.length 왜 작동 안하는지 모르겠음 시발
-    for (let index = 0; index < 2; index++){
+    for (let index = 0; index < Object.keys(data).length-1; index++){
         let item = data[index];
         //console.log("item.date is" + item.date);
         if(item.date !== day) {
             DAYHEIGHT = 0
         }else if(item.date === day){
             const progress = item.takenLecture/item.totalLecture;
-            console.log("progress is :" + progress);
+            //console.log("progress is :" + progress);
             DAYHEIGHT = SQUARESIZE * progress;
             MARGINTOP = SQUARESIZE - DAYHEIGHT;
-            item.isPast = true;
             return DAYHEIGHT;
         }
     } 

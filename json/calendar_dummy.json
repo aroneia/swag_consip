@@ -3,12 +3,21 @@
     "date" : 6,
     "totalLecture" : 8,
     "takenLecture" : 4,
-    "isPast" : false,
+    
 },{
     "month" : 11,
     "date" : 10,
     "totalLecture" : 10,
     "takenLecture" : 2,
-    "isPast" : false,
+   
+},{"month" : 11,
+    "date" : 13,
+    "totalLecture" : 7,
+    "takenLecture" : 2,
+},
+{"month" : 11,
+    "date" : 3,
+    "totalLecture" : 7,
+    "takenLecture" : 6,
 }
 ]
