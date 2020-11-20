@@ -13,6 +13,7 @@ const ShowDate = () => {
     const [date, setDate] = useState(dateString);
     console.log("inside showdate current month is :" + currentMonth);
     //console.log(today);
+    const message = "오늘은" + {date}+ "입니다"
 
     return (
         <View>
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     text : {
         fontSize : 25,
         fontFamily : 'NanumSquareEB',
-        color : '#fff'
+        color : '#4E4B66'
         
     }
 })

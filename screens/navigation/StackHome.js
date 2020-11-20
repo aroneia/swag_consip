@@ -6,7 +6,7 @@ import PostBox from '../PostBox'
 const Stack = createStackNavigator();
 
 export default () => (
-    <Stack.Navigator >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home"component={Home}/>
         <Stack.Screen name="PostBox"component={PostBox}/>
     </Stack.Navigator>

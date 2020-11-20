@@ -8,15 +8,15 @@ import Timetable from './screens/Timetable'
 import MyPage from './screens/MyPage'
 import StackReport from './screens/navigation/StackReport'
 import StackHome from './screens/navigation/StackHome'
+import './assets/global.js'
 
 
 const Tab = createBottomTabNavigator();
 
 //색깔
-global.SWAG_PURPLE = '#5235BB';
-global.LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
 export default function App() {
+
   const [fontsLoaded] = useFonts({
     'NanumSquareB': require('./assets/fonts/NanumSquareB.ttf'),
     'NanumSquareEB': require('./assets/fonts/NanumSquareEB.ttf'),

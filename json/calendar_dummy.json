@@ -1,0 +1,14 @@
+[{
+    "month" : 11,
+    "date" : 6,
+    "totalLecture" : 8,
+    "takenLecture" : 4,
+    "isPast" : false,
+},{
+    "month" : 11,
+    "date" : 10,
+    "totalLecture" : 10,
+    "takenLecture" : 2,
+    "isPast" : false,
+}
+]

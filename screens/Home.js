@@ -11,7 +11,10 @@ import PostBox from './PostBox'
 const Home = ({navigation}) => {
   return (
     <View style = {styles.container}>
-      <View style = {{flex :0.5 }}>
+      <View style = {{flex :0.5}}>
+        <Text>안녕하세요 일소님!</Text>
+      </View>
+      <View style = {{flex :0.5}}>
         <View style = {{flex : 1, flexDirection: "row" }}>
           <View style = {styles.date}>
             <ShowDate />
@@ -55,7 +58,7 @@ const styles = StyleSheet.create({
   container :{
     flex : 1,
     paddingTop : 60,
-    backgroundColor : '#5235BB'
+    backgroundColor : '#F7F7FC'
     
   },
   date :{
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
   text_title : {
     fontSize : 25,
     fontFamily : 'NanumSquareEB',
-    color : '#fff',
+    color : '#14142A',
     marginLeft : 10,
     textAlign : 'left'
   },

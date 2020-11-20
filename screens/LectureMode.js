@@ -1,6 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
 
+const SWAG_PURPLE = '#5235BB';
+const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
+
 const LectureMode = ({navigation}) => {
     return(
         <View style = {styles.container}>

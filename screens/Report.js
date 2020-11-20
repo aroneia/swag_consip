@@ -1,9 +1,33 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import * as data from '../json/calendar_dummy.json' 
 
 SWAG_PURPLE = '#5235BB';
 LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
+const SQUARESIZE = 48
+let DAYHEIGHT = 0
+let MARGINTOP = SQUARESIZE - DAYHEIGHT;
+
+const colorDay = (day) => {
+    console.log(day);
+    //data.length 왜 작동 안하는지 모르겠음 시발
+    for (let index = 0; index < 2; index++){
+        let item = data[index];
+        //console.log("item.date is" + item.date);
+        if(item.date !== day) {
+            DAYHEIGHT = 0
+        }else if(item.date === day){
+            const progress = item.takenLecture/item.totalLecture;
+            console.log("progress is :" + progress);
+            DAYHEIGHT = SQUARESIZE * progress;
+            MARGINTOP = SQUARESIZE - DAYHEIGHT;
+            item.isPast = true;
+            return DAYHEIGHT;
+        }
+    } 
+    return(DAYHEIGHT)
+}
 
 const getYearMonth = (date) =>{
     const year = date.getFullYear();
@@ -50,29 +74,25 @@ const Report = ({navigation}) => {
         }}
         // Date marking style [simple/period/multi-dot/single]. Default = 'simple'
         markingType={'custom'}
-        markedDates={{
-            '2020-11-05': {
-            customStyles: {
-                container: {
-                backgroundColor: '#E3DBFF'
-                },
-                text: {
-                color: 'black',
-                }
-            }
-            },
-            '2020-11-21': {
-            customStyles: {
-                container: {
-                backgroundColor: 'white',
-                elevation: 2
-                },
-                text: {
-                color: 'blue'
-                }
-            }
-            }
-        }}
+        dayComponent={({date, state}) => {
+            return (
+              <View style= {{width : 50, height :50, borderWidth :1, borderColor : SWAG_PURPLE, alignItems: 'center',}}>
+                <View style = {{height : colorDay(date.day), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
+            }}>
+                </View>
+                <Text style ={{
+                    position : 'absolute',
+                    color: state === 'disabled' ? 'gray' : SWAG_PURPLE,
+                    marginTop: Platform.OS === 'android' ? 4 : 14,
+                    fontFamily : 'NanumSquareB'
+                    }}>
+                  {date.day}
+                </Text>
+                
+              </View>
+            );
+          }}
+       
         /> 
         <View style = {{flex: 2, flexDirection: 'row'}}>
             <View style ={{flex:1}}>
