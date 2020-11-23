@@ -26,7 +26,7 @@ const colorDay = (day) => {
             return DAYHEIGHT;
         }
     } 
-    return(DAYHEIGHT)
+    return DAYHEIGHT;
 }
 
 const getYearMonth = (date) =>{
@@ -80,15 +80,15 @@ const Report = ({navigation}) => {
                 <View style = {{height : colorDay(date.day), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
             }}>
                 </View>
+               
                 <Text style ={{
                     position : 'absolute',
-                    color: state === 'disabled' ? 'gray' : SWAG_PURPLE,
+                    color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
                     marginTop: Platform.OS === 'android' ? 4 : 14,
                     fontFamily : 'NanumSquareB'
                     }}>
                   {date.day}
                 </Text>
-                
               </View>
             );
           }}
