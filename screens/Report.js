@@ -131,7 +131,13 @@ const Report = ({navigation}) => {
                         <View style ={styles.longBlockContainer}>
                             <Text style= {{flex : 1, textAlign : 'center'}}>친밀도</Text>
                             <View style = {{flex : 3, alignItems : 'center'}}>
-                                <Text>하트</Text>
+                               
+                                    <Image 
+                                    source = {require('../assets/icons/singleheart.png')}
+                                    style = {styles.heartImageSmall}
+                                    ></Image>
+                                    
+                              
                                 <ProgressBar 
                                     style = {{height :10, marginTop :10}}
                                     progress= {getFriend()} 
@@ -167,7 +173,8 @@ const styles = StyleSheet.create(
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
             paddingTop : 80,
-            marginHorizontal : 15
+            marginHorizontal : 15,
+            marginBottom : 15
         },
         calendarContainer:{
             flex : 5, 
@@ -209,6 +216,12 @@ const styles = StyleSheet.create(
             height : '40%',
             width : '40%',
             margin : 5,
+            alignSelf : 'center',
+            resizeMode : 'contain' 
+        },
+        heartImageSmall :{
+            height : '30%',
+            width : '30%',
             alignSelf : 'center',
             resizeMode : 'contain' 
         },
