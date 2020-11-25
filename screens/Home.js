@@ -4,9 +4,7 @@ import Block from './components/home/Block'
 import ShowDate from './components/home/ShowDate'
 import MainBlock from './components/home/MainBlock'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import PostBox from './PostBox'
 
-//우체통 이미지 수정해야함 !!
 
 const Home = ({navigation}) => {
   return (
