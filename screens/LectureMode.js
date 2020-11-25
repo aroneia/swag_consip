@@ -37,6 +37,9 @@ console.log(list);
 //console.log(list);
 
 
+const SWAG_PURPLE = '#5235BB';
+const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
+
 const LectureMode = ({navigation}) => {
   
     //const inputdata={ name: ["우와","이게","실화야"]};
