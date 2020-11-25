@@ -15,6 +15,7 @@ const list = data.lectureList.map(function(item) {
 });
 console.log(list);
 
+
 const Timetable = () => {
 
 
