@@ -6,7 +6,6 @@ import InsertModal from './components/TimetableCom/InsertModal/InsertModal';
 import data from './../json/lecture';
 
 
-
 const list = data.lectureList.map(function(item) {
     return {
         title: item.name,
@@ -14,7 +13,7 @@ const list = data.lectureList.map(function(item) {
         endTime: genTimeBlock(item.days[0],item.Time[2],item.Time[3])
     };
 });
-
+console.log(list);
 
 
 const Timetable = () => {
