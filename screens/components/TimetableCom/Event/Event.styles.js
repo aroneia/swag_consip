@@ -6,16 +6,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingVertical: 2,
     paddingHorizontal: 2,
-    borderRadius: 2,
+    borderRadius: 4,
     flex: 1,
     backgroundColor: "yellow",
-    borderWidth: 0.7,
+    borderColor:"#D9DBE9",
+    borderWidth: 1.5,
 
   },
   title: {
-    color: '#5235BB',
+    color: '#FFFFFF',
     textAlign: 'left',
     fontSize: 11,
+    fontFamily:"NanumSquareB"
   },
   description: {
     color: '#5235BB',

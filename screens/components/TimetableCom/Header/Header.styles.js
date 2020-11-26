@@ -5,7 +5,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-between',
-    height:20
+    height:20,
+    borderRadius:16,
+
     
   },
   title: {
@@ -25,13 +27,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#F5F3FF',
+    borderColor: '#ffffff',
     borderTopWidth: 1,
     borderLeftWidth: 1,
 
   },
   text: {
-    color: '#5235BB',
+    color: '#4E4B66',
     fontFamily : 'NanumSquareB',
 
   },

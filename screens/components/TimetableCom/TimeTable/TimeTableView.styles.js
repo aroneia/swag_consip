@@ -8,14 +8,16 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   scrollViewContent: {
     flexDirection: 'row',
   },
   header: {
-    height: 21,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   timeLabel: {
     flex: -1,

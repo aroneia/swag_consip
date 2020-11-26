@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   },
   timeLabelLine: {
     height: 1,
-    backgroundColor: GREY_COLOR,
+    backgroundColor: "#D9DBE9",
     position: 'absolute',
     right: 0,
     left: 0,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   event: {
     flex: 1,
     overflow: 'hidden',
-    borderColor: GREY_COLOR,
+    borderColor: "#ffffff",
     borderLeftWidth: 1,
   },
   events: {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {   
-    Text,
     TouchableWithoutFeedback,
     StyleSheet,
     View,
@@ -33,16 +32,16 @@ class KeywordButton extends Component {
     value: false,
     onChangeValue: () => null,
     activeText: '',
-    fontSize: 12,
+    fontSize: 17,
     activeTextColor: '#FFFFFF',
-    inactiveTextColor: '#BDBDBD',
-    activeBackgroundColor: '#5235BB',
-    inactiveBackgroundColor: '#F2F2F2',
+    inactiveTextColor: '#A0A3BD',
+    activeBackgroundColor: '#552DEC',
+    inactiveBackgroundColor: '#EFF0F6',
     activeButtonBackgroundColor: 'rgba(255, 255, 255, 1)',
     inactiveButtonBackgroundColor: 'rgba(255, 255, 255, 1)',
     switchWidth: 65,
-    switchHeight: 30,
-    switchBorderRadius: 15,
+    switchHeight: 35,
+    switchBorderRadius: 32,
     switchBorderColor: 'rgba(0, 0, 0, 1)',
     switchBorderWidth: 0,
     animationTime: 150,
@@ -76,12 +75,12 @@ class KeywordButton extends Component {
 
       }),
       Animated.timing(this.state.backgroundColor, {
-        toValue: value ? 75 : -75,
+        toValue: value ? 90 : -90,
         duration: animationTime,
         useNativeDriver: false, 
       }),
       Animated.timing(this.state.textColor, {
-        toValue: value ? 75 : -75,
+        toValue: value ? 90 : -90,
         duration: animationTime,
         useNativeDriver: false, 
       })
@@ -159,7 +158,7 @@ class KeywordButton extends Component {
                 style={{ 
                     color: textColorValue, 
                     fontSize: fontSize,
-                    fontFamily: 'NanumSquareEB', }}>
+                    fontFamily: 'NanumSquareR', }}>
                   {activeText}
                 </Animated.Text>
               </View>

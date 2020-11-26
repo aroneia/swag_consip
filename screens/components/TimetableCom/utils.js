@@ -85,7 +85,7 @@ const hashString = (s) => {
 const colorGenerator = (num) => {
   const color_list = [
     // apple calendar color
-    '#E3DBFF',
+    '#2C01A6',
   ];
   return color_list[num % color_list.length];
 };

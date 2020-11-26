@@ -9,18 +9,19 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.1",
     "@paraboly/react-native-card": "^1.0.0",
     "@progress/kendo-licensing": "^1.1.0",
     "@progress/kendo-react-intl": "^4.1.0",
     "@progress/kendo-react-layout": "^4.1.0",
     "@progress/kendo-react-progressbars": "^4.1.0",
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/datetimepicker": "^3.0.6",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.4",
     "@react-navigation/native": "^5.8.4",
     "@react-navigation/stack": "^5.12.6",
-    "expo": "^39.0.4",
+    "expo": "^39.0.5",
     "expo-font": "~8.3.0",
     "expo-status-bar": "~1.0.2",
     "expo-updates": "~0.3.3",
@@ -31,25 +32,20 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-action-button": "^2.8.5",
     "react-native-calendars": "^1.403.0",
-<<<<<<< HEAD
     "react-native-cardview": "^2.0.5",
+    "react-native-dash": "0.0.11",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-modal": "^11.5.6",
+    "react-native-modal-datetime-picker": "^9.1.0",
+    "react-native-picker-select": "^8.0.3",
+    "react-native-progress": "^4.1.2",
     "react-native-progress-circle": "^2.1.0",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-shadow-cards": "^1.0.2",
-=======
-    "react-native-dash": "0.0.11",
-    "react-native-gesture-handler": "~1.7.0",
-    "react-native-modal": "^11.5.6",
-    "react-native-progress": "^4.1.2",
-    "react-native-reanimated": "~1.13.0",
-    "react-native-safe-area-context": "3.1.4",
-    "react-native-screens": "~2.10.1",
->>>>>>> 75fb15cefc140a75536f7d4056ca4296b3e93fc2
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-navigation-stack": "^2.10.2"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

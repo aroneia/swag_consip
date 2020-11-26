@@ -1,20 +1,33 @@
 import React from 'react';
-import {  View, Text, StyleSheet, Image, Modal,TouchableHighlight } from 'react-native';
+import {  View, Text, StyleSheet, Image, Modal } from 'react-native';
 import TimeTableView from './components/TimetableCom/TimeTable/TimeTableView';
 import  { genTimeBlock } from './components/TimetableCom/utils';
 import InsertModal from './components/TimetableCom/InsertModal/InsertModal';
 import data from './../json/lecture';
 
+function tbl_map() {
 
+    var ret = [];
 
-const list = data.lectureList.map(function(item) {
-    return {
-        title: item.name,
-        startTime: genTimeBlock(item.days[0],item.Time[0],item.Time[1]),
-        endTime: genTimeBlock(item.days[0],item.Time[2],item.Time[3])
-    };
-});
+    console.log(typeof(data));
+    for(var a in data.lectureList) {
+        for(var b in  data.lectureList[a].days)
+        {
+        ret.push (
+            {
+                title: data.lectureList[a].name,
+                startTime: genTimeBlock(data.lectureList[a].days[b],data.lectureList[a].Time[b*4],data.lectureList[a].Time[b*4+1]),
+                endTime: genTimeBlock(data.lectureList[a].days[b],data.lectureList[a].Time[b*4+2],data.lectureList[a].Time[b*4+3])
+            }
+        );
+        }
+    }
+    return ret;
+}
 
+const list = tbl_map();
+console.log(list);
+//console.log(list);
 
 
 const Timetable = () => {
@@ -24,7 +37,8 @@ const Timetable = () => {
         
         <View style = {styles.container}>
 
-                <Text style = {styles.title}>시간표</Text>
+                <Text style = {styles.title}>SWAG</Text>
+                <Text style = {styles.subtitle}>시간표</Text>
 
 
             <View style = {styles.timetable}>
@@ -57,25 +71,35 @@ const styles = StyleSheet.create(
         container :{
             flex : 1,
             justifyContent : 'center',
-            backgroundColor:'white'
+            backgroundColor:'#F7F7FC'
         },
         title:{
             flex: 2,
             top : 80,
-            fontSize:20,
-            color: '#5235BB',
+            fontSize: 17,
+            color: '#4F4F4F',
             alignSelf:'center',
-            fontFamily : 'NanumSquareB',
+            fontFamily : 'NanumSquareEB',
+        },
+        subtitle:{
+            fontSize: 17,
+            color: '#14142A',
+            marginLeft :16,       
+            marginBottom:16,     
+            fontFamily : 'NanumSquareEB',
         },
         headerStyle: {
-            backgroundColor: '#F9F8FF',
+            backgroundColor: 'rgba(255,255,255,1.0)',
         },
         timetable:{
             flex: 11,
             marginLeft :16,
             marginRight :16,
-            marginBottom:16,
-            backgroundColor : '#ffffff'
+            marginBottom:24,
+            borderRadius:16,
+            backgroundColor : '#ffffff',
+            borderColor:"#D9DBE9",
+            borderWidth:1,
         },
         InsertButton:{
             position: "absolute",
