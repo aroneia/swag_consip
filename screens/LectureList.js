@@ -21,6 +21,7 @@ const LectureMode = ({navigation}) => {
                 </View>
     
             </View>
+            
             <Text style={{fontSize:20, marginLeft:20}} >현재 강의</Text>
             <View style={styles.back}>
                 
@@ -147,7 +148,7 @@ const styles = StyleSheet.create(
         },
         
         back:{
-            flex:1,
+            flex:7.5,
             backgroundColor : '#F7F7FC',
             
             flexDirection:'row'
