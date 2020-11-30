@@ -103,8 +103,6 @@ const Report = ({navigation}) => {
        
         />
         </View>
-
-            
                 <View style ={{flex :0.5}}>
                     <Text style ={styles.monthText} >9월의 기록</Text>
                 </View> 

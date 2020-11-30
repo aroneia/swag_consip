@@ -1,5 +1,17 @@
-{ 
-	“name”: "에일루",
-	“character”: "귀엽고 깜찍한 우리의 친구",
-	“friendship”: 80,
-}
+[
+	{
+		"id" : 1, 
+		"name": "에일루",
+		"character": "귀엽고 깜찍한 우리의 친구",
+		"friendship": 80,
+		"month" : 9
+	},
+	{
+		"id" : 2,
+		"name": "새롬",
+		"character": "새침한 우리의 친구",
+		"friendship": 80,
+		"month" : 10
+	}
+]
+

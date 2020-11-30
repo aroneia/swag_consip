@@ -1,7 +1,7 @@
 { 
-	“today” : 20200903,
-	“lecture_list”:["콘텐츠시스템프로젝트"] 	// 자정에 그날에 있을 강의 목록 리스트업
-	“total_lectrues” : 4,
-	“stamp_sum”: 4,
-	“heart”: 1
+	"today" : 20200903,
+	"lecture_list":["콘텐츠시스템프로젝트"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
+	"heart": 1
 }, 
