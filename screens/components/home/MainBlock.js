@@ -58,7 +58,7 @@ const MainBlock = () => {
             <View style = {{flex: 4, justifyContent : 'flex-end' }}>
             <Image
                 style = {styles.animal}
-                source={require('../../../assets/images/ailen1.png')}
+                source={require('../../../assets/images/alien1.png')}
                 resizeMode="contain"
             />
             </View>
