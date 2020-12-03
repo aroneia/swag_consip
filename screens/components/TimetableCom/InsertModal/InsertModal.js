@@ -1,11 +1,10 @@
-import React, { Component, useState,setState } from 'react';
+import React, {useState} from 'react';
 import { Modal, Text,TouchableOpacity, View,Image, StyleSheet, TextInput, ScrollView} from 'react-native'
 import ActionButton from '../button/ActionButton'
-import TimeItem from './TimeItem'
 import KeywordButton from './KewordButton'
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import data from './../../../../json/lecture.json';
 
 function formatAMPM(date) {
    var hours = date.getHours();
@@ -18,10 +17,26 @@ function formatAMPM(date) {
    return strTime;
  }
 
-export const InsertModal = () => {
+export const InsertModal = ({ parentCallback }) => {
+
+   function onFormSubmit(e) {
+            e.preventDefault();
+            this.props.onSubmit(this.state.text);
+         }
 
    //모델 보일지 말지
    const [modalVisible,setmodalVisible] = useState(false);
+
+   //스크린 높이
+   const bottom_initial = 0;
+   const arbitrary_move_value = 100;
+
+   const [contentInsertBottom, setcontentInsertBottom] = useState(bottom_initial);
+   
+    //강의명 & 강의차수
+   const [lecturename, setlecturename] = useState("");
+   const [lecturecount, setlecturecount] = useState(0);
+
 
    //키워드
    const [K_realtime,setK_realtime] = useState(false);
@@ -38,31 +53,115 @@ export const InsertModal = () => {
 
    //시작 날짜
    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+   const [startdate, setstartDate] = useState(new Date());
+
+
+   const showDatePicker = () => {
+     setDatePickerVisibility(true);
+   };
+   const setStartDay = (date) => {
+      setstartDate(date);
+      hideDatePicker();
+    };
 
    //강의시간 리스트
-   const [Input, setInput] = useState([]);
- 
-   const lessonIndex = 0;
+   const [dayList, setdayList] = useState([""]);
+   const [timeList, settimeList] = useState([]);
 
+   //리스트 미리 추가하기 
+   const addListData = () => {
+      settimeList([...timeList,[new Date('December 17, 1995 08:00:00'),new Date('1995-12-17T09:00:00')]])
+    }
+
+   //강의시간 ui 추가하기
+   const createUI = () => {
+      return timeList.map((el, i) =>
+      <View>
+      <View style= { {flexDirection:"row"}}>                        
+         <Text style= {[styles.sbtext,{width:65,marginRight:16}]}>요일</Text>
+         <Text style= {[styles.sbtext, {flex:1,marginRight:50}]}>시작시간</Text>
+         <Text style= {[styles.sbtext, {flex:1,marginRight:50}]}>종료시간</Text>
+      </View> 
+      <View style= { {
+         flexDirection:"row",
+         justifyContent: "center",
+         alignItems: "center",}}> 
+      <View  style = {[styles.textinput, {width:65,marginRight:16}]}>
+         <RNPickerSelect
+         style={{
+            fontFamily: 'NanumSquareR',
+            fontSize: 17,
+         }}
+         placeholder	= {{ label: '요일', value: null } }
+         onValueChange={(value) => Insertday(i,value)}
+         items={[
+            { label: '월', value: 'MON' },
+            { label: '화', value: 'TUE' },
+            { label: '수', value: 'WED' },
+            { label: '목', value: 'THE' },
+            { label: '금', value: 'FRI' },
+            { label: '토', value: 'SAT' },
+            { label: '일', value: 'SUN' }, ]}/>
+      </View>
+      <TouchableOpacity style = {[styles.textinput, {flex:1,marginRight:16}]}
+         onPress= {() => {showTimePicker1()}}>
+            <Text
+            style = {{ backgroundColor: "#EFF0F6",
+            fontFamily : 'NanumSquareR',
+            fontSize: 17,}}
+         >{formatAMPM(timeList[i][0])}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style = {[styles.textinput, {flex:1,marginRight:16}]}
+         onPress= {() => {showTimePicker2()}}>
+            <Text
+            style = {{ backgroundColor: "#EFF0F6",
+            fontFamily : 'NanumSquareR',
+            fontSize: 17,}}
+         >{formatAMPM(timeList[i][1])}</Text>
+      </TouchableOpacity>
+   </View>
+   <DateTimePickerModal
+   date = {new Date('December 17, 1995 08:00:00')}
+                     isVisible={isTimePickerVisible1}
+                     mode={'time'}
+                     onConfirm={(date) => Insertstarttime(i,date)}
+                     onCancel={hideDatePicker}
+                     headerTextIOS = "시간을 선택하세요"
+   />
+      <DateTimePickerModal
+      date = {new Date('December 17, 1995 09:00:00')}
+                     isVisible={isTimePickerVisible2}
+                     mode={'time'}
+                     onConfirm={(date) => Insertendtime(i,date)}
+                     onCancel={hideDatePicker}
+                     headerTextIOS = "시간을 선택하세요"
+   />
+   </View>
+      )
+      
+   }
+
+   const Insertday = (i, value) => {
+      dayList[i]  = value;
+   }
+   const Insertstarttime = (i, date) => {
+      timeList[i][0] = date;
+      hideDatePicker();
+   }
+   const Insertendtime = (i, date) => {
+      timeList[i][1] = date;
+      hideDatePicker();
+   }
+
+
+ 
    const [isTimePickerVisible1, setTimePickerVisibility1] = useState(false);
    const [isTimePickerVisible2, setTimePickerVisibility2] = useState(false);
 
-   const [mode, setMode] = useState('date');
-
-   const [startdate, setstartDate] = useState(new Date());
-   const [starttime, setstarttime] = useState(new Date('December 17, 1995 08:00:00'));
-   const [endtime, setendtime] = useState(new Date('1995-12-17T09:00:00'));
-
-   const showDatePicker = () => {
-      setMode('date');
-     setDatePickerVisibility(true);
-   };
    const showTimePicker1 = () => {
-      setMode('time');
       setTimePickerVisibility1(true);
    };
    const showTimePicker2 = () => {
-      setMode('time');
       setTimePickerVisibility2(true);
    };
  
@@ -72,53 +171,123 @@ export const InsertModal = () => {
      setTimePickerVisibility2(false);
    };
  
-   const handleConfirm = (date) => {
-     setstartDate(date);
-     hideDatePicker();
-   };
-
-   const handleConfirm1 = (date) => {
-      setstarttime(date);
-      hideDatePicker();
-    };
-    const handleConfirm2 = (date) => {
-      setendtime(date);
-      hideDatePicker();
-    };
-
     //시간추가
-    const addTime = () => {
-       console.log("아하하");
-       console.log(Input);
+    const addTimeInput = () => {
+      createUI();
+      setcontentInsertBottom(arbitrary_move_value);
+    }
+
+    const inputdata = () => {
+      console.log(dayList);
+      console.log(timeList);
+
+       let time = []
+
+       for (let i = 0 ; i < dayList.length * 4 ; i ++)
+       switch(i%4) {
+          case 0 :
+             time[i] = parseInt(timeList[parseInt(i/4)][0].getHours());
+             break;
+          case 1 :
+             time[i] = parseInt(timeList[parseInt(i/4)][0].getMinutes());
+             break;
+          case 2 :
+            time[i] = parseInt(timeList[parseInt(i/4)][1].getHours());
+            break;
+          case 3 :
+            time[i] = parseInt(timeList[parseInt(i/4)][1].getMinutes());
+            break;
+       }
+
+       let keyword = []
+      if(K_realtime) keyword.push("실시간");
+      if(K_nonrealtime) keyword.push("영상");
+      if(K_mix) keyword.push("혼합");
+      if(K_school) keyword.push("학교");
+      if(K_academy) keyword.push("학원");
+      if(K_onlinelecture) keyword.push("인강");
+      if(K_certificate) keyword.push("자격증");
+      if(K_language) keyword.push("어학");
+      if(K_major) keyword.push("전공");
+      if(K_elective) keyword.push("교양");
+      if(K_study) keyword.push("스터디");
+ 
+      let lecturedata = 
+         {
+            "name": lecturename,
+            "total_num": lecturecount,
+            "now_num": 0,
+            "days": dayList,
+            "start_date": startdate.getFullYear()+(startdate.getMonth() + 1)+startdate.getDate(),
+            "schedule":[ ],
+            "Time": time,
+            "character": keyword, 
+            "keywords": [
+                  { "date": startdate.getFullYear()+(startdate.getMonth() + 1)+startdate.getDate(), 	
+                  "key": ["", "", ""]
+                  }
+               ],
+      
+            "stamp": [1,0,-1]
+         };
+      
+       data.lectureList.push(lecturedata);
+
+    }
+
+    const reset = () => {
+       setdayList([]);
+       settimeList([[new Date('December 17, 1995 08:00:00'),new Date('1995-12-17T09:00:00')],])
+       setK_realtime(false);
+       setK_nonrealtime(false);
+       setK_mix(false);
+       setK_school(false);
+       setK_academy(false);
+       setK_onlinelecture(false);
+       setK_certificate(false);
+       setK_language(false);
+       setK_major(false);
+       setK_elective(false);
+       setK_study(false);
+       setlecturecount();
+       setlecturename();
+       
     }
 
       return (
-         <View style = {styles.container}>
-            
-            <Modal animationType = {"slide"} transparent = {false}
-               visible = {modalVisible}
-               transparent = {true}
-               onRequestClose = {() => { console.log("Modal has been closed.") } }>
+      <View style = {styles.container}>
+         <Modal animationType = {"slide"} 
+         transparent = {false}
+         visible = {modalVisible}
+         transparent = {true}
+         onRequestClose = {() => { console.log("Modal has been closed.") } }>
+            <View style = {{ backgroundColor:'#ffffff'}}>
+               <TouchableOpacity onPress = {() => {
+                  setmodalVisible(false);reset()}}>
+                     <Image
+                     style={styles.close}
+                     source={require('./close.png')}
+                     />
+               </TouchableOpacity>  
+               <Text style = {styles.titletext}>강의추가</Text>
+            </View>
 
-                  <ScrollView style = {styles.modal}>
-                     {/* 상단 바*/}
-                     <TouchableOpacity onPress = {() => {
-                           setmodalVisible(false)}}>
-                           <Image
-                              style={styles.close}
-                              source={require('./close.png')}
-                           />
-                     </TouchableOpacity>  
-                     <Text style = {styles.titletext}>강의추가</Text>
-
-                     <View style = {styles.content}>
-                        {/* 강의 이름 추가  */}
-                        <Text style = {styles.sbtitletext}>강의이름</Text>
-                        <TextInput 
-                        style = {styles.textinput}
-                        placeholder="강의이름을 입력해주세요."
-                        placeholderTextColor="#A0A3BD"
-                        />
+            <ScrollView 
+            contentContainerStyle={{flexGrow: 1}}
+            automaticallyAdjustContentInsets={false}
+            contentInset={{top:0, bottom: contentInsertBottom }}
+            style = {styles.scrollview} 
+            >
+            <View style = {styles.content}>
+            {/* 강의 이름 추가  */}
+            <Text style = {styles.sbtitletext}>강의이름</Text>
+            <TextInput 
+            style = {styles.textinput}
+            placeholder="강의이름을 입력해주세요."
+            placeholderTextColor="#A0A3BD"
+            onChangeText={(lecturename) => setlecturename(lecturename)}
+            value={lecturename} 
+               />
 
                         <View style= { {flexDirection:"row"}}>
                            <Text style= {[styles.sbtitletext, {marginRight:65}]}>강의차수</Text>
@@ -127,9 +296,11 @@ export const InsertModal = () => {
 
                         <View style= { {flexDirection:"row"} }> 
                            <TextInput style = {[styles.textinput, {width:104,marginRight:16}]}
-                                 keyboardType = 'numeric'
+                                 keyboardType ={'numeric'}
                                  placeholder="30"
                                  placeholderTextColor="#A0A3BD"
+                                 onChangeText={(lecturecount) => setlecturecount(lecturecount)}
+                                 value={lecturecount} 
                                  /> 
                            <TouchableOpacity
                               style = {[styles.textinput, {flex:1}]}
@@ -143,64 +314,25 @@ export const InsertModal = () => {
                         </View> 
 
                         <Text style= {styles.sbtitletext}>강의시간</Text>
-
-                        <View style= { {flexDirection:"row"}}>                        
-                              <Text style= {[styles.sbtext,{width:65,marginRight:16}]}>요일</Text>
-                              <Text style= {[styles.sbtext, {flex:1,marginRight:16}]}>시작시간</Text>
-                              <Text style= {[styles.sbtext, {flex:1,marginRight:50}]}>종료시간</Text>
-                        </View> 
-
+                        {createUI()} 
                         <View style= { {
                               flexDirection:"row",
                               justifyContent: "center",
                               alignItems: "center",}}> 
-                           <View  style = {[styles.textinput, {width:65,marginRight:16}]}>
-                              <RNPickerSelect
-                              style={{
-                                 fontFamily: 'NanumSquareR',
-                                 fontSize: 17,
-                              }}
-                              placeholder	= {{ label: '요일', value: null } }
-                              onValueChange={(value) => console.log(value)}
-                              items={[
-                                 { label: '월', value: 'MON' },
-                                 { label: '화', value: 'TUE' },
-                                 { label: '수', value: 'WED' },
-                                 { label: '목', value: 'THE' },
-                                 { label: '금', value: 'FRI' },
-                                 { label: '토', value: 'SAT' },
-                                 { label: '일', value: 'SUN' }, ]}/>
-                           </View>
-                           <TouchableOpacity style = {[styles.textinput, {flex:1,marginRight:16}]}
-                              onPress= {() => {showTimePicker1()}}>
-                                 <Text
-                                 style = {{ backgroundColor: "#EFF0F6",
-                                 fontFamily : 'NanumSquareR',
-                                 fontSize: 17,}}
-                              >{formatAMPM(starttime)}</Text>
-                           </TouchableOpacity>
-                           <TouchableOpacity style = {[styles.textinput, {flex:1,marginRight:16}]}
-                              onPress= {() => {showTimePicker2()}}>
-                                 <Text
-                                 style = {{      backgroundColor: "#EFF0F6",
-                                 fontFamily : 'NanumSquareR',
-                                 fontSize: 17,}}
-                              >{formatAMPM(endtime)}</Text>
-                           </TouchableOpacity>
-
                            <TouchableOpacity 
                               style = {{ 
                                  backgroundColor:"#552DEC",
                                  width:34,
                                  height:34,
                                  borderRadius:34,
+                                 marginTop: 20,
                                  alignItems:'center',
                                  justifyContent: 'center',
 
                               }}
 
                               onPress = {() => {
-                                 addTime();addInput()}}> 
+                                 addListData(); addTimeInput()}}> 
                                  <Text
                               style = {{fontSize:21,color:"#FFFFFF" }}
                               >+</Text>
@@ -278,42 +410,25 @@ export const InsertModal = () => {
                      
                      </View>
 
-
-
                      <DateTimePickerModal
                      isVisible={isDatePickerVisible}
-                     mode={mode}
-                     onConfirm={handleConfirm}
+                     mode={'date'}
+                     onConfirm={setStartDay}
                      onCancel={hideDatePicker}
                      headerTextIOS = "날짜를 선택하세요"
-                     />
-                     <DateTimePickerModal
-                     isVisible={isTimePickerVisible1}
-                     mode={mode}
-                     onConfirm={handleConfirm1}
-                     onCancel={hideDatePicker}
-                     headerTextIOS = "시간을 선택하세요"
                      />
 
                   </ScrollView>
                   <TouchableOpacity 
                      style={styles.insertbutton}
                      onPress = {() => {
-                          setmodalVisible();}}>
+                        inputdata();setmodalVisible(false);reset();parentCallback("추가완료")}}>
                               <Text
                               style= { {
                                  fontSize:17, 
                                  color:"#FFFFFF",
                                  fontFamily:"NanumSquareEB"} }>추가하기</Text>
                      </TouchableOpacity>
-
-                  <DateTimePickerModal
-                     isVisible={isTimePickerVisible2}
-                     mode={mode}
-                     onConfirm={handleConfirm2}
-                     onCancel={hideDatePicker}
-                     headerTextIOS = "시간선택"
-                     />
 
             </Modal>
 
@@ -335,10 +450,11 @@ const styles = StyleSheet.create ({
       backgroundColor: '#00000000',
       padding: 100,
    },
-   modal: {
+
+   scrollview: {
       marginTop: 'auto',
       backgroundColor:'#ffffff',
-      height: '100%'
+   
    },
    close: {
       position : "absolute",
@@ -349,7 +465,7 @@ const styles = StyleSheet.create ({
 
    },
    content : {
-      height: 420,
+      flex: 1,
       borderColor : "#E0E0E0",
       backgroundColor :"white",
       marginLeft :25,
