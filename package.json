@@ -16,7 +16,7 @@
     "@progress/kendo-react-layout": "^4.1.0",
     "@progress/kendo-react-progressbars": "^4.1.0",
     "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/datetimepicker": "^3.0.6",
+    "@react-native-community/datetimepicker": "3.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.4",
     "@react-navigation/native": "^5.8.4",
