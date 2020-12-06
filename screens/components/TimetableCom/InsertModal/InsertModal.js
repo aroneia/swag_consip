@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Modal, Text,TouchableOpacity, View,Image, StyleSheet, TextInput, ScrollView} from 'react-native'
+import { Modal, Text,TouchableOpacity, View,Image, StyleSheet, TextInput, ScrollView, Alert} from 'react-native'
 import ActionButton from '../button/ActionButton'
 import KeywordButton from './KewordButton'
 import RNPickerSelect from 'react-native-picker-select';
@@ -26,6 +26,16 @@ function formatAMPM(date) {
            (dd>9 ? '' : '0') + dd
           ].join('');
  };
+
+ const InsertFail = () =>
+ Alert.alert(
+   "입력실패",
+   "정보를 정확하게 입력해주세요",
+   [
+     { text: "OK", onPress: () => console.log("OK Pressed") }
+   ],
+   { cancelable: false }
+ );
 
  //스케줄 리스트 구하기
  function getschedule(startdate, count, daylist) {
@@ -71,8 +81,6 @@ function formatAMPM(date) {
 
 
 export const InsertModal = ({ parentCallback }) => {
-
-
    //
    const [textstate, settextstate] = useState({color : "#A0A3BD"});
 
@@ -130,9 +138,8 @@ export const InsertModal = ({ parentCallback }) => {
 
    //리스트 제거하기
    const deleteItem = () => {
-      const newArray = timeList.slice(0, -1)
-   
-      settimeList([newArray]);
+      const newArray = timeList.slice(0,-1)
+      settimeList(newArray);
    }
 
    //강의시간 ui 추가하기
@@ -192,7 +199,7 @@ export const InsertModal = ({ parentCallback }) => {
          justifyContent: 'center',
 
       }}
-      onPress = {() => {}}> 
+      onPress = {() => {deleteItem();}}> 
          <Text
       style = {{fontSize:21,color:"#FFFFFF" }}
       >×</Text>
@@ -257,6 +264,8 @@ export const InsertModal = ({ parentCallback }) => {
     }
 
     const inputdata = () => {
+      if( lecturename == "" || lecturecount == "") { InsertFail(); }
+      else {
        let time = []
 
        for (let i = 0 ; i < dayList.length * 4 ; i ++)
@@ -287,6 +296,7 @@ export const InsertModal = ({ parentCallback }) => {
       if(K_major) keyword.push("전공");
       if(K_elective) keyword.push("교양");
       if(K_study) keyword.push("스터디");
+
  
       let lecturedata = 
          {
@@ -299,11 +309,15 @@ export const InsertModal = ({ parentCallback }) => {
             "Time": time,
             "character": keyword, 
             "keywords": [],
+
             "stamp": [1,0,-1]
          };
-      
+ 
        data.lectureList.push(lecturedata);
-
+       setmodalVisible(false);
+       reset();
+       parentCallback("추가완료");
+      }
     }
 
     const reset = () => {
@@ -493,7 +507,7 @@ export const InsertModal = ({ parentCallback }) => {
                   <TouchableOpacity 
                      style={styles.insertbutton}
                      onPress = {() => {
-                        inputdata();setmodalVisible(false);reset();parentCallback("추가완료")}}>
+                        inputdata()}}>
                               <Text
                               style= { {
                                  fontSize:17, 
