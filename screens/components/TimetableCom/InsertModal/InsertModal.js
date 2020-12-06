@@ -17,12 +17,68 @@ function formatAMPM(date) {
    return strTime;
  }
 
+ Date.prototype.yyyymmdd = function() {
+   var mm = this.getMonth() + 1; // getMonth() is zero-based
+   var dd = this.getDate();
+ 
+   return [this.getFullYear(),
+           (mm>9 ? '' : '0') + mm,
+           (dd>9 ? '' : '0') + dd
+          ].join('');
+ };
+
+ //스케줄 리스트 구하기
+ function getschedule(startdate, count, daylist) {
+   var schedule = [];
+   var day = [];
+   for (var i = 0 ; i < daylist.length ; i++ ) {
+      switch(daylist[i]) {
+         case 'SUN' :
+            day = day.concat([0]);
+            break;
+         case 'MON' :
+            day = day.concat([1]);
+            break;
+         case 'TUE' :
+            day = day.concat([2]);
+            break;           
+         case 'WED' :
+            day = day.concat([3]);
+            break;            
+         case 'THE' :
+            day = day.concat([4]);
+            break;
+         case 'FRI' :
+            day = day.concat([5]);
+            break;
+         case 'SAT' :
+            day = day.concat([6]);
+            break;
+   }}
+   while (schedule.length != count){
+   for (var i = 0 ; i < day.length ; i++ ) {
+         if (startdate.getDay() == day[i]){
+            schedule= schedule.concat([startdate.yyyymmdd()]);
+            break;
+         } 
+      }
+      startdate.setDate(startdate.getDate() + 1);
+   }
+   console.log(schedule);
+   return schedule
+ }
+ 
+
+
 export const InsertModal = ({ parentCallback }) => {
 
-   function onFormSubmit(e) {
-            e.preventDefault();
-            this.props.onSubmit(this.state.text);
-         }
+
+   //
+   const [textstate, settextstate] = useState({color : "#A0A3BD"});
+
+   const changecolor =() => {
+      settextstate({color:"#4E4B66"})
+   }
 
    //모델 보일지 말지
    const [modalVisible,setmodalVisible] = useState(false);
@@ -36,7 +92,6 @@ export const InsertModal = ({ parentCallback }) => {
     //강의명 & 강의차수
    const [lecturename, setlecturename] = useState("");
    const [lecturecount, setlecturecount] = useState(0);
-
 
    //키워드
    const [K_realtime,setK_realtime] = useState(false);
@@ -66,12 +121,19 @@ export const InsertModal = ({ parentCallback }) => {
 
    //강의시간 리스트
    const [dayList, setdayList] = useState([""]);
-   const [timeList, settimeList] = useState([]);
+   const [timeList, settimeList] = useState([[new Date('December 17, 1995 08:00:00'),new Date('1995-12-17T09:00:00')]]);
 
    //리스트 미리 추가하기 
    const addListData = () => {
       settimeList([...timeList,[new Date('December 17, 1995 08:00:00'),new Date('1995-12-17T09:00:00')]])
     }
+
+   //리스트 제거하기
+   const deleteItem = () => {
+      const newArray = timeList.slice(0, -1)
+   
+      settimeList([newArray]);
+   }
 
    //강의시간 ui 추가하기
    const createUI = () => {
@@ -119,6 +181,22 @@ export const InsertModal = ({ parentCallback }) => {
             fontSize: 17,}}
          >{formatAMPM(timeList[i][1])}</Text>
       </TouchableOpacity>
+      <TouchableOpacity 
+      style = {{ 
+         backgroundColor:"#EB5757",
+         width:34,
+         height:34,
+         borderRadius:34,
+         marginTop: 8,
+         alignItems:'center',
+         justifyContent: 'center',
+
+      }}
+      onPress = {() => {}}> 
+         <Text
+      style = {{fontSize:21,color:"#FFFFFF" }}
+      >×</Text>
+   </TouchableOpacity>
    </View>
    <DateTimePickerModal
    date = {new Date('December 17, 1995 08:00:00')}
@@ -136,6 +214,7 @@ export const InsertModal = ({ parentCallback }) => {
                      onCancel={hideDatePicker}
                      headerTextIOS = "시간을 선택하세요"
    />
+
    </View>
       )
       
@@ -178,9 +257,6 @@ export const InsertModal = ({ parentCallback }) => {
     }
 
     const inputdata = () => {
-      console.log(dayList);
-      console.log(timeList);
-
        let time = []
 
        for (let i = 0 ; i < dayList.length * 4 ; i ++)
@@ -218,16 +294,11 @@ export const InsertModal = ({ parentCallback }) => {
             "total_num": lecturecount,
             "now_num": 0,
             "days": dayList,
-            "start_date": startdate.getFullYear()+(startdate.getMonth() + 1)+startdate.getDate(),
-            "schedule":[ ],
+            "start_date": startdate.yyyymmdd(),
+            "schedule":getschedule(startdate, lecturecount, dayList),
             "Time": time,
             "character": keyword, 
-            "keywords": [
-                  { "date": startdate.getFullYear()+(startdate.getMonth() + 1)+startdate.getDate(), 	
-                  "key": ["", "", ""]
-                  }
-               ],
-      
+            "keywords": [],
             "stamp": [1,0,-1]
          };
       
@@ -288,7 +359,6 @@ export const InsertModal = ({ parentCallback }) => {
             onChangeText={(lecturename) => setlecturename(lecturename)}
             value={lecturename} 
                />
-
                         <View style= { {flexDirection:"row"}}>
                            <Text style= {[styles.sbtitletext, {marginRight:65}]}>강의차수</Text>
                            <Text style= {styles.sbtitletext}>시작날짜</Text>
@@ -304,11 +374,12 @@ export const InsertModal = ({ parentCallback }) => {
                                  /> 
                            <TouchableOpacity
                               style = {[styles.textinput, {flex:1}]}
-                              onPress= {() => {showDatePicker()}}>
+                              onPress= {() => {showDatePicker();changecolor()}}>
                                  <Text
                                  style = {{backgroundColor: "#EFF0F6",
                                  fontFamily : 'NanumSquareR',
-                                 fontSize: 17,}}
+                                 fontSize: 17,
+                                 color: textstate.color}}
                                  >{startdate.getFullYear()+'/'+(startdate.getMonth()+1)+'/'+startdate.getDate()}</Text>
                            </TouchableOpacity>
                         </View> 

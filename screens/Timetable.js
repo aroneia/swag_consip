@@ -4,11 +4,9 @@ import TimeTableView from './components/TimetableCom/TimeTable/TimeTableView';
 import  { genTimeBlock } from './components/TimetableCom/utils';
 import InsertModal from './components/TimetableCom/InsertModal/InsertModal';
 import data from './../json/lecture';
-import { render } from 'react-dom';
 
 function tbl_map() {
     var ret = [];
-
     console.log(typeof(data));
     for(var a in data.lectureList) {
         for(var b in  data.lectureList[a].days)
@@ -25,9 +23,7 @@ function tbl_map() {
     return ret;
 }
 
-
 console.log(data);
-
 
 const Timetable = () => {
     const [list,setlist] = useState(tbl_map());

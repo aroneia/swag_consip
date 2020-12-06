@@ -31,10 +31,13 @@ export default function App() {
     return (
       <NavigationContainer>
         <Tab.Navigator>
-          <Tab.Screen name = "Home" component = {StackHome}></Tab.Screen>
-          <Tab.Screen name = "Timetable" component = {Timetable}></Tab.Screen>
-          <Tab.Screen name = "Report" component = {StackReport}></Tab.Screen>
-          <Tab.Screen name = "MyPage" component = {MyPage}></Tab.Screen>
+          <Tab.Screen 
+          name = "홈" 
+          component = {StackHome}
+          ></Tab.Screen>
+          <Tab.Screen name = "시간표" component = {Timetable}></Tab.Screen>
+          <Tab.Screen name = "리포트" component = {StackReport}></Tab.Screen>
+          <Tab.Screen name = "계정" component = {MyPage}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     );
