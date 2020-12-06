@@ -21,8 +21,11 @@ const LectureMode = ({navigation}) => {
                 </View>
     
             </View>
-            
-            <Text style={{fontSize:20, marginLeft:20}} >현재 강의</Text>
+
+            <View style={{backgroundColor:'#F7F7FC'}}>
+                <Text style={{fontSize:18, fontFamily:'NanumSquareB', marginLeft:20, marginBottom:5, marginTop:10}}>현재 강의</Text>
+            </View>
+           
             <View style={styles.back}>
                 
             <CardView
@@ -102,8 +105,7 @@ const LectureMode = ({navigation}) => {
                     ></Image> */}
             </CardView>
             </View>
-            <View style={styles.footer}>
-            </View>
+           
         </View>
         
         
@@ -117,7 +119,7 @@ const styles = StyleSheet.create(
         container :{
             flex : 1,
             paddingTop : 80,
-            backgroundColor : '#ffffff'
+            backgroundColor : '#F7F7FC'
         },
         text: {
             fontSize : 18,
@@ -129,11 +131,11 @@ const styles = StyleSheet.create(
             fontSize : 18,
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
-            color : SWAG_PURPLE   
+            color : '#552DEC'   
         },
         buttonClicked :{
             flex :1,
-            backgroundColor : SWAG_PURPLE,
+            backgroundColor : '#552DEC',
             justifyContent : 'center',
             borderRadius : 30
         },
@@ -146,11 +148,15 @@ const styles = StyleSheet.create(
             marginHorizontal :20,
             
         },
-        
+        title:{
+            flex:0.5,
+            backgroundColor : '#F7F7FC',
+            textAlign:'center',
+            fontFamily : 'NanumSquareB'
+        },
         back:{
             flex:7.5,
             backgroundColor : '#F7F7FC',
-            
             flexDirection:'row'
         },
         content:{
@@ -158,10 +164,7 @@ const styles = StyleSheet.create(
             fontFamily : 'NanumSquareB',
             backgroundColor:'#f5a942',
         },
-        footer:{
-            height:50,
-            backgroundColor:'#4fbc7a',
-        },
+        
         percet:{
             marginTop: 20,
             marginLeft:8,

@@ -1,40 +1,43 @@
 import React, {Component, useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet,TouchableOpacity} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {View, Text, Image,TextInput, Button, StyleSheet,TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-shadow-cards';
 import data from './../json/lecture';
+import ProgressCircle from 'react-native-progress-circle'
 
 function read_lect(){
     var ret = [];
 
-    console.log(typeof(data));
-
-    for(var a in data.lectureList[0].character){
-        console.log("------d---------");
-        console.log(data.lectureList[0].character[a]);
-        ret.push(data.lectureList[0].character[a]);
+    //console.log(typeof(data));
+    console.log('------');
+    //console.log(Object.keys(data.lectureList[0].keywords).length);
+    var len = Object.keys(data.lectureList[0].keywords).length;
+    for(var i=0;i<len;i++){
+        console.log(i);
+        // console.log(data.lectureList[0].keywords[i].date);
+        // console.log(data.lectureList[0].keywords[i].key1);
+        // console.log(data.lectureList[0].keywords[i].key2);
+        // console.log(data.lectureList[0].keywords[i].key3);
+        ret.push(data.lectureList[0].keywords[i].date.substring(4,6));
+        ret.push(data.lectureList[0].keywords[i].date.substring(6,8));
+        ret.push(data.lectureList[0].keywords[i].key1);
+        ret.push(data.lectureList[0].keywords[i].key2);
+        ret.push(data.lectureList[0].keywords[i].key3);
     }
-    // for(var a in data.lectureList) {
-    //     for(var b in  data.lectureList[a].character)
-    //     {
-    //     console.log("---------------");
-    //     console.log(data.lectureList[a].character[b]);
-    //     // ret.push (
-    //     //     {
-    //     //         title: a.name,
-    //     //         startTime: genTimeBlock(a.days[0],a.Time[0],a.Time[1]),
-    //     //         endTime: genTimeBlock(a.days[0],a.Time[2],a.Time[3])
-    //     //     }
-    //     // );
-    //     }
-    // }
+    //console.log(data.lectureList[0].keywords[0].key1);
+    //console.log('날짜는: '+(data.lectureList[0].keywords[0].date.substring(4,8)));
+    // ret.push(data.lectureList[0].keywords[0].date.substring(4,6));
+    // ret.push(data.lectureList[0].keywords[0].date.substring(6,8));
+    // ret.push(data.lectureList[0].keywords[0].key1);
+    // ret.push(data.lectureList[0].keywords[0].key2);
+    // ret.push(data.lectureList[0].keywords[0].key3);
+    
+
     return ret;
 
 }
 
-const list = read_lect();
-console.log(list);
-//console.log(list);
+ const list = read_lect();
+ //console.log(list);
 
 
 const SWAG_PURPLE = '#5235BB';
@@ -42,35 +45,73 @@ const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
 const LectureMode = ({navigation}) => {
   
-    //const inputdata={ name: ["우와","이게","실화야"]};
+   
     
     return(
         <View style = {styles.container}>
-            <View style = {styles.buttonContainer}>
-                <TouchableOpacity
-                    style = {{flex:1, justifyContent : 'center'}}
-                    title="to Report Calendar"
-                    onPress={() => navigation.navigate('Report')}
-                >
-                    <Text style ={styles.textDark}>캘린더모드</Text>
-                </TouchableOpacity>
-                
-                <View style ={styles.buttonClicked}>
-                    <Text style ={styles.text}>강의모드</Text>
-                </View>
-    
+
+
+            <Text onPress={() => navigation.navigate('LectureMode')} >   뒤로가기 </Text>
+           
+            <View style={{flex:1, flexDirection:'row'}}>
+            <Text style={{fontSize:20, fontFamily:'NanumSquareB',marginLeft:10}}>{"\n\n\n"}브랜드스토리텔링</Text>
+            <Text>                                   </Text>
+            <ProgressCircle
+                        percent={38}
+                        radius={45}
+                        borderWidth={8}
+                        color="#552DEC"
+                        shadowColor="#D9DBE9"
+                        bgColor="#fff"
+                        marginLeft=""
+                    >
+                        <Text style={{ fontSize: 18 }}>{'38%'}</Text>
+                    </ProgressCircle>
             </View>
-            <Text style={{padding: 4, margin: 4}}>10월 20일</Text>
+
+            <View style = {{flex : 6, backgroundColor:'#F7F7FC'}}>
+            <Text style={{fontSize:20, fontFamily:'NanumSquareB',margin: 10}}>저장된 메모</Text>
+            <Text style={{fontFamily:'NanumSquareB',paddingTop: 4, marginLeft:10}}>{list[0]}월 {list[1]}일</Text>
             
             <Card style={{padding: 10, margin: 10}}>
-                <Text style={styles.keyword}>Key1</Text><Text style={styles.detail}>{list[0]}</Text>
-                <Text style={styles.keyword}>Key2</Text><Text>{list[1]}</Text>
-                <Text style={styles.keyword}>Key3</Text><Text>{list[2]}</Text>
-                {/* <Text>{inputdata.name[0]}</Text>
-                <Text>{inputdata.name[1]}</Text>
-                <Text>{inputdata.name[2]}</Text>  */}
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key1.png')}
+                    resizeMode="contain"
+                ></Image>  {list[2]}</Text>
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key2.png')}
+                    resizeMode="contain"
+                ></Image>  {list[3]}</Text>
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key3.png')}
+                    resizeMode="contain"
+                ></Image>  {list[4]}</Text>
+                    {/* <Text style={styles.keyword}>Key2</Text><Text>{list[3]}</Text>
+                    <Text style={styles.keyword}>Key3</Text><Text>{list[4]}</Text> */}
             </Card>
-            <View style = {{flex : 6}}></View> 
+
+            <Text style={{fontFamily:'NanumSquareB',paddingTop: 10, marginLeft:10}}>{list[5]}월 {list[6]}일</Text>
+            <Card style={{padding: 10, margin: 10}}>
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key1.png')}
+                    resizeMode="contain"
+                ></Image>  {list[7]}</Text>
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key2.png')}
+                    resizeMode="contain"
+                ></Image>  {list[8]}</Text>
+                <Text style={{marginTop:2}}> <Image
+                    style = {{height:25, width:50}}
+                    source={require('../assets/images/key3.png')}
+                    resizeMode="contain"
+                ></Image>  {list[9]}</Text>
+            </Card>
+            </View> 
            
         </View>
         
@@ -96,11 +137,11 @@ const styles = StyleSheet.create(
             fontSize : 18,
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
-            color : SWAG_PURPLE   
+            color : '#552DEC'   
         },
         buttonClicked :{
             flex :1,
-            backgroundColor : SWAG_PURPLE,
+            backgroundColor : '#552DEC',
             justifyContent : 'center',
             borderRadius : 30
         },

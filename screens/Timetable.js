@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  {useState} from 'react';
 import {  View, Text, StyleSheet, Image, Modal } from 'react-native';
 import TimeTableView from './components/TimetableCom/TimeTable/TimeTableView';
 import  { genTimeBlock } from './components/TimetableCom/utils';
@@ -6,9 +6,7 @@ import InsertModal from './components/TimetableCom/InsertModal/InsertModal';
 import data from './../json/lecture';
 
 function tbl_map() {
-
     var ret = [];
-
     console.log(typeof(data));
     for(var a in data.lectureList) {
         for(var b in  data.lectureList[a].days)
@@ -25,16 +23,17 @@ function tbl_map() {
     return ret;
 }
 
-const list = tbl_map();
-console.log(list);
-//console.log(list);
-
+console.log(data);
 
 const Timetable = () => {
+    const [list,setlist] = useState(tbl_map());
 
+    const refresh =(text) => {
+        console.log(text);
+        setlist(tbl_map());
+    }
 
     return(
-        
         <View style = {styles.container}>
 
                 <Text style = {styles.title}>SWAG</Text>
@@ -57,7 +56,7 @@ const Timetable = () => {
                     />
             </View>
             <View style = {styles.InsertButton}>
-            <InsertModal/>  
+            <InsertModal parentCallback ={refresh} />  
             </View>
 
 
@@ -110,3 +109,4 @@ const styles = StyleSheet.create(
 )
 
 export default Timetable;
+
