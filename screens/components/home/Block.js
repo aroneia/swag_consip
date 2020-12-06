@@ -1,8 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet,Text, Image} from 'react-native';
-import Dash from 'react-native-dash'
 
-const Block = () => {
+
+const Block = ({lecture}) => {
+
+    const [time, setTime] = useState([]);
+
+    useEffect(() =>{
+        const fetchTime = async () => {
+            const data = await require('../../../json/lecture.json')
+            const lectures = data.lectureList
+            const filtered = lectures.filter(lect => lect.name);
+            //console.log(filtered);
+            setTime(filtered[0].Time);
+        };
+        fetchTime();
+    },[]);
+    //console.log(time);
+
+    //console.log("inside block" + lecture);
     return (
         <View style ={styles.container}>
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
@@ -13,8 +29,8 @@ const Block = () => {
                 </Image>
             </View>
             <View style={{flex: 0.5}}>
-                <Text style = {styles.textname}>브랜드스토리</Text>
-                <Text style = {styles.texttime}>11:00</Text>
+                <Text style = {styles.textname}>{lecture}</Text>
+                <Text style = {styles.texttime}>{`${time[0]}:${time[1]}`}</Text>
             </View>
         </View>
     )
