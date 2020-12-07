@@ -4,60 +4,99 @@ import {Card} from 'react-native-shadow-cards';
 import data from './../json/lecture';
 import ProgressCircle from 'react-native-progress-circle'
 
-function read_lect(){
-    var ret = [];
 
-    //console.log(typeof(data));
-    console.log('------');
-    //console.log(Object.keys(data.lectureList[0].keywords).length);
-    var len = Object.keys(data.lectureList[0].keywords).length;
-    for(var i=0;i<len;i++){
-        console.log(i);
-        // console.log(data.lectureList[0].keywords[i].date);
-        // console.log(data.lectureList[0].keywords[i].key1);
-        // console.log(data.lectureList[0].keywords[i].key2);
-        // console.log(data.lectureList[0].keywords[i].key3);
-        ret.push(data.lectureList[0].keywords[i].date.substring(4,6));
-        ret.push(data.lectureList[0].keywords[i].date.substring(6,8));
-        ret.push(data.lectureList[0].keywords[i].key1);
-        ret.push(data.lectureList[0].keywords[i].key2);
-        ret.push(data.lectureList[0].keywords[i].key3);
-    }
-    //console.log(data.lectureList[0].keywords[0].key1);
-    //console.log('날짜는: '+(data.lectureList[0].keywords[0].date.substring(4,8)));
-    // ret.push(data.lectureList[0].keywords[0].date.substring(4,6));
-    // ret.push(data.lectureList[0].keywords[0].date.substring(6,8));
-    // ret.push(data.lectureList[0].keywords[0].key1);
-    // ret.push(data.lectureList[0].keywords[0].key2);
-    // ret.push(data.lectureList[0].keywords[0].key3);
+function read_lect(classn){
+
+    var ret = [];   //해당날짜가 한덩어리
+    var fin = [];   //날짜별 덩어리가 모여있는 최종 반환 배열
     
+    var len = Object.keys(data.lectureList).length;
+    var i;
+    var an=0;
+    for(i=0;i<len;i++){
+        if(classn == data.lectureList[i].name){
+            an = i;
+        }
+    }
+    var keylen = Object.keys(data.lectureList[an].keywords).length;
+    for(var i=0;i<keylen;i++){
+            ret= [];
+            ret.push(data.lectureList[an].keywords[i].date.substring(4,6));
+            ret.push(data.lectureList[an].keywords[i].date.substring(6,8));
+            ret.push(data.lectureList[an].keywords[i].key1);
+            ret.push(data.lectureList[an].keywords[i].key2);
+            ret.push(data.lectureList[an].keywords[i].key3);
+            //console.log(ret);
+            fin.push(ret);
+            
+        
+    }
 
-    return ret;
+    return fin;
 
 }
 
- const list = read_lect();
- //console.log(list);
+// const list = read_lect();
+// console.log("read lect한 결과:"+list[0]);
+
+
+//const list1 = read_keyw();
+//console.log(list1);
 
 
 const SWAG_PURPLE = '#5235BB';
 const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
-const LectureMode = ({navigation}) => {
+const LectureMode = ({route, navigation}) => {
   
-   
+    const classn = route.params.id;
+    const perc = route.params.perc;
+    //console.log(classn);
+    const list = read_lect(classn);
+    // console.log("list[0][1]은 "+list[0][1]);
+    // console.log("lisst[1]은 "+list[1]);
+    
+    //fin[0]: 첫째날 fin[1]둘째날 덩어리.
+    const show_keyword = () => {
+        return list.map((el, i) => 
+        <View>
+            <Text style={{fontFamily:'NanumSquareB',paddingTop: 4, marginLeft:10}}>{list[i][0]}월 {list[i][1]}일</Text>
+            <Text></Text>
+            <Card style={{padding: 10, margin: 10}}>
+                    <Text style={{marginTop:2, marginBottom:2}}> <Image
+                        style = {{height:25, width:50 }}
+                        source={require('../assets/images/key1.png')}
+                        resizeMode="contain"
+                    ></Image>  {list[i][2]}</Text>
+                    <Text style={{marginTop:2}}> <Image
+                        style = {{height:25, width:50}}
+                        source={require('../assets/images/key2.png')}
+                        resizeMode="contain"
+                    ></Image>  {list[i][3]}</Text>
+                    <Text style={{marginTop:2}}> <Image
+                        style = {{height:25, width:50}}
+                        source={require('../assets/images/key3.png')}
+                        resizeMode="contain"
+                    ></Image>  {list[i][4]}</Text>
+                    
+                </Card>
+        </View>
+        
+        )
+        
+     }
+
     
     return(
         <View style = {styles.container}>
 
 
             <Text onPress={() => navigation.navigate('LectureMode')} >   뒤로가기 </Text>
-           
             <View style={{flex:1, flexDirection:'row'}}>
-            <Text style={{fontSize:20, fontFamily:'NanumSquareB',marginLeft:10}}>{"\n\n\n"}브랜드스토리텔링</Text>
-            <Text>                                   </Text>
+            <Text style={{fontSize:20, fontFamily:'NanumSquareB',marginLeft:10}}>{"\n\n\n"}{classn}</Text>
+            <Text>                                </Text>
             <ProgressCircle
-                        percent={38}
+                        percent={perc}
                         radius={45}
                         borderWidth={8}
                         color="#552DEC"
@@ -65,13 +104,14 @@ const LectureMode = ({navigation}) => {
                         bgColor="#fff"
                         marginLeft=""
                     >
-                        <Text style={{ fontSize: 18 }}>{'38%'}</Text>
+                        <Text style={{ fontSize: 18 }}>{perc+'%'}</Text>
                     </ProgressCircle>
             </View>
 
             <View style = {{flex : 6, backgroundColor:'#F7F7FC'}}>
             <Text style={{fontSize:20, fontFamily:'NanumSquareB',margin: 10}}>저장된 메모</Text>
-            <Text style={{fontFamily:'NanumSquareB',paddingTop: 4, marginLeft:10}}>{list[0]}월 {list[1]}일</Text>
+            {show_keyword()}
+            {/* <Text style={{fontFamily:'NanumSquareB',paddingTop: 4, marginLeft:10}}>{list[0]}월 {list[1]}일</Text>
             
             <Card style={{padding: 10, margin: 10}}>
                 <Text style={{marginTop:2}}> <Image
@@ -89,8 +129,6 @@ const LectureMode = ({navigation}) => {
                     source={require('../assets/images/key3.png')}
                     resizeMode="contain"
                 ></Image>  {list[4]}</Text>
-                    {/* <Text style={styles.keyword}>Key2</Text><Text>{list[3]}</Text>
-                    <Text style={styles.keyword}>Key3</Text><Text>{list[4]}</Text> */}
             </Card>
 
             <Text style={{fontFamily:'NanumSquareB',paddingTop: 10, marginLeft:10}}>{list[5]}월 {list[6]}일</Text>
@@ -110,7 +148,7 @@ const LectureMode = ({navigation}) => {
                     source={require('../assets/images/key3.png')}
                     resizeMode="contain"
                 ></Image>  {list[9]}</Text>
-            </Card>
+            </Card> */}
             </View> 
            
         </View>

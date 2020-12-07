@@ -1,23 +1,92 @@
 import React from 'react';
 import {View, StyleSheet,Text, Image} from 'react-native';
-import Dash from 'react-native-dash'
+import Dash from 'react-native-dash';
+import data from '../../../json/lecture.json';
 
-const Block = () => {
-    return (
+
+function read_lectname(){
+
+    var fin = [];   
+    
+    var len = Object.keys(data.lectureList).length;
+    for(var i=0;i<len;i++){
+        console.log(data.lectureList[i].name);
+        fin.push(data.lectureList[i].name);
+    }
+    // var keylen = Object.keys(data.lectureList[an].keywords).length;
+    // for(var i=0;i<keylen;i++){
+    //         ret= [];
+    //         ret.push(data.lectureList[an].keywords[i].date.substring(4,6));
+    //         ret.push(data.lectureList[an].keywords[i].date.substring(6,8));
+    //         ret.push(data.lectureList[an].keywords[i].key1);
+    //         ret.push(data.lectureList[an].keywords[i].key2);
+    //         ret.push(data.lectureList[an].keywords[i].key3);
+    //         //console.log(ret);
+    //         fin.push(ret);
+            
+        
+    // }
+
+    return fin;
+
+}
+
+
+
+const Block = ({navigation}) => {
+    
+    const lectname = read_lectname();
+    console.log("출력해보자 결과값을: "+lectname);
+
+
+    const show_name = () => {
+        return lectname.map((el,i) => 
+
         <View style ={styles.container}>
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
-                <Image
+            <Image
                     style ={styles.stamp}
                     source={require('../../../assets/icons/circleButtonOff.png')}
-                    resizeMode = "contain">
+                    resizeMode = "contain"
+                    >
                 </Image>
             </View>
             <View style={{flex: 0.5}}>
-                <Text style = {styles.textname}>브랜드스토리</Text>
+                <Text style = {styles.textname}>{lectname[i]}</Text>
                 <Text style = {styles.texttime}>11:00</Text>
             </View>
         </View>
+           
+        
     )
+    }
+
+
+
+    return(
+        <View style={{flexDirection:'row'}}>
+
+            {show_name()}
+        </View>
+       
+    // <View style ={styles.container}>
+    //     <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
+    //     <Image
+    //             style ={styles.stamp}
+    //             source={require('../../../assets/icons/circleButtonOff.png')}
+    //             resizeMode = "contain"
+    //             >
+    //         </Image>
+    //     </View>
+        
+    //     <View style={{flex: 0.5}}>
+    //         <Text style = {styles.textname}>브랜드스토리</Text>
+    //         <Text style = {styles.texttime}>11:00</Text>
+    //     </View>
+    // </View>
+        
+        
+    );
 }
 
 const styles = StyleSheet.create({
