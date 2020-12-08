@@ -6,14 +6,13 @@ const ShowDate = ({date}) => {
     const message = `오늘은 ${date}입니다.`
 
     return (
-        <View>
             <Text style = {styles.text}>{message}</Text>
-        </View>    
+   
     )
 }
 const styles = StyleSheet.create({
     text : {
-        fontSize : 20,
+        fontSize : 17,
         fontFamily : 'NanumSquareEB',
         color : '#4E4B66',
         textAlign : 'left'
