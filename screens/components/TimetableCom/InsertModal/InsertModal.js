@@ -77,8 +77,6 @@ function formatAMPM(date) {
    console.log(schedule);
    return schedule
  }
- 
-
 
 export const InsertModal = ({ parentCallback }) => {
    //
@@ -264,8 +262,6 @@ export const InsertModal = ({ parentCallback }) => {
     }
 
     const inputdata = () => {
-      if( lecturename == "" || lecturecount == "") { InsertFail(); }
-      else {
        let time = []
 
        for (let i = 0 ; i < dayList.length * 4 ; i ++)
@@ -317,7 +313,7 @@ export const InsertModal = ({ parentCallback }) => {
        setmodalVisible(false);
        reset();
        parentCallback("추가완료");
-      }
+      
     }
 
     const reset = () => {
