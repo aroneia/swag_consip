@@ -88,9 +88,9 @@ const Home = ({navigation}) => {
                 onPress={() => navigation.navigate('PostBox')}
             >
           <Image
-          style = {styles.letterIcon}
-          source={require('../assets/icons/letter.png')}
-          resizeMode="contain"
+            style = {styles.letterIcon}
+            source={require('../assets/icons/letter.png')}
+            resizeMode="contain"
           ></Image>
          </TouchableOpacity>
         </View>
@@ -101,9 +101,8 @@ const Home = ({navigation}) => {
       </View>
       <View style = {{flex : 2}} >
       <ScrollView style = {styles.blocks} horizontal = {true}>
-
         <Block></Block> 
-
+        <Text onPress={()=>{ navigation.navigate('InsertMemo');}}> 테스트</Text>
       </ScrollView>
       </View>
       <View style ={{flex:0.5, justifyContent: 'center', marginTop: 10}}>
