@@ -7,15 +7,28 @@ const lectureTimeLeft = 2;
 const SWAG_PURPLE = '#5235BB';
 
 //time data 받아오는거 추가 해야함
-const getProgress = () => {
-    const totalTime = 2;
-    const currTime = 0.5;
-    const progress = currTime / totalTime ;
 
-    return progress;
-}
 
-const MainBlock = () => {
+const MainBlock = ({currentlecture, now}) => {
+    const getProgress = () => {
+
+        if (currentlecture.length = 0){
+            return 0;
+        }        
+        const calculateTime = (hour, min) => {
+            return(Number(hour) * 60 + Number(min));}
+        /*
+        const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
+        const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
+        const totalTime = end - start;
+        const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
+        const progress = currTime / totalTime ;
+        console.log(currentlecture.Time);*/
+        const progress = 0.5;
+        return progress;
+    
+    }
+
     return(
         <View style = {styles.mainBlock} >
             <View style = {{flex :2, justifyContent : 'center', marginTop : 35}}>
