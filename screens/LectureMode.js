@@ -1,9 +1,7 @@
 import React, {Component, useState} from 'react';
 import {View, Text, Image,TextInput, Button, StyleSheet,TouchableOpacity} from 'react-native';
-import {Card} from 'react-native-shadow-cards';
 import data from './../json/lecture';
 import ProgressCircle from 'react-native-progress-circle'
-
 
 function read_lect(classn){
 
@@ -28,15 +26,10 @@ function read_lect(classn){
             ret.push(data.lectureList[an].keywords[i].key3);
             //console.log(ret);
             fin.push(ret);
-            
-        
     }
-
     return fin;
-
 }
 
-const SWAG_PURPLE = '#5235BB';
 const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
 const LectureMode = ({route, navigation}) => {
@@ -56,58 +49,72 @@ const LectureMode = ({route, navigation}) => {
                 <Text style={styles.datetext}>{list[i][0]}월 {list[i][1]}일</Text>
                 </View>
                 <View style={styles.card}>
-                        <Text style={{marginTop:2, marginBottom:2}}> <Image
-                            style = {{height:25, width:50 }}
-                            source={require('../assets/images/key1.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][2]}</Text>
-                        <Text style={{marginTop:2}}> <Image
-                            style = {{height:25, width:50}}
-                            source={require('../assets/images/key2.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][3]}</Text>
-                        <Text style={{marginTop:2}}> <Image
-                            style = {{height:25, width:50}}
-                            source={require('../assets/images/key3.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][4]}</Text>
-                        
+                    <View style ={{ flexDirection : "row", alignItems:"center"}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key1.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][2]}</Text>
                     </View>
+                    <View style ={{ flexDirection : "row", alignItems:"center", marginTop:5,marginBottom:5}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key2.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][3]}</Text>
+                    </View>
+                    <View style ={{ flexDirection : "row", alignItems:"center"}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key3.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][4]}</Text>
+                    </View>
+                </View>
             </View>
             }
             else {
-                return <View style ={{ marginTop : -132 }}>
-                        <View style ={{  marginLeft:6.25 ,height: 145,width:2 ,backgroundColor:"#2C01A6"}}></View>
+                return <View style ={{ marginTop : -115 }}>
+                        <View style ={{  marginLeft:6.25 ,height: 140,width:2 ,backgroundColor:"#2C01A6"}}></View>
 
                 <View style ={{ flexDirection : "row",}}>
                         <View style = {styles.dot}></View>
                 <Text style={styles.datetext}>{list[i][0]}월 {list[i][1]}일</Text>
                 </View>
                 <View style={styles.card}>
-                        <Text style={{marginTop:2, marginBottom:2}}> <Image
-                            style = {{height:25, width:50 }}
-                            source={require('../assets/images/key1.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][2]}</Text>
-                        <Text style={{marginTop:2}}> <Image
-                            style = {{height:25, width:50}}
-                            source={require('../assets/images/key2.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][3]}</Text>
-                        <Text style={{marginTop:2}}> <Image
-                            style = {{height:25, width:50}}
-                            source={require('../assets/images/key3.png')}
-                            resizeMode="contain"
-                        ></Image>  {list[i][4]}</Text>
-                        
+                    <View style ={{ flexDirection : "row", alignItems:"center"}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key1.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][2]}</Text>
                     </View>
+                    <View style ={{ flexDirection : "row", alignItems:"center", marginTop:5,marginBottom:5}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key2.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][3]}</Text>
+                    </View>
+                    <View style ={{ flexDirection : "row", alignItems:"center"}}>
+                    <Image
+                    style = {{height:25, width:50 }}
+                    source={require('../assets/images/key3.png')}
+                    resizeMode="contain"
+                    /> 
+                    <Text style={{marginLeft:5}}> {list[i][4]}</Text>
+                    </View>
+                </View>
             </View>
             }
         });
-
         return(
             <View>{row}</View>
-
         );
      }
     
@@ -129,9 +136,15 @@ const LectureMode = ({route, navigation}) => {
                 <View style={{flexDirection:'row',alignItems:"flex-end",justifyContent:"space-between"}}>
                     <View >
                         <View style={{flexDirection:'row',marginBottom:5}}>
-                        <View style = {styles.keyword}></View>
-                        <View style = {styles.keyword}></View>
-                        <View style = {styles.keyword}></View>
+                        <View style = {styles.keywordview}>
+                            <Text style = {styles.keyword}>여기</Text>
+                        </View>
+                        <View style = {styles.keywordview}>
+                             <Text style = {styles.keyword}>다가</Text>
+                        </View>
+                        <View style = {styles.keywordview}>
+                            <Text style = {styles.keyword}>키워드</Text>
+                        </View>
                         </View>
                     <Text style={{fontSize:21, fontFamily:'NanumSquareB'}}>{classn}</Text>
                     </View>
@@ -186,12 +199,21 @@ const styles = StyleSheet.create(
             width : 45,
             height :45, 
         },
-        keyword : {
+        keywordview : {
             backgroundColor: '#552DEC',
             borderRadius:40,
-            width:41,
+            paddingLeft:11,
+            paddingRight:11,
             height:22,
             marginRight:5,
+            alignItems:"center",
+            justifyContent : 'center',
+        },
+        keyword : {
+            color: "#FFFFFF",
+            fontFamily:'NanumSquareEB',
+            fontSize : 11,
+
         },
         text_title : {
             fontSize : 17,
@@ -220,7 +242,6 @@ const styles = StyleSheet.create(
         },
         card :{
             backgroundColor : '#ffffff',
-            height: 120,
             borderRadius : 11,
             marginLeft:23,
             marginRight: 16,
@@ -232,15 +253,7 @@ const styles = StyleSheet.create(
             marginBottom:2,
         
         },
-        buttonContainer : {
-            flex:0.4, flexDirection: 'row', 
-            backgroundColor : LIGHT_PURPLE,
-            justifyContent : 'center',
-            borderRadius : 30,
-            marginBottom :20,
-            marginHorizontal :20,
-            
-        },
+
         detail:{
             color:'black'
         }
