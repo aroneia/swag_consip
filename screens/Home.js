@@ -56,6 +56,7 @@ const Home = ({navigation}) => {
       const filtered = lects.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
       console.log(filtered[0]);
       //단 lecture.json이 정렬되어 있는 데이터여야함 이거 이야기해볼 것
+      console.log("FfFFFFFFFFFF");
       setCurrentLecture(filtered[0]);
     }
       fetchToday();
@@ -95,14 +96,14 @@ const Home = ({navigation}) => {
         </View>
       </View >
 
-    
       <View style= {{flex :0.5, justifyContent : 'center',marginTop : 5}}>
         <Text style = {styles.text_title}> TODAY </Text>
       </View>
       <View style = {{flex : 2}} >
       <ScrollView style = {styles.blocks} horizontal = {true}>
-        {lectures.map(lecture =>(
-          <Block lecture = {lecture}/>))}
+
+        <Block></Block> 
+
       </ScrollView>
       </View>
       <View style ={{flex:0.5, justifyContent: 'center', marginTop: 10}}>

@@ -12,15 +12,19 @@ const SWAG_PURPLE = '#5235BB';
 const MainBlock = ({currentlecture, now}) => {
     const getProgress = () => {
 
+        if (currentlecture.length = 0){
+            return 0;
+        }        
         const calculateTime = (hour, min) => {
             return(Number(hour) * 60 + Number(min));}
-    
-        const totalTime = calculateTime(currentlecture.Time[2]-currentlecture.Time[0], currentlecture.Time[3]-currentlecture.Time[1]);
+        /*
+        const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
+        const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
+        const totalTime = end - start;
         const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
         const progress = currTime / totalTime ;
-        console.log(currentlecture);
-        
-        //const progress = 0.5;
+        console.log(currentlecture.Time);*/
+        const progress = 0.5;
         return progress;
     
     }
