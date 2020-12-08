@@ -7,7 +7,6 @@ const ShowDate = ({date}) => {
 
     return (
             <Text style = {styles.text}>{message}</Text>
-   
     )
 }
 const styles = StyleSheet.create({

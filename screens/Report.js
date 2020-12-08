@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-import * as data from '../json/calendar_dummy.json' 
+import * as data from '../json/dates.json' 
 import ProgressBar from 'react-native-progress/Bar'
 
 SWAG_PURPLE = '#552DEC';
@@ -10,28 +10,32 @@ const SQUARESIZE = 48
 let DAYHEIGHT = 0
 let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 
-const colorDay = (day) => {
-    console.log(day);
+
+const colorDay = (date) => {
+    const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
+    console.log(datestring)
+    //console.log(date);
+    DAYHEIGHT = 10;
+    MARGINTOP = SQUARESIZE - DAYHEIGHT
     //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
-    //data.length 왜 작동 안하는지 모르겠음 
+
     for (let index = 0; index < Object.keys(data).length-1; index++){
         let item = data[index];
-        //console.log("item.date is" + item.date);
-        if(item.date !== day) {
+        if(datestring !== item.today) {
             DAYHEIGHT = 0
-        }else if(item.date === day){
-            const progress = item.takenLecture/item.totalLecture;
+            //console.log(datestring.slice(8,10))
+        }else if(datestring === item.today){
+            const progress = item.stamp_sum/item.total_lectrues;
             //console.log("progress is :" + progress);
             DAYHEIGHT = SQUARESIZE * progress;
             MARGINTOP = SQUARESIZE - DAYHEIGHT;
             return DAYHEIGHT;
         }
-    } 
+    }
     return DAYHEIGHT;
 }
 
 const getFriend = () => {
-    
     return 0.3; 
 }
 
@@ -87,7 +91,7 @@ const Report = ({navigation}) => {
         dayComponent={({date, state}) => {
             return (
               <View style= {{width : 50, height :50, borderWidth :1, borderColor : SWAG_PURPLE, alignItems: 'center',}}>
-                <View style = {{height : colorDay(date.day), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
+                <View style = {{height : colorDay(date), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
             }}>
                 </View>
                
