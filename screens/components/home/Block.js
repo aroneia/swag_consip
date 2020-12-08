@@ -6,10 +6,10 @@ import data from '../../../json/lecture.json';
 
 function read_lectname(){
 
-    var fin = [];   
+    let fin = [];   
     
-    var len = Object.keys(data.lectureList).length;
-    for(var i=0;i<len;i++){
+    let len = Object.keys(data.lectureList).length;
+    for(let i=0;i<len;i++){
         console.log(data.lectureList[i].name);
         fin.push(data.lectureList[i].name);
     }
@@ -31,12 +31,19 @@ function read_lectname(){
 
 }
 
+const checkLength =(name) => {
+    if (name.length > 6) {
+        const sliced = `${name.slice(0,7)}...`;
+        return sliced
+    }
+    return name;
+}
 
 
-const Block = ({navigation}) => {
+const Block = () => {
     
     const lectname = read_lectname();
-    console.log("출력해보자 결과값을: "+lectname);
+    //console.log("출력해보자 결과값을: "+lectname);
 
 
     const show_name = () => {
@@ -52,7 +59,7 @@ const Block = ({navigation}) => {
                 </Image>
             </View>
             <View style={{flex: 0.5}}>
-                <Text style = {styles.textname}>{lectname[i]}</Text>
+                <Text style = {styles.textname}>{checkLength(lectname[i])}</Text>
                 <Text style = {styles.texttime}>11:00</Text>
             </View>
         </View>
@@ -65,7 +72,6 @@ const Block = ({navigation}) => {
 
     return(
         <View style={{flexDirection:'row'}}>
-
             {show_name()}
         </View>
        
@@ -91,17 +97,19 @@ const Block = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container :{
+        width: 110,
         aspectRatio: 11/15,
-        marginRight : 5,
-        marginLeft : 5,
+        marginRight : 7,
         backgroundColor : '#FFF',
         borderRadius : 16,
         borderWidth :1,
         borderColor : '#D9DBE9'
+        
     },
     stamp:{
-        width : '75%',
-        height : '75%',
+        width : 66,
+        height : 66,
+        aspectRatio: 1,
     },
     blockImage : {
         width : '100%',
@@ -110,16 +118,17 @@ const styles = StyleSheet.create({
         //borderRadius: 20
     },
     textname : {
-        fontSize :20,
+        fontSize :13,
         textAlign : "center",
         fontFamily : "NanumSquareEB",
         color : "#4E4B66"
     },
     texttime : {
-        fontSize :25,
+        fontSize :17,
         textAlign : "center",
         fontFamily : "NanumSquareR",
-        color : "#4E4B66"
+        color : "#4E4B66",
+        marginBottom : 7 
     }
     
 })
