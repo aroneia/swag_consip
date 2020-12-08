@@ -12,7 +12,8 @@ const SWAG_PURPLE = '#5235BB';
 const MainBlock = ({currentlecture, now}) => {
     const getProgress = () => {
 
-        if (currentlecture.length = 0){
+        if (currentlecture = undefined){
+            console.log("current lecture is undefined");
             return 0;
         }        
         const calculateTime = (hour, min) => {
@@ -37,12 +38,12 @@ const MainBlock = ({currentlecture, now}) => {
                 </Text>
                 <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
             </View>
-            <View style = {{flex:1, flexDirection : 'row'}}>
+            <View style = {{flex:1, flexDirection : 'row',}}>
                 <View style ={styles.progressBar}>
                     <ProgressBar 
                     progress= {getProgress()} 
                     width={250}
-                    height = {25}
+                    height = {18}
                     borderRadius ={0} borderWidth = {0}
                     color = {SWAG_PURPLE}
                     unfilledColor ={'#EFEFEF'}
@@ -52,23 +53,25 @@ const MainBlock = ({currentlecture, now}) => {
                 <View style ={styles.imageContainerL}>
                 <ImageBackground
                     source = {require('../../../assets/icons/circleButtonOff.png')} 
-                    style ={styles.buttonImageStart}>
-                    <Text style ={{ textAlign : 'center', color : '#BDBDBD', fontFamily : 'NanumSquareB', fontSize : 20}}>시작</Text>
+                    style ={styles.buttonImageEnd}
+                    >
+                    <Text style ={styles.buttonText}>시작</Text>
                 </ImageBackground>
-     
+                    
                 </View>
+
                 <View style ={{flex :1}}></View>
                 <View style = {styles.imageContainerR}>
                 <ImageBackground
                     source = {require('../../../assets/icons/circleButtonOff.png')} 
                     style ={styles.buttonImageEnd}
                     >
-                 <Text style ={{ textAlign : 'center', color : '#BDBDBD', fontFamily : 'NanumSquareB', fontSize : 20}}>종료</Text>
+                 <Text style ={styles.buttonText}>종료</Text>
                 </ImageBackground>
                 </View>
             </View>
             
-            <View style = {{flex: 4, justifyContent : 'flex-end' }}>
+            <View style = {{flex: 4, justifyContent : 'center' }}>
             <Image
                 style = {styles.animal}
                 source={require('../../../assets/images/alien1.png')}
@@ -82,51 +85,58 @@ const MainBlock = ({currentlecture, now}) => {
 
 const styles = StyleSheet.create({
     mainBlock :{
-        aspectRatio: 1.07,
         backgroundColor : '#FFF',
         borderRadius : 32,
         borderColor : '#D9DBE9',
         borderWidth : 1,
+        height : '91%',
+        aspectRatio: 343/316,
      
     },
     text_body :{
         color : '#5235BB',
-        fontSize : 20,
-        textAlign: 'center'
+        fontSize : 16,
+        textAlign: 'center',
+        lineHeight: 22
     },
     text_body_highlight :{
         color : '#5235BB',
-        fontSize : 20,
+        fontSize : 16,
         textAlign: 'center',
+        lineHeight: 22
     },
     imageContainerL:{
-        width : 90,
+        width : 60,
+        marginLeft : 24,
         aspectRatio : 1,
-        marginLeft : 15
+        alignItems : 'center',
+        justifyContent : 'center'
     },
     imageContainerR:{
-        width : 90,
+        width : 60,
         aspectRatio : 1,
-        marginRight: 15
+        marginRight: 24,
+        alignItems : 'center',
+        justifyContent : 'center'
     },
-    buttonImageStart: {
-        width : null,
-        height: null,
-        flex: 1,
-        resizeMode : 'contain', 
-        justifyContent: 'center',
-        zIndex :1
+    buttonText:
+    {   textAlign : 'center',
+        color : '#6E7191',
+        fontFamily : 'NanumSquareB',
+        fontSize : 14
     },
+  
     progressBar :{
         zIndex :0,
         position: 'absolute',
-        top: 40, left: 0, right: 0, bottom: 0, 
+        top: 14, left: 0, right: 0, bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
     },
     buttonImageEnd: {
-        width : null,
-        height: null,
+        width : 60,
+        height : 60,
+        aspectRatio :1,
         flex: 1,
         resizeMode : 'contain',
         justifyContent: 'center',
@@ -134,10 +144,9 @@ const styles = StyleSheet.create({
         
     },
     animal:{
-        height: 150,
+        height: 101,
         width: undefined,
-        alignSelf : 'stretch',
-        marginBottom :10 
+        alignSelf : 'stretch'
         
     }
 
