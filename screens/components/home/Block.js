@@ -97,7 +97,7 @@ const Block = () => {
 
 const styles = StyleSheet.create({
     container :{
-        width: 110,
+        width: 123,
         aspectRatio: 11/15,
         marginRight : 7,
         backgroundColor : '#FFF',

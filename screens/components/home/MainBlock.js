@@ -8,7 +8,6 @@ const SWAG_PURPLE = '#5235BB';
 
 //time data 받아오는거 추가 해야함
 
-
 const MainBlock = ({currentlecture, now}) => {
     const getProgress = () => {
 
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
         borderRadius : 32,
         borderColor : '#D9DBE9',
         borderWidth : 1,
-        height : '91%',
+        height : '94%',
         aspectRatio: 343/316,
      
     },

@@ -101,7 +101,7 @@ const Home = ({navigation}) => {
       <View style= {{flex :0.5, justifyContent : 'center', marginLeft : 16}}>
         <Text style = {styles.text_title}>TODAY</Text>
       </View>
-      <View style = {{flex : 1.5, marginLeft : 16, justifyContent : 'center'}} >
+      <View style = {{flex : 1.7, marginLeft : 16, justifyContent : 'center'}} >
       <ScrollView horizontal = {true}>
         <Block></Block> 
         <Text onPress={()=>{ navigation.navigate('InsertMemo');}}></Text>
