@@ -57,7 +57,6 @@ const Home = ({navigation}) => {
       const filtered = lects.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
       console.log(filtered[0]);
       //단 lecture.json이 정렬되어 있는 데이터여야함 이거 이야기해볼 것
-      console.log("FfFFFFFFFFFF");
       setCurrentLecture(filtered[0]);
     }
       fetchToday();
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
     //backgroundColor:'yellow'
   },
   welcomeText :{
-    fontSize : 15,
+    fontSize : 17,
     fontFamily : 'NanumSquareR',
     color : '#4E4B66',
     textAlign : 'left',

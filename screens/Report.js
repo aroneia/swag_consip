@@ -13,7 +13,7 @@ let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 
 const colorDay = (date) => {
     const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
-    console.log(datestring)
+    //console.log(datestring)
     //console.log(date);
     DAYHEIGHT = 10;
     MARGINTOP = SQUARESIZE - DAYHEIGHT
