@@ -18,9 +18,7 @@ const colorDay = (date) => {
     DAYHEIGHT = 10;
     MARGINTOP = SQUARESIZE - DAYHEIGHT
     //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
-    //data.length 왜 작동 안하는지 모르겠음 시발
-    //month 정보 가져와서 30, 31 길이 알아야함 
-    
+
     for (let index = 0; index < Object.keys(data).length-1; index++){
         let item = data[index];
         if(datestring !== item.today) {
@@ -53,19 +51,21 @@ const getYearMonth = (date) =>{
 const Report = ({navigation}) => {   
     return(
         <View style = {styles.container}>
-        <View style = {styles.buttonContainer}>
+            <Text style = {styles.title}>SWAG</Text>
+            
+            <View style = {styles.buttonContainer}>
+
             <View style ={styles.buttonClicked}>
                 <Text style ={styles.text}>캘린더모드</Text>
             </View>
-            
             <TouchableOpacity
-                style = {{flex:1, justifyContent : 'center'}}
+                style = {{flex:1, justifyContent : 'center',  marginRight: 80}}
                 title="to Lecture"
                 onPress={() => navigation.navigate('LectureMode')}
             >
                 <Text style ={styles.textDark}>강의모드</Text>
             </TouchableOpacity>
-          
+
         </View>
         <View style ={styles.calendarContainer}>
         <Calendar
@@ -109,7 +109,7 @@ const Report = ({navigation}) => {
        
         />
         </View>
-                <View style ={{flex :0.5}}>
+                <View style ={{flex :0.5, backgroundColor:'#F7F7FC'}}>
                     <Text style ={styles.monthText} >9월의 기록</Text>
                 </View> 
                 <View style = {{flex: 2, flexDirection: 'row', alignItems : 'stretch'}}>
@@ -180,33 +180,44 @@ const styles = StyleSheet.create(
             marginHorizontal : 15,
             marginBottom : 15
         },
+        title:{
+            position: 'absolute',
+            top : 80,
+            fontSize: 17,
+            color: '#4F4F4F',
+            alignSelf:'center',
+            fontFamily : 'NanumSquareEB',
+        },
         calendarContainer:{
-            flex : 5, 
-            marginBottom :10
+            flex : 4, 
+            marginBottom :10,
+            backgroundColor:'#F7F7FC'
         },
         text: {
-            fontSize : 18,
+            fontSize : 13,
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
             color : 'white'   
         },
         textDark: {
-            fontSize : 18,
+            fontSize : 13,
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
-            color : SWAG_PURPLE   
+            color : "#6E7191"   
         },
         buttonClicked :{
             flex :1,
             backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
-            borderRadius : 30
+            borderRadius : 30,
+            marginLeft: 80
         },
         buttonContainer : {
-            flex:0.4, flexDirection: 'row', 
-            backgroundColor : LIGHT_PURPLE,
+            height : 25,
+            flexDirection: 'row', 
             justifyContent : 'center',
             borderRadius : 30,
+            marginTop: 30,
             marginBottom :20,
             marginHorizontal :20,
             
