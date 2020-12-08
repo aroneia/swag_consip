@@ -1,14 +1,20 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, ImageBackground} from 'react-native';
+import React,{useState} from 'react';
+import {View, Text, StyleSheet, Image, ImageBackground,TouchableOpacity} from 'react-native';
 import ProgressBar from 'react-native-progress/Bar'
- 
+import InsertMemo from '../home/InsertMemo'
+
 const lectureName = "브랜드스토리텔링";
 const lectureTimeLeft = 2;
 const SWAG_PURPLE = '#5235BB';
 
+
+
 //time data 받아오는거 추가 해야함
 
 const MainBlock = ({currentlecture, now}) => {
+    const [ visible, setvisible] = useState(false);
+
+    
     const getProgress = () => {
 
         if (currentlecture = undefined){
@@ -28,7 +34,6 @@ const MainBlock = ({currentlecture, now}) => {
         return progress;
     
     }
-
     return(
         <View style = {styles.mainBlock} >
             <View style = {{flex :2, justifyContent : 'center', marginTop : 35}}>
@@ -60,14 +65,16 @@ const MainBlock = ({currentlecture, now}) => {
                 </View>
 
                 <View style ={{flex :1}}></View>
-                <View style = {styles.imageContainerR}>
+                <TouchableOpacity 
+                style = {styles.imageContainerR}
+                onPress = {() => {setvisible(!visible)}}>
                 <ImageBackground
                     source = {require('../../../assets/icons/circleButtonOff.png')} 
                     style ={styles.buttonImageEnd}
                     >
                  <Text style ={styles.buttonText}>종료</Text>
                 </ImageBackground>
-                </View>
+                </TouchableOpacity>
             </View>
             
             <View style = {{flex: 4, justifyContent : 'center' }}>
@@ -76,7 +83,7 @@ const MainBlock = ({currentlecture, now}) => {
                 source={require('../../../assets/images/alien1.png')}
                 resizeMode="contain"
             />
-            </View>
+            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lectureName}/>}
         </View>)
 }
 

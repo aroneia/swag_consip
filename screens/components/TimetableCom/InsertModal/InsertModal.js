@@ -340,7 +340,6 @@ export const InsertModal = ({ parentCallback }) => {
          <Modal animationType = {"slide"} 
          transparent = {false}
          visible = {modalVisible}
-         transparent = {true}
          onRequestClose = {() => { console.log("Modal has been closed.") } }>
             <View style = {{ backgroundColor:'#ffffff'}}>
                <TouchableOpacity onPress = {() => {
