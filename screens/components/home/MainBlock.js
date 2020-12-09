@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, ImageBackground,TouchableOpacity} from 'react-native';
 import ProgressBar from 'react-native-progress/Bar'
 import InsertMemo from '../home/InsertMemo'
@@ -13,27 +13,52 @@ const SWAG_PURPLE = '#5235BB';
 
 const MainBlock = ({currentlecture, now}) => {
     const [ visible, setvisible] = useState(false);
+    let status = "before"
+    //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
+    let time_before_start = 1;
+    let progress = 0;
 
+    useEffect (() => {
+        const getProgress = () => {
+        
+            const calculateTime = (hour, min) => {
+                return(Number(hour) * 60 + Number(min));}
     
-    const getProgress = () => {
+            if (currentlecture == undefined){
+                //main.js에서 end time으로 정렬해서 없으면 noclass
+                console.log("no class ----> mainblock.js");
+                status = "noclass";
+                progress = 0;
+            }
+            else if(currentlecture.length === 0){
+                status = "noclass";
+                progress = 0;
+            }      
+            else{
+                const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
+                const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
 
-        if (currentlecture = undefined){
-            console.log("current lecture is undefined");
-            return 0;
-        }        
-        const calculateTime = (hour, min) => {
-            return(Number(hour) * 60 + Number(min));}
-        /*
-        const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
-        const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
-        const totalTime = end - start;
-        const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
-        const progress = currTime / totalTime ;
-        console.log(currentlecture.Time);*/
-        const progress = 0.5;
-        return progress;
+                if(now < start){
+                    status = "before";
+                    time_before_start = start - now ;
+                    progress = 0;
+        
+                }else if(now >= start){
+                    setStatus("during");
+                    const totalTime = end - start;
+                    const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
+                    //console.log(currentlecture.Time);
+                    progress = currTime / totalTime;
     
-    }
+                }
+            }
+            
+        }
+        getProgress();
+    },[]);
+    
+
+
     return(
         <View style = {styles.mainBlock} >
             <View style = {{flex :2, justifyContent : 'center', marginTop : 35}}>
@@ -45,7 +70,7 @@ const MainBlock = ({currentlecture, now}) => {
             <View style = {{flex:1, flexDirection : 'row',}}>
                 <View style ={styles.progressBar}>
                     <ProgressBar 
-                    progress= {getProgress()} 
+                    progress= {progress} 
                     width={250}
                     height = {18}
                     borderRadius ={0} borderWidth = {0}
