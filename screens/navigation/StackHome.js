@@ -4,6 +4,7 @@ import Home from '../Home'
 import PostBox from '../PostBox' 
 import InsertMemo from '../InsertMemo'
 import AilenFriend from '../AilenFriend'
+
 const Stack = createStackNavigator();
 
 export default () => (

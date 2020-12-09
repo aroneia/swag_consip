@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet,Text, Image} from 'react-native';
+import React,{useState} from 'react';
+import {View, StyleSheet,Text, Image, TouchableOpacity,Modal} from 'react-native';
 import Dash from 'react-native-dash';
 import data from '../../../json/lecture.json';
 
@@ -23,12 +23,9 @@ function read_lectname(){
     //         ret.push(data.lectureList[an].keywords[i].key3);
     //         //console.log(ret);
     //         fin.push(ret);
-            
-        
     // }
 
     return fin;
-
 }
 
 const checkLength =(name) => {
@@ -41,15 +38,16 @@ const checkLength =(name) => {
 
 
 const Block = () => {
+
     
     const lectname = read_lectname();
-    //console.log("출력해보자 결과값을: "+lectname);
-
 
     const show_name = () => {
         return lectname.map((el,i) => 
 
-        <View style ={styles.container}>
+        <TouchableOpacity 
+        style ={styles.container}
+        >
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
             <Image
                     style ={styles.stamp}
@@ -62,7 +60,7 @@ const Block = () => {
                 <Text style = {styles.textname}>{checkLength(lectname[i])}</Text>
                 <Text style = {styles.texttime}>11:00</Text>
             </View>
-        </View>
+        </TouchableOpacity>
            
         
     )
@@ -71,27 +69,12 @@ const Block = () => {
 
 
     return(
-        <View style={{flexDirection:'row'}}>
-            {show_name()}
-        </View>
-       
-    // <View style ={styles.container}>
-    //     <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
-    //     <Image
-    //             style ={styles.stamp}
-    //             source={require('../../../assets/icons/circleButtonOff.png')}
-    //             resizeMode = "contain"
-    //             >
-    //         </Image>
-    //     </View>
-        
-    //     <View style={{flex: 0.5}}>
-    //         <Text style = {styles.textname}>브랜드스토리</Text>
-    //         <Text style = {styles.texttime}>11:00</Text>
-    //     </View>
-    // </View>
-        
-        
+        <View>
+            <View style={{flexDirection:'row'}}>
+                {show_name()}
+            </View>
+        </View>   
+            
     );
 }
 
