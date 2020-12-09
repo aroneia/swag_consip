@@ -3,20 +3,61 @@
 	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계"],
 	"total_lectrues" : 4,
 	"stamp_sum": 1,
-	"heart": 1
+	"heart": 0.25
 }, 
 { 
 	"today" : "20201207",
 	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계"],
 	"total_lectrues" : 4,
 	"stamp_sum": 2,
-	"heart": 1
+	"heart": 0.5
 },
 { 
 	"today" : "20201208",
 	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
 	"total_lectrues" : 5,
 	"stamp_sum": 4,
+	"heart": 0.8
+},
+{ 
+	"today" : "20201210",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
 	"heart": 1
 },
+{ 
+	"today" : "20201211",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
+	"heart": 1
+},
+{ 
+	"today" : "20201212",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
+	"heart": 1
+},{ 
+	"today" : "20201213",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
+	"heart": 1
+},
+{ 
+	"today" : "20201214",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 5,
+	"stamp_sum": 3,
+	"heart": 0.6
+},
+{ 
+	"today" : "20201216",
+	"lecture_list":["콘텐츠시스템프로젝트", "브랜드스토리", "스페인어2", "환상문학의 세계", "과목5"],
+	"total_lectrues" : 4,
+	"stamp_sum": 4,
+	"heart": 1
+}
 ]

@@ -3,6 +3,7 @@ import { View,Text, Image, StyleSheet, ScrollView } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import PostBlocks from './components/home/PostBlocks'
 
+
 const SWAG_PURPLE = '#5235BB';
 
 //
@@ -46,6 +47,8 @@ const PostBox = ({navigation}) => {
                     />    
                 </View>
             </View>
+
+            <View style = {styles.line}></View>
             <View style = {styles.scrollWrapper}>
             <ScrollView>
                 <View style ={styles.postblock_container}>
@@ -54,6 +57,7 @@ const PostBox = ({navigation}) => {
                     <PostBlocks animals = {animals} navigation = {navigation}/>
                     
                 </View>
+                <View style = {styles.line}></View>
                 <View style ={styles.postblock_container}>
                     <Text style ={styles.year}>2019</Text>
                     <PostBlocks animals = {animals} navigation = {navigation}/>
@@ -71,6 +75,10 @@ const styles = StyleSheet.create({
         paddingHorizontal : 10,
         backgroundColor:'#F7F7FC'
     },
+    line : {
+        borderBottomWidth : 1,
+        borderColor : '#D9DBE9'
+    },
     itemBox:{
         flex:2,
         flexDirection : "row",
@@ -79,14 +87,14 @@ const styles = StyleSheet.create({
     },
     scrollWrapper:{flex : 6},
     postblock_container:{
-        flex :2,
+        flex :1.5,
         justifyContent : 'flex-start',
 
       
     },
     text_title : {
         flex : 1,
-        fontSize : 24,
+        fontSize : 17,
         fontFamily : 'NanumSquareEB',
         color : '#14142A',
         marginLeft : 10,
@@ -94,12 +102,12 @@ const styles = StyleSheet.create({
       },
       subtitle:{
         fontFamily: "NanumSquareEB",
-        fontSize: 20,
+        fontSize: 17,
         color: "#4E4B66"
       },
       year:{
         fontFamily: "NanumSquareEB",
-        fontSize: 20,
+        fontSize: 17,
         color: "#4E4B66",
         marginBottom : 5,
         marginTop : 10,
@@ -107,7 +115,7 @@ const styles = StyleSheet.create({
       },
       text:{
         fontFamily: "NanumSquareR",
-        fontSize: 18,
+        fontSize: 13,
         color: "#4E4B66",
         marginRight : 10,
         marginVertical : 10

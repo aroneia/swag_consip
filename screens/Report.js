@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-import * as data from '../json/dates.json' 
+import * as datesdata from '../json/dates.json' 
 import ProgressBar from 'react-native-progress/Bar'
 
 SWAG_PURPLE = '#552DEC';
@@ -13,14 +13,18 @@ let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 
 const colorDay = (date) => {
     const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
-    console.log(datestring)
+    //console.log(datestring)
     //console.log(date);
     DAYHEIGHT = 10;
     MARGINTOP = SQUARESIZE - DAYHEIGHT
     //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
 
-    for (let index = 0; index < Object.keys(data).length-1; index++){
-        let item = data[index];
+    //data.length 왜 작동 안하는지 모르겠음 시발
+    //month 정보 가져와서 30, 31 길이 알아야함 
+    
+    for (let index = 0; index < Object.keys(datesdata).length-1; index++){
+        let item = datesdata[index];
+
         if(datestring !== item.today) {
             DAYHEIGHT = 0
             //console.log(datestring.slice(8,10))
@@ -48,7 +52,35 @@ const getYearMonth = (date) =>{
     return yearMonth;
 }
 
-const Report = ({navigation}) => {   
+const Report = ({navigation}) => { 
+    //퍼펙트 데이 
+    const [perfect, setPerfect] = useState(0);
+    //최대 연속 일수 
+    const [combo, setCombo] = useState(0);
+    const [month, setMonth] = useState(1);
+
+    useEffect(()=>{
+        const fetchHeart = () => {
+            //오늘 날짜 string
+            const today = new Date();
+            const data = require('../json/dates.json');
+            const yearMonth_string = String(today.getFullYear()) 
+            + String(today.getMonth()+1 > 9 ? today.getMonth()+1 : `0${today.getMonth()+1}`); 
+            console.log(yearMonth_string);
+            console.log("FFFFFFFFFFFFFFFFFFFFFFFFFF");
+        
+            const perfectDays = data.filter(item => {
+                //console.log(item.heart);
+                return item.heart == 1} );
+            console.log(perfectDays.length);
+            setPerfect(perfectDays.length);
+           
+            //xssetPerfect(perfectDays.length);
+        }
+        fetchHeart();
+        console.log("total perfect days are : " + perfect);
+    },[]);
+    
     return(
         <View style = {styles.container}>
             <Text style = {styles.title}>SWAG</Text>
@@ -121,7 +153,7 @@ const Report = ({navigation}) => {
                                 style = {styles.heartImage}
                                 ></Image>
                                 <Text>퍼펙트 데이</Text>
-                                <Text>15일</Text>
+                                <Text>{perfect}일</Text>
                             </View>
                             <View style ={styles.blockContainer}>
                                 <Image 
