@@ -13,13 +13,10 @@ let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 
 const colorDay = (date) => {
     const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
-    //console.log(datestring)
-    //console.log(date);
     DAYHEIGHT = 10;
     MARGINTOP = SQUARESIZE - DAYHEIGHT
     //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
 
-    //data.length 왜 작동 안하는지 모르겠음 시발
     //month 정보 가져와서 30, 31 길이 알아야함 
     
     for (let index = 0; index < Object.keys(datesdata).length-1; index++){
@@ -39,10 +36,6 @@ const colorDay = (date) => {
     return DAYHEIGHT;
 }
 
-const getFriend = () => {
-    return 0.3; 
-}
-
 const getYearMonth = (date) =>{
     const year = date.getFullYear();
     //console.log(year);
@@ -58,6 +51,7 @@ const Report = ({navigation}) => {
     //최대 연속 일수 
     const [combo, setCombo] = useState(0);
     const [month, setMonth] = useState(1);
+    const [friendship, setFriendship] = useState(0);
 
     useEffect(()=>{
         const fetchHeart = () => {
@@ -66,19 +60,19 @@ const Report = ({navigation}) => {
             const data = require('../json/dates.json');
             const yearMonth_string = String(today.getFullYear()) 
             + String(today.getMonth()+1 > 9 ? today.getMonth()+1 : `0${today.getMonth()+1}`); 
-            console.log(yearMonth_string);
-            console.log("FFFFFFFFFFFFFFFFFFFFFFFFFF");
         
             const perfectDays = data.filter(item => {
                 //console.log(item.heart);
-                return item.heart == 1} );
-            console.log(perfectDays.length);
+                return item.heart == 1 && item.today.slice(0,6) == yearMonth_string} );
             setPerfect(perfectDays.length);
-           
-            //xssetPerfect(perfectDays.length);
+        }
+        const fetchFriend = () => {
+            const datafriend = require('../json/alien_friend.json'); 
+            //나중에 현재 달에 따라 친구 이름별로 가져오도록 수정해야
+            setFriendship( datafriend[0].friendship/100 );
         }
         fetchHeart();
-        console.log("total perfect days are : " + perfect);
+        fetchFriend();
     },[]);
     
     return(
@@ -176,7 +170,7 @@ const Report = ({navigation}) => {
                               
                                 <ProgressBar 
                                     style = {{height :10, marginTop :10}}
-                                    progress= {getFriend()} 
+                                    progress= {friendship} 
                                     width={150}
                                     height = {10}
                                     borderRadius ={16} 

@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack'
 import Home from '../Home'
 import PostBox from '../PostBox' 
-import InsertMemo from '../InsertMemo'
+import InsertMemo from '../components/home/InsertMemo'
 import AilenFriend from '../AilenFriend'
 
 const Stack = createStackNavigator();
