@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, ImageBackground,TouchableOpacity} from 'r
 import ProgressBar from 'react-native-progress/Bar'
 import InsertMemo from '../home/InsertMemo'
 
-const lectureName = "브랜드스토리텔링";
+const lectureName = "브랜드스토리";
 const lectureTimeLeft = 2;
 const SWAG_PURPLE = '#5235BB';
 
