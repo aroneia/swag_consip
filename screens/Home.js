@@ -4,14 +4,14 @@ import Block from './components/home/Block'
 import ShowDate from './components/home/ShowDate'
 import MainBlock from './components/home/MainBlock'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import EStyleSheet from 'react-native-extended-stylesheet';
 
 const Home = ({navigation}) => {
-  const [lectures, setLectures]= useState([]);
-  const [todaystring, setTodaystring] = useState("");
-  const [date, setDate] = useState("");
-  const [now, setNow] = useState("");
-  const [currentLecture, setCurrentLecture] = useState([]);
+  const [lectures, setLectures]= useState([]); //lecture.json에서 불러온 오늘 들어야하는 강의리스트 
+  const [todaystring, setTodaystring] = useState(""); //json을 읽기 위해 20201021 같은 형식의 날짜 
+  const [date, setDate] = useState("");//홈화면에서 오늘의 날짜를 표시해주기 위한 EX) 2020년 10월 21
+  const [now, setNow] = useState(""); //현재 시간 
+  const [currentLecture, setCurrentLecture] = useState([]); //현재 수강중(또는 곧 수강할) 강의 
+
 
   useEffect(() =>{
 
@@ -29,45 +29,46 @@ const Home = ({navigation}) => {
       const dateString = currentMonth + "월 " + currentDate + "일 " + days[currentDay]
       setDate(dateString);
 
-      //console.log("inside showdate current month is :" + currentMonth);
-      
       //20201008과 같은 형식으로 바꾸기 위한 코드
       const month_changed = currentMonth > 9 ? currentMonth.toString() : `0${currentMonth.toString()}`;
       const date_changed = currentDate > 9 ? currentDate.toString() : `0${currentDate.toString()}`;
 
-      setTodaystring( yearnow.toString() + month_changed + date_changed);
-      //console.log(todaystring);
+      setTodaystring(yearnow.toString() + month_changed + date_changed);
     };
-
-    const fetchLectures = async () => {
-      const data = await require('../json/dates.json');
-      const filtered = data.filter(day => day.today === todaystring);
-      if(filtered[0] != null){
-        setLectures(filtered[0].lecture_list);
-        //console.log(filtered[0].lecture_list);
-      }
-      else{
-        console.log("no lectures");
-      }
-      //console.log("inside");
-    }
-    const fetchLectureNow = async () =>{
+   
+    const fetchLectureToday = async () =>{
       const data = await require('../json/lecture.json'); 
       const lects = data.lectureList;
-      const filtered = lects.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
-      console.log(filtered[0]);
-      //단 lecture.json이 정렬되어 있는 데이터여야함 이거 이야기해볼 것
+      let lecturesToday = [];
+      for(let l = 0; l < lects.length; l++){
+        for(let i =0; i<lects[l].schedule.length; i++){
+          if(lects[l].schedule[i] === todaystring){
+            //console.log("schedule");
+            //console.log(lects[l].schedule[i]);
+            return lecturesToday.push(lects[l])
+          }
+        } 
+      }
+      //sort lecture today 오름차순
+      lecturesToday.sort(function(a,b){
+        a.Time[0]-b.Time[0];
+      }) 
+      setLectures(lecturesToday);
+      //오늘 하는 강의 중에서 지금 듣는 강의 
+      const filtered = lecturesToday.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
+      //console.log(filtered[0]);
       setCurrentLecture(filtered[0]);
     }
       fetchToday();
-      fetchLectures();
-      fetchLectureNow();
+      fetchLectureToday();
+      console.log("lectures today : home.js");
+      console.log(lectures);
+      console.log("lectures today end : home.js");
 
   },[]);
 
   const calculateTime = (hour, min) => {
     return(Number(hour) * 60 + Number(min));}
-
 
   return (
     <View style = {styles.container}>

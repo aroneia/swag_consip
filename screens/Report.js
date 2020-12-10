@@ -65,6 +65,7 @@ const Report = ({navigation}) => {
                 //console.log(item.heart);
                 return item.heart == 1 && item.today.slice(0,6) == yearMonth_string} );
             setPerfect(perfectDays.length);
+            setMonth(today.getMonth() +1);
         }
         const fetchFriend = () => {
             const datafriend = require('../json/alien_friend.json'); 
@@ -136,7 +137,7 @@ const Report = ({navigation}) => {
         />
         </View>
                 <View style ={{flex :0.5, backgroundColor:'#F7F7FC'}}>
-                    <Text style ={styles.monthText} >9월의 기록</Text>
+                    <Text style ={styles.monthText} >{month}월의 기록</Text>
                 </View> 
                 <View style = {{flex: 2, flexDirection: 'row', alignItems : 'stretch'}}>
                     <View style ={{flex:2.5,flexDirection: 'column'}}>
