@@ -5,18 +5,18 @@ import InsertMemo from '../home/InsertMemo'
 
 const lectureName = "브랜드스토리텔링";
 const lectureTimeLeft = 2;
-const SWAG_PURPLE = '#5235BB';
 
-
-
-//time data 받아오는거 추가 해야함
 
 const MainBlock = ({currentlecture, now}) => {
     const [ visible, setvisible] = useState(false);
-    const [ status, setStatus ] = useState("noclass");
+    const [ status, setStatus ] = useState("");
+    const [ progress, setProgress ] = useState(0);
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
     let time_before_start = 1;
-    let progress = 0;
+    let startButton = (status == "during") ? require("../../../assets/icons/circleButtonOn.png")
+    : require("../../../assets/icons/circleButtonOff.png")
+    //let startButton = status == "during" ? "cicleButtonOn": "circleButtonOff";
+    //let progress = 0;
 
     useEffect (() => {
         const getProgress = () => {
@@ -28,11 +28,11 @@ const MainBlock = ({currentlecture, now}) => {
                 //main.js에서 end time으로 정렬해서 없으면 noclass
                 console.log("no class ----> mainblock.js");
                 setStatus("noclass");
-                progress = 0;
+                setProgress(0);
             }
             else if(currentlecture.length === 0){
                 setStatus("noclass");
-                progress = 0;
+                setProgress(0);
             }      
             else{
                 const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
@@ -41,20 +41,27 @@ const MainBlock = ({currentlecture, now}) => {
                 if(now < start){
                     setStatus("before");
                     time_before_start = start - now ;
-                    progress = 0;
+                    setProgress(0);
         
                 }else if(now >= start){
                     setStatus("during");
                     const totalTime = end - start;
                     const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
+                    console.log("현재 진행: "+ currTime);
+                    console.log("now: " + now);
                     //console.log(currentlecture.Time);
-                    progress = currTime / totalTime;
+                    setProgress(currTime / totalTime);
+                    //console.log("progress------>")
+                    //console.log(currTime/totalTime);
+
     
                 }
             }
             
         }
         getProgress();
+        console.log("progress------>");
+        console.log(progress);
     },[]);
     
     const setMessage = () =>{
@@ -68,6 +75,8 @@ const MainBlock = ({currentlecture, now}) => {
         else if(status == "during"){
             return(
                 <View style= {styles.messageBox}>
+                    <Text style = {styles.text_body_highlight}>지금은</Text>
+                    <Text style = {styles.text_body_highlight}>{currentlecture.name}</Text>
                     <Text style = {styles.text_body}>수업중</Text>
                 </View>
                 ) 
@@ -76,13 +85,21 @@ const MainBlock = ({currentlecture, now}) => {
             return(
                 <View style= {styles.messageBox}>
                     <Text style = {styles.text_body_highlight}>아직은
-                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{lectureName}</Text>
+                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{currentlecture.name}</Text>
                     </Text>
                     <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
                 </View> )
         }
     }
-
+    
+    const setStartButton = () => {
+        if (status == "noclass" || status == "before"){
+            startButton = "circleButtonOff";
+            }
+        else {
+            startButton = "circleButtonOn"
+        }
+    }
 
     return(
         <View style = {styles.mainBlock} >
@@ -91,17 +108,17 @@ const MainBlock = ({currentlecture, now}) => {
                 <View style ={styles.progressBar}>
                     <ProgressBar 
                     progress= {progress} 
-                    width={250}
+                    width={220}
                     height = {18}
                     borderRadius ={0} borderWidth = {0}
-                    color = {SWAG_PURPLE}
-                    unfilledColor ={'#EFEFEF'}
+                    color = {'#552DEC'}
+                    unfilledColor ={'#EFF0F6'}
                     />
                 </View>
 
                 <View style ={styles.imageContainerL}>
                 <ImageBackground
-                    source = {require('../../../assets/icons/circleButtonOff.png')} 
+                    source = {startButton}
                     style ={styles.buttonImageEnd}
                     >
                     <Text style ={styles.buttonText}>시작</Text>
@@ -114,7 +131,8 @@ const MainBlock = ({currentlecture, now}) => {
                 style = {styles.imageContainerR}
                 onPress = {() => {setvisible(!visible)}}>
                 <ImageBackground
-                    source = {require('../../../assets/icons/circleButtonOff.png')} 
+                    source = {
+                        require('../../../assets/icons/circleButtonOff.png')} 
                     style ={styles.buttonImageEnd}
                     >
                  <Text style ={styles.buttonText}>종료</Text>
@@ -131,6 +149,7 @@ const MainBlock = ({currentlecture, now}) => {
             </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lectureName}/>}
         </View>)
 }
+
 
 
 
@@ -155,6 +174,7 @@ const styles = StyleSheet.create({
     },
     text_body_highlight :{
         color : '#5235BB',
+        fontFamily : 'NanumSquareEB',
         fontSize : 16,
         textAlign: 'center',
         lineHeight: 22
