@@ -13,7 +13,7 @@ const SWAG_PURPLE = '#5235BB';
 
 const MainBlock = ({currentlecture, now}) => {
     const [ visible, setvisible] = useState(false);
-    let status = "before"
+    const [ status, setStatus ] = useState("noclass");
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
     let time_before_start = 1;
     let progress = 0;
@@ -27,11 +27,11 @@ const MainBlock = ({currentlecture, now}) => {
             if (currentlecture == undefined){
                 //main.js에서 end time으로 정렬해서 없으면 noclass
                 console.log("no class ----> mainblock.js");
-                status = "noclass";
+                setStatus("noclass");
                 progress = 0;
             }
             else if(currentlecture.length === 0){
-                status = "noclass";
+                setStatus("noclass");
                 progress = 0;
             }      
             else{
@@ -39,7 +39,7 @@ const MainBlock = ({currentlecture, now}) => {
                 const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
 
                 if(now < start){
-                    status = "before";
+                    setStatus("before");
                     time_before_start = start - now ;
                     progress = 0;
         
@@ -57,16 +57,36 @@ const MainBlock = ({currentlecture, now}) => {
         getProgress();
     },[]);
     
+    const setMessage = () =>{
+        if(status == "noclass"){
+            return(
+            <View style= {styles.messageBox}>
+                <Text style = {styles.text_body}>지금은 예정된 수업이 없어요 !</Text>
+            </View>
+            )
+        }
+        else if(status == "during"){
+            return(
+                <View style= {styles.messageBox}>
+                    <Text style = {styles.text_body}>수업중</Text>
+                </View>
+                ) 
+        }
+        else{
+            return(
+                <View style= {styles.messageBox}>
+                    <Text style = {styles.text_body_highlight}>아직은
+                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{lectureName}</Text>
+                    </Text>
+                    <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
+                </View> )
+        }
+    }
 
 
     return(
         <View style = {styles.mainBlock} >
-            <View style = {{flex :2, justifyContent : 'center', marginTop : 35}}>
-                <Text style = {styles.text_body_highlight}>아직은
-                {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{lectureName}</Text>
-                </Text>
-                <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
-            </View>
+            {setMessage()}
             <View style = {{flex:1, flexDirection : 'row',}}>
                 <View style ={styles.progressBar}>
                     <ProgressBar 
@@ -123,6 +143,9 @@ const styles = StyleSheet.create({
         height : '94%',
         aspectRatio: 343/316,
      
+    },
+    messageBox:{
+        flex :2, justifyContent : 'center', marginTop : 35
     },
     text_body :{
         color : '#5235BB',
