@@ -1,7 +1,9 @@
 import React, {Component, useState} from 'react';
-import {View, Text, Image,TextInput, Button, StyleSheet,TouchableOpacity} from 'react-native';
+import {View, Text, Image,TextInput, Button, ScrollView, StyleSheet,TouchableOpacity} from 'react-native';
 import data from './../json/lecture';
 import ProgressCircle from 'react-native-progress-circle'
+
+
 
 function read_lect(classn){
 
@@ -164,10 +166,10 @@ const LectureMode = ({route, navigation}) => {
                 </View>
             </View>
 
-            <View style = {styles.contents}>
+            <ScrollView style = {styles.contents}>
             <Text style={{fontSize:20, fontFamily:'NanumSquareB'}}>저장된 메모</Text>
             {show_keyword()}
-            </View> 
+            </ScrollView> 
            
         </View>
         
@@ -182,7 +184,7 @@ const styles = StyleSheet.create(
             backgroundColor:'#F7F7FC',
         },
         header :{
-            flex : 0.95,
+            flex : 0.3,
             paddingTop : 60,
             paddingLeft: 16,
             paddingRight: 16,

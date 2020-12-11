@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { View,Text, StyleSheet,Dimensions,Image,TextInput,Modal,TouchableOpacity } from 'react-native';
-
+import lecturedata from '../../../json/lecture.json'
 
 const SWAG_PURPLE = '#5235BB';
 const windowWidth = Dimensions.get('window').width;
@@ -8,9 +8,50 @@ const windowWidth = Dimensions.get('window').width;
 
 
 const InsertMemo = ({visible,setvisible,lectureName}) => {
+  
+  console.log(lectureName);
     const handleClose = () => {
         setvisible(false);
     }
+
+    const [modalVisible,setmodalVisible] = useState(false);
+    
+    const [key1,setKey1] = useState('');
+    const [key2, setKey2] = useState('');
+    const [key3, setKey3] = useState('');
+    
+    const inputkeymemo = () => {
+      
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = today.getMonth() + 1;  // 월
+      var date = today.getDate();  // 날짜
+
+      var todaydate = year+""+month+""+date+""; 
+
+      let keyword = {
+        "date": todaydate,
+        "key1":key1,
+        "key2":key2,
+        "key3":key3
+      };
+        var len = Object.keys(lecturedata.lectureList).length;
+        
+        for(var i=0;i<len;i++){
+            if(lecturedata.lectureList[i].name == lectureName);
+            lecturedata.lectureList[i].keywords.push(keyword);
+        }
+        setmodalVisible(false);
+        reset();
+       
+     }
+
+     const reset = () => {
+  
+      setKey1(false);
+      setKey2(false);
+      setKey3(false);
+   }
 
     return(
         <View style={styles.container}>
@@ -36,6 +77,8 @@ const InsertMemo = ({visible,setvisible,lectureName}) => {
                         style = {{fontSize: 17}}
                         placeholder = "키워드를 입력해주세요."
                         placeholderTextColor = "#A0A3BD"
+                        onChangeText={(key1) => setKey1(key1)}
+                        value={key1}
                         /> 
                         </View>
                         <View style = {[styles.input,{marginBottom:32,marginTop:32}]}>
@@ -44,6 +87,8 @@ const InsertMemo = ({visible,setvisible,lectureName}) => {
                         style = {{fontSize: 17}}
                         placeholder = "키워드를 입력해주세요."
                         placeholderTextColor = "#A0A3BD"
+                        onChangeText={(key2) => setKey2(key2)}
+                        value={key2}
                         /> 
                         </View>
                         <View style = {styles.input}>
@@ -52,6 +97,8 @@ const InsertMemo = ({visible,setvisible,lectureName}) => {
                         style = {{fontSize: 17}}
                         placeholder = "키워드를 입력해주세요."
                         placeholderTextColor = "#A0A3BD"
+                        onChangeText={(key3) => setKey3(key3)}
+                        value={key3}
                         /> 
                         </View>
                     </View>
@@ -60,7 +107,7 @@ const InsertMemo = ({visible,setvisible,lectureName}) => {
                     style={{ ...styles.openButton}}
                     onPress={() => {handleClose();}}
                     >
-                     <Text style={styles.textStyle}>저장하기</Text>
+                     <Text style={styles.textStyle} onPress={()=> {inputkeymemo()}}>저장하기</Text>
                     </TouchableOpacity>
                 </View>
             </View>
