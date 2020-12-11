@@ -3,21 +3,22 @@ import {View, Text, StyleSheet, Image, ImageBackground,TouchableOpacity} from 'r
 import ProgressBar from 'react-native-progress/Bar'
 import InsertMemo from '../home/InsertMemo'
 
-const lectureName = "브랜드스토리텔링";
-const lectureTimeLeft = 2;
-
+let time_before_start = 0;
 
 const MainBlock = ({currentlecture, now}) => {
     const [ visible, setvisible] = useState(false);
     const [ status, setStatus ] = useState("");
     const [ progress, setProgress ] = useState(0);
+    
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
-    let time_before_start = 1;
+    //let time_before_start = 1;
     let startButton = (status == "during") ? require("../../../assets/icons/circleButtonOn.png")
     : require("../../../assets/icons/circleButtonOff.png")
+    let startButtonColor = (status == "during") ? styles.buttonTextWhite
+    : styles.buttonText
+
     //let startButton = status == "during" ? "cicleButtonOn": "circleButtonOff";
     //let progress = 0;
-
     useEffect (() => {
         const getProgress = () => {
         
@@ -36,11 +37,14 @@ const MainBlock = ({currentlecture, now}) => {
             }      
             else{
                 const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
-                const start = calculateTime(currentlecture.Time[1],currentlecture.Time[0]);
+                const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
+                //console.log("time",currentlecture.Time[1]);
 
                 if(now < start){
                     setStatus("before");
                     time_before_start = start - now ;
+                    console.log("start",start);
+                    console.log("ts",time_before_start);
                     setProgress(0);
         
                 }else if(now >= start){
@@ -60,17 +64,22 @@ const MainBlock = ({currentlecture, now}) => {
             
         }
         getProgress();
+       
         console.log("progress------>");
         console.log(progress);
     },[]);
-    
+
     const setMessage = () =>{
-        if(status == "noclass"){
+        if(status == "before"){
             return(
-            <View style= {styles.messageBox}>
-                <Text style = {styles.text_body}>지금은 예정된 수업이 없어요 !</Text>
-            </View>
-            )
+                <View style= {styles.messageBox}>
+                    <Text style = {styles.text_body_highlight}>아직은
+                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{currentlecture.name}</Text>
+                    </Text>
+                    <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>
+                        {toHours()}전</Text> </Text>
+                </View> )
+            
         }
         else if(status == "during"){
             return(
@@ -84,23 +93,32 @@ const MainBlock = ({currentlecture, now}) => {
         else{
             return(
                 <View style= {styles.messageBox}>
-                    <Text style = {styles.text_body_highlight}>아직은
-                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{currentlecture.name}</Text>
-                    </Text>
-                    <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>{lectureTimeLeft}시간 전</Text> </Text>
-                </View> )
-        }
-    }
-    
-    const setStartButton = () => {
-        if (status == "noclass" || status == "before"){
-            startButton = "circleButtonOff";
-            }
-        else {
-            startButton = "circleButtonOn"
+                    <Text style = {styles.text_body}>지금은 예정된 수업이 없어요 !</Text>
+                </View>
+                )
         }
     }
 
+    const toHours = () => {
+        if( time_before_start> 60) {
+           const hour = (time_before_start - (time_before_start%60))/60;
+           const minute =time_before_start % 60;
+           const hourmin = (minute !== 0 ? `${hour}시간 ${minute}분` : `${hour}시간`)
+           return (hourmin);
+        }
+        else {
+            console.log("time bf:", time_before_start)
+            const hourmin = `${time_before_start}분`
+            console.log(hourmin);
+           return hourmin
+        }
+    }
+
+    const onPress = () => {
+        console.log("Pressed---------------->");
+    }
+    
+    //return for mainblock
     return(
         <View style = {styles.mainBlock} >
             {setMessage()}
@@ -108,7 +126,7 @@ const MainBlock = ({currentlecture, now}) => {
                 <View style ={styles.progressBar}>
                     <ProgressBar 
                     progress= {progress} 
-                    width={220}
+                    width={228}
                     height = {18}
                     borderRadius ={0} borderWidth = {0}
                     color = {'#552DEC'}
@@ -116,15 +134,18 @@ const MainBlock = ({currentlecture, now}) => {
                     />
                 </View>
 
-                <View style ={styles.imageContainerL}>
-                <ImageBackground
-                    source = {startButton}
-                    style ={styles.buttonImageEnd}
+                    <TouchableOpacity 
+                    style ={styles.imageContainerL}
+                    disabled = {status != "during" ? true : false}
+                    onPress = {onPress}
                     >
-                    <Text style ={styles.buttonText}>시작</Text>
-                </ImageBackground>
-                    
-                </View>
+                    <ImageBackground
+                        source = {startButton}
+                        style ={styles.buttonImageEnd}
+                        >
+                        <Text style ={startButtonColor}>시작</Text>
+                    </ImageBackground>
+                    </TouchableOpacity>
 
                 <View style ={{flex :1}}></View>
                 <TouchableOpacity 
@@ -149,6 +170,7 @@ const MainBlock = ({currentlecture, now}) => {
             </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lectureName}/>}
         </View>)
 }
+
 
 
 
@@ -196,6 +218,12 @@ const styles = StyleSheet.create({
     buttonText:
     {   textAlign : 'center',
         color : '#6E7191',
+        fontFamily : 'NanumSquareB',
+        fontSize : 14
+    },
+    buttonTextWhite:
+    {   textAlign : 'center',
+        color : '#FFF',
         fontFamily : 'NanumSquareB',
         fontSize : 14
     },

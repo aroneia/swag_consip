@@ -4,14 +4,14 @@ import Block from './components/home/Block'
 import ShowDate from './components/home/ShowDate'
 import MainBlock from './components/home/MainBlock'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import data from '../json/lecture.json';
 const Home = ({navigation}) => {
   //const [lectures, setLectures]= useState([]); //lecture.json에서 불러온 오늘 들어야하는 강의리스트 
-  let todaystring = ""; //json을 읽기 위해 20201021 같은 형식의 날짜 
+  //let todaystring = ""; //json을 읽기 위해 20201021 같은 형식의 날짜 
+  const [todaystring, setToday ] = useState("");
   const [date, setDate] = useState("");//홈화면에서 오늘의 날짜를 표시해주기 위한 EX) 2020년 10월 21
   const [now, setNow] = useState(""); //현재 시간 
-  const [currentLecture, setCurrentLecture] = useState(); //현재 수강중(또는 곧 수강할) 강의 
-
+  //const [currentLecture, setCurrentLecture] = useState(); //현재 수강중(또는 곧 수강할) 강의 
 
   useEffect(() =>{
 
@@ -33,49 +33,50 @@ const Home = ({navigation}) => {
       const month_changed = currentMonth > 9 ? currentMonth.toString() : `0${currentMonth.toString()}`;
       const date_changed = currentDate > 9 ? currentDate.toString() : `0${currentDate.toString()}`;
 
-      todaystring = yearnow.toString() + month_changed + date_changed;
+      setToday(yearnow.toString() + month_changed + date_changed);
     };
-   
-    const fetchLectureToday = async () =>{
-      const data = await require('../json/lecture.json'); 
-      const lects = data.lectureList;
-      //console.log(lects);
-      let lecturesToday = [];
-      for(let l = 0; l < lects.length; l++){
-        for(let i =0; i<lects[l].schedule.length; i++){
-          if(lects[l].schedule[i] === todaystring){
-            //console.log("schedule");
-            //console.log(lects[l].schedule[i]);
-            //console.log(lects[l]);
-            lecturesToday.push(lects[l]);
-          }
-        } 
-      }
-      //console.log("today lect ------------>");
-      //console.log(lecturesToday);
-      //sort lecture today 오름차순
-      lecturesToday.sort(function(a,b){
-        a.Time[0]-b.Time[0];
-      }) 
-      //setLectures(lecturesToday);
-      
-     
-      //오늘 하는 강의 중에서 지금 듣는 강의 
-      const filtered = lecturesToday.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
-      //console.log("filtered------>")
-      //console.log(filtered[0]);
-      setCurrentLecture(filtered[0]);
-      console.log("lectures today now : home.js--------->");
-      console.log("currentlecture : "+ currentLecture.name);
-      console.log("lectures today end : home.js");
-    }
       fetchToday();
-      fetchLectureToday();
+
       //console.log("lectures today sorted : home.js--------->");
       //console.log(lectures);
       
 
   },[]);
+
+  const fetchLectureToday = () =>{
+    const lects = data.lectureList;
+    //console.log(lects)
+    let lecturesToday = [];
+    for(let l = 0; l < lects.length; l++){
+      for(let i =0; i<lects[l].schedule.length; i++){
+        if(lects[l].schedule[i] === todaystring){
+          console.log("schedule");
+          console.log("today :" ,todaystring);
+          //console.log(lects[l].schedule[i]);
+          console.log(lects[l]);
+          lecturesToday.push(lects[l]);
+        }
+      } 
+    }
+    //console.log("today lect ------------>");
+    //console.log(lecturesToday);
+    //sort lecture today 오름차순
+    lecturesToday.sort(function(a,b){
+      a.Time[0]-b.Time[0];
+    }) 
+    //setLectures(lecturesToday);
+    
+   
+    //오늘 하는 강의 중에서 지금 듣는 강의 
+    const filtered = lecturesToday.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
+    console.log("filtered------>")
+    console.log(filtered[0]);
+    //setCurrentLecture(filtered[0]);
+    return filtered[0];
+    console.log("lectures today now : home.js--------->");
+    //console.log("currentlecture : "+ currentLecture.name);
+    console.log("lectures today end : home.js");
+  }
 
   const calculateTime = (hour, min) => {
     return(Number(hour) * 60 + Number(min));}
@@ -122,7 +123,7 @@ const Home = ({navigation}) => {
           <Text style = {styles.text_title}>NOW</Text>
       </View>
       <View style = {styles.mainBlock}>
-        <MainBlock currentlecture = {currentLecture} now = {now} />
+        <MainBlock currentlecture = {fetchLectureToday()} now = {now} />
       </View>
     </View>
 
