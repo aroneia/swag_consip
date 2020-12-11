@@ -8,19 +8,32 @@ let time_before_start = 0;
 const MainBlock = ({currentlecture, now}) => {
     const [ visible, setvisible] = useState(false);
     const [ status, setStatus ] = useState("");
-    const [ progress, setProgress ] = useState(0);
+    const [ progress, setProgress ] = useState();
+    const [ isPressed , setPressed] = useState(false);
     
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
     //let time_before_start = 1;
-    let startButton = (status == "during") ? require("../../../assets/icons/circleButtonOn.png")
-    : require("../../../assets/icons/circleButtonOff.png")
+    let startButton = () => {
+        if(status == "during") { 
+            if(isPressed == false){
+                return require("../../../assets/icons/buttonColored.png")
+                
+            }else{
+            return require("../../../assets/icons/circleButtonOn.png")
+            
+        }
+        }else{
+            return require("../../../assets/icons/circleButtonOff.png")
+        }
+    }
+
     let startButtonColor = (status == "during") ? styles.buttonTextWhite
     : styles.buttonText
 
     //let startButton = status == "during" ? "cicleButtonOn": "circleButtonOff";
     //let progress = 0;
     useEffect (() => {
-        const getProgress = () => {
+        const getProgress = async() => {
         
             const calculateTime = (hour, min) => {
                 return(Number(hour) * 60 + Number(min));}
@@ -116,9 +129,10 @@ const MainBlock = ({currentlecture, now}) => {
 
     const onPress = () => {
         console.log("Pressed---------------->");
+        setPressed(true);
     }
     
-    //return for mainblock
+    //#############return for mainblock###################
     return(
         <View style = {styles.mainBlock} >
             {setMessage()}
@@ -140,7 +154,7 @@ const MainBlock = ({currentlecture, now}) => {
                     onPress = {onPress}
                     >
                     <ImageBackground
-                        source = {startButton}
+                        source = {startButton()}
                         style ={styles.buttonImageEnd}
                         >
                         <Text style ={startButtonColor}>시작</Text>
@@ -242,9 +256,9 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode : 'contain',
         justifyContent: 'center',
-        zIndex :1       
-        
+        zIndex :1,
     },
+
     animal:{
         height: 101,
         width: undefined,
