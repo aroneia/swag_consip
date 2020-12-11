@@ -9,32 +9,8 @@ LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 const SQUARESIZE = 48
 let DAYHEIGHT = 0
 let MARGINTOP = SQUARESIZE - DAYHEIGHT;
+let comboCount = 0;
 
-
-const colorDay = (date) => {
-    const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
-    DAYHEIGHT = 10;
-    MARGINTOP = SQUARESIZE - DAYHEIGHT
-    //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
-
-    //month 정보 가져와서 30, 31 길이 알아야함 
-    
-    for (let index = 0; index < Object.keys(datesdata).length-1; index++){
-        let item = datesdata[index];
-
-        if(datestring !== item.today) {
-            DAYHEIGHT = 0
-            //console.log(datestring.slice(8,10))
-        }else if(datestring === item.today){
-            const progress = item.stamp_sum/item.total_lectrues;
-            //console.log("progress is :" + progress);
-            DAYHEIGHT = SQUARESIZE * progress;
-            MARGINTOP = SQUARESIZE - DAYHEIGHT;
-            return DAYHEIGHT;
-        }
-    }
-    return DAYHEIGHT;
-}
 
 const getYearMonth = (date) =>{
     const year = date.getFullYear();
@@ -75,8 +51,42 @@ const Report = ({navigation}) => {
         fetchHeart();
         fetchFriend();
     },[]);
+
+    const colorDay = (date) => {
+        const datestring = date.dateString.slice(0,4)+ date.dateString.slice(5,7)+ date.dateString.slice(8,10);
+        DAYHEIGHT = 10;
+        MARGINTOP = SQUARESIZE - DAYHEIGHT
+        //console.log("length:"+Object.keys(data).length); 마지막 object는 default object
+    
+        //month 정보 가져와서 30, 31 길이 알아야함 
+        
+        for (let index = 0; index < Object.keys(datesdata).length-1; index++){
+            let item = datesdata[index];
+    
+            if(datestring !== item.today) {
+                DAYHEIGHT = 0
+                //console.log(datestring.slice(8,10))
+            }else if(datestring === item.today){
+                const progress = item.stamp_sum/item.total_lectrues;
+                //console.log("progress is :" + progress);
+                DAYHEIGHT = SQUARESIZE * progress;
+                MARGINTOP = SQUARESIZE - DAYHEIGHT;
+    
+                //최대 연속 일수 
+                if(progress == 1){
+                    comboCount = comboCount + 1;
+                    if(combo < comboCount){setCombo(comboCount);}
+                }
+                else{comboCount = 0;
+                }
+                return DAYHEIGHT;
+            }
+        }
+        return DAYHEIGHT;
+    }
     
     return(
+        <View style= {{backgroundColor : "#F7F7FC", flex :1}}>
         <View style = {styles.container}>
             <Text style = {styles.title}>SWAG</Text>
             
@@ -111,7 +121,7 @@ const Report = ({navigation}) => {
         }}
         //monthFormat={'yyyy MM'}
         renderHeader={(date) => {
-        return(<Text style = {styles.textDark}>{getYearMonth(date)}</Text>)
+        return(<Text style = {styles.textHeader}>{getYearMonth(date)}</Text>)
         }}
         // Date marking style [simple/period/multi-dot/single]. Default = 'simple'
         markingType={'custom'}
@@ -126,6 +136,7 @@ const Report = ({navigation}) => {
                     position : 'absolute',
                     color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
                     marginTop: Platform.OS === 'android' ? 4 : 14,
+                    marginBottom: Platform.OS === 'android' ? 4 : 'auto',
                     fontFamily : 'NanumSquareB'
                     }}>
                   {date.day}
@@ -136,7 +147,7 @@ const Report = ({navigation}) => {
        
         />
         </View>
-                <View style ={{flex :0.5, backgroundColor:'#F7F7FC'}}>
+                <View style ={{flex :0.5, justifyContent : 'flex-end'}}>
                     <Text style ={styles.monthText} >{month}월의 기록</Text>
                 </View> 
                 <View style = {{flex: 2, flexDirection: 'row', alignItems : 'stretch'}}>
@@ -156,7 +167,7 @@ const Report = ({navigation}) => {
                                 style = {styles.heartImage}
                                 ></Image>
                                 <Text>최대연속일수</Text>
-                                <Text>15일</Text>
+                                <Text>{combo}일</Text>
                             </View>
                         </View>
                         <View style ={styles.longBlockContainer}>
@@ -192,6 +203,7 @@ const Report = ({navigation}) => {
                 </View>
          
         </View>
+        </View>
 
 
     );
@@ -216,7 +228,7 @@ const styles = StyleSheet.create(
             fontFamily : 'NanumSquareEB',
         },
         calendarContainer:{
-            flex : 4, 
+            flex : 5, 
             marginBottom :10,
             backgroundColor:'#F7F7FC'
         },
@@ -231,6 +243,12 @@ const styles = StyleSheet.create(
             textAlign : 'center',
             fontFamily : 'NanumSquareB',
             color : "#6E7191"   
+        },
+        textHeader:{
+            fontFamily: 'NanumSquareEB',
+            fontSize: 21,
+            textAlign: 'center',
+            color: '#2C01A6' 
         },
         buttonClicked :{
             flex :1,
@@ -252,7 +270,8 @@ const styles = StyleSheet.create(
         monthText :{
             fontSize : 18,
             textAlign : 'left',
-            fontFamily : 'NanumSquareB', 
+            fontFamily : 'NanumSquareB',
+            
         },
         heartImage :{
             height : '40%',
