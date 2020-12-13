@@ -32,6 +32,29 @@ function read_lect(classn){
     return fin;
 }
 
+function read_keyword(classn){
+
+    var keywordlist=[];
+
+    var len = Object.keys(data.lectureList).length;
+    var i;
+    var ans=0;
+    for(i=0;i<len;i++){
+        if(classn == data.lectureList[i].name){
+            ans = i;
+        }
+    }
+
+    var keylen = Object.keys(data.lectureList[ans].character).length;
+    for(var i=0;i<keylen;i++){
+        console.log(data.lectureList[ans].character[i]);
+        keywordlist.push(data.lectureList[ans].character[i]);
+    }
+    return keywordlist;
+}
+
+
+
 const LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
 const LectureMode = ({route, navigation}) => {
@@ -40,6 +63,7 @@ const LectureMode = ({route, navigation}) => {
     const perc = route.params.perc;
     //console.log(classn);
     const list = read_lect(classn);
+    const charlist = read_keyword(classn);
 
     //fin[0]: 첫째날 fin[1]둘째날 덩어리.
     const show_keyword = () => {
@@ -139,13 +163,13 @@ const LectureMode = ({route, navigation}) => {
                     <View >
                         <View style={{flexDirection:'row',marginBottom:5}}>
                         <View style = {styles.keywordview}>
-                            <Text style = {styles.keyword}>여기</Text>
+                            <Text style = {styles.keyword}>{charlist[0]}</Text>
                         </View>
                         <View style = {styles.keywordview}>
-                             <Text style = {styles.keyword}>다가</Text>
+                             <Text style = {styles.keyword}>{charlist[1]}</Text>
                         </View>
                         <View style = {styles.keywordview}>
-                            <Text style = {styles.keyword}>키워드</Text>
+                            <Text style = {styles.keyword}>{charlist[2]}</Text>
                         </View>
                         </View>
                     <Text style={{fontSize:21, fontFamily:'NanumSquareB'}}>{classn}</Text>
