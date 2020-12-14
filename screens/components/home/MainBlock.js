@@ -5,11 +5,10 @@ import InsertMemo from '../home/InsertMemo'
 
 let time_before_start = 0;
 
-const MainBlock = ({currentlecture, now}) => {
+const MainBlock = ({progress, status, name, setInfoStamp}) => {
     const [ visible, setvisible] = useState(false);
-    const [ status, setStatus ] = useState("");
-    const [ progress, setProgress ] = useState();
-    const [ isPressed , setPressed] = useState(false);
+    const [ isPressed, setPressed] = useState(false);
+    //pagination 함수랑 같은 원리로
     
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
     //let time_before_start = 1;
@@ -19,6 +18,7 @@ const MainBlock = ({currentlecture, now}) => {
                 return require("../../../assets/icons/buttonColored.png")
                 
             }else{
+            setInfoStamp(true);
             return require("../../../assets/icons/circleButtonOn.png")
             
         }
@@ -32,65 +32,17 @@ const MainBlock = ({currentlecture, now}) => {
 
     //let startButton = status == "during" ? "cicleButtonOn": "circleButtonOff";
     //let progress = 0;
-    useEffect (() => {
-        const getProgress = async() => {
-        
-            const calculateTime = (hour, min) => {
-                return(Number(hour) * 60 + Number(min));}
-    
-            if (currentlecture == undefined){
-                //main.js에서 end time으로 정렬해서 없으면 noclass
-                console.log("no class ----> mainblock.js");
-                setStatus("noclass");
-                setProgress(0);
-            }
-            else if(currentlecture.length === 0){
-                setStatus("noclass");
-                setProgress(0);
-            }      
-            else{
-                const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
-                const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
-                //console.log("time",currentlecture.Time[1]);
-
-                if(now < start){
-                    setStatus("before");
-                    time_before_start = start - now ;
-                    console.log("start",start);
-                    console.log("ts",time_before_start);
-                    setProgress(0);
-        
-                }else if(now >= start){
-                    setStatus("during");
-                    const totalTime = end - start;
-                    const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
-                    console.log("현재 진행: "+ currTime);
-                    console.log("now: " + now);
-                    //console.log(currentlecture.Time);
-                    setProgress(currTime / totalTime);
-                    //console.log("progress------>")
-                    //console.log(currTime/totalTime);
-
-    
-                }
-            }
-            
-        }
-        getProgress();
-       
-        console.log("progress------>");
-        console.log(progress);
-    },[]);
 
     const setMessage = () =>{
         if(status == "before"){
             return(
                 <View style= {styles.messageBox}>
                     <Text style = {styles.text_body_highlight}>아직은
-                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{currentlecture.name}</Text>
+                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{name}</Text>
                     </Text>
                     <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>
                         {toHours()}전</Text> </Text>
+                        {console.log("name: ", name)}
                 </View> )
             
         }
@@ -98,7 +50,7 @@ const MainBlock = ({currentlecture, now}) => {
             return(
                 <View style= {styles.messageBox}>
                     <Text style = {styles.text_body_highlight}>지금은</Text>
-                    <Text style = {styles.text_body_highlight}>{currentlecture.name}</Text>
+                    <Text style = {styles.text_body_highlight}>{name}</Text>
                     <Text style = {styles.text_body}>수업중</Text>
                 </View>
                 ) 
@@ -127,6 +79,7 @@ const MainBlock = ({currentlecture, now}) => {
         }
     }
 
+    
     const onPress = () => {
         console.log("Pressed---------------->");
         setPressed(true);
@@ -139,7 +92,7 @@ const MainBlock = ({currentlecture, now}) => {
             <View style = {{flex:1, flexDirection : 'row',}}>
                 <View style ={styles.progressBar}>
                     <ProgressBar 
-                    progress= {progress} 
+                    progress= {isPressed ? progress : 0} 
                     width={228}
                     height = {18}
                     borderRadius ={0} borderWidth = {0}
@@ -181,7 +134,7 @@ const MainBlock = ({currentlecture, now}) => {
                 source={require('../../../assets/images/alien1.png')}
                 resizeMode="contain"
             />
-            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lectureName}/>}
+            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {name}/>}
         </View>)
 }
 

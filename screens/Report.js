@@ -39,6 +39,7 @@ const Report = ({navigation}) => {
         
             const perfectDays = data.filter(item => {
                 //console.log(item.heart);
+                //만약 date.json 파일이 정렬되어있으면 여기서 최대연속일수를 가져오는게 더 좋을 거 같은데
                 return item.heart == 1 && item.today.slice(0,6) == yearMonth_string} );
             setPerfect(perfectDays.length);
             setMonth(today.getMonth() +1);

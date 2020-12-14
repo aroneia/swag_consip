@@ -37,9 +37,28 @@ const checkLength =(name) => {
 }
 
 
-const Block = () => {
+const Block = ({stampStatus}) => {
 
-    
+    const stampImage = (lectname) =>{
+         //도장의 상태 before, late, absent, good 
+         console.log("------------------stamp----->",stampStatus);
+        if(stampStatus == "before"){
+            return require('../../../assets/icons/stampBefore.png')
+        }else{
+            const lects = data.lectureList;
+            for(let index =0; index <lects.length; index++){
+              if(lects[index].name == lectname){
+                const stamps = lects[index].stamp
+                console.log("stamp value of" + lectname + " is " + stamps[stamps.length -1])
+                //stamp 값이 1 -> good 
+                if(stamps[stamps.length-1] == 1){return require('../../../assets/icons/stampGood.png')}
+                else if(stamps[stamps.length-1] == 0){return require('../../../assets/icons/stampLate.png')}
+                else return require('../../../assets/icons/stampBefore.png');
+                }
+            }
+        }
+    }
+
     const lectname = read_lectname();
 
     const show_name = () => {
@@ -51,7 +70,7 @@ const Block = () => {
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
             <Image
                     style ={styles.stamp}
-                    source={require('../../../assets/icons/circleButtonOff.png')}
+                    source={stampImage(lectname[i])}
                     resizeMode = "contain"
                     >
                 </Image>

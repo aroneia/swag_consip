@@ -5,13 +5,21 @@ import ShowDate from './components/home/ShowDate'
 import MainBlock from './components/home/MainBlock'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import data from '../json/lecture.json';
+
+
+
 const Home = ({navigation}) => {
   //const [lectures, setLectures]= useState([]); //lecture.json에서 불러온 오늘 들어야하는 강의리스트 
   //let todaystring = ""; //json을 읽기 위해 20201021 같은 형식의 날짜 
-  const [todaystring, setToday ] = useState("");
+  const [todaystring, setToday ] = useState("20201215");
   const [date, setDate] = useState("");//홈화면에서 오늘의 날짜를 표시해주기 위한 EX) 2020년 10월 21
-  const [now, setNow] = useState(""); //현재 시간 
-  //const [currentLecture, setCurrentLecture] = useState(); //현재 수강중(또는 곧 수강할) 강의 
+  const [now, setNow] = useState(""); //현재 시간
+  const [currentlecture, setCurrentlecture] = useState([]); //현재 수강중(또는 곧 수강할) 강의 
+  const [ status, setStatus ] = useState("");
+  const [ progress, setProgress ] = useState();
+  const [ stampStatus, setStampStatus] = useState("before") //도장의 상태 before, late, absent, good 
+
+  //let currentlecture = [];
 
   useEffect(() =>{
 
@@ -35,48 +43,120 @@ const Home = ({navigation}) => {
 
       setToday(yearnow.toString() + month_changed + date_changed);
     };
-      fetchToday();
 
-      //console.log("lectures today sorted : home.js--------->");
-      //console.log(lectures);
+    const fetchLectureToday = () =>{
+      //const data = await require('../json/lecture.json');
+      const lects = data.lectureList;
+      //console.log(lects)
+      let lecturesToday = [];
+      for(let l = 0; l < lects.length; l++){
+        for(let i =0; i<lects[l].schedule.length; i++){
+          console.log(todaystring)
+          if(lects[l].schedule[i] === todaystring){
+            console.log("schedule");
+            console.log("today :" ,todaystring);
+            //console.log(lects[l].schedule[i]);
+            console.log(lects[l]);
+            lecturesToday.push(lects[l]);
+          }
+        } 
+      }
+      console.log("today lect ------------>");
+      console.log(lecturesToday);
+      //sort lecture today 오름차순
+      lecturesToday.sort(function(a,b){
+        a.Time[0]-b.Time[0];
+      }) 
+      //오늘 하는 강의 중에서 지금 듣는 강의 
+      const filtered = lecturesToday.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
+      console.log("filtered------>")
+      console.log(filtered[0]);
+      //setCurrentlecture(filtered[0]);
       
+      setCurrentlecture( filtered[0] );
+      //return filtered[0];
+    }; 
 
+    const getProgress = () => {
+      const calculateTime = (hour, min) => {
+          return(Number(hour) * 60 + Number(min));}
+
+      if (currentlecture == undefined){
+          //main.js에서 end time으로 정렬해서 없으면 noclass
+          console.log("no class ----> mainblock.js");
+          setStatus("noclass");
+          setProgress(0);
+      }
+      else if(currentlecture.length === 0){
+          setStatus("noclass");
+          setProgress(0);
+      }      
+      else{
+          const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
+          const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
+          //console.log("time",currentlecture.Time[1]);
+
+          if(now < start){
+              setStatus("before");
+              time_before_start = start - now ;
+              console.log("start",start);
+              console.log("ts",time_before_start);
+              setProgress(0);
+  
+          }else if(now >= start){
+              setStatus("during");
+              const totalTime = end - start;
+              const currTime = now - calculateTime(currentlecture.Time[0], currentlecture.Time[1])
+              console.log("현재 진행: "+ currTime);
+              console.log("now: " + now);
+              //console.log(currentlecture.Time);
+              setProgress(currTime / totalTime);
+              //console.log("progress------>")
+              //console.log(currTime/totalTime);
+          }
+      }
+  }
+  
+ 
+  console.log("progress------>");
+  console.log(progress);
+      fetchToday();
+      fetchLectureToday();
+      getProgress();
+     
+      
   },[]);
 
-  const fetchLectureToday = () =>{
-    const lects = data.lectureList;
-    //console.log(lects)
-    let lecturesToday = [];
-    for(let l = 0; l < lects.length; l++){
-      for(let i =0; i<lects[l].schedule.length; i++){
-        if(lects[l].schedule[i] === todaystring){
-          console.log("schedule");
-          console.log("today :" ,todaystring);
-          //console.log(lects[l].schedule[i]);
-          console.log(lects[l]);
-          lecturesToday.push(lects[l]);
-        }
-      } 
+  const setInfoStamp = (isPressed) =>{
+    const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
+    const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
+
+    if(isPressed == true && now > start + 10){
+      //10분 이후부터 지각으로 처리
+      setStampStatus("late");
+    }else if(isPressed ==true && now <= start +10){
+      setStampStatus("good");
+    }else if(isPressed == false && now > end - 10){
+      //끝나기 10분전부터 결석처리 
+      setStampStatus("absent");
     }
-    //console.log("today lect ------------>");
-    //console.log(lecturesToday);
-    //sort lecture today 오름차순
-    lecturesToday.sort(function(a,b){
-      a.Time[0]-b.Time[0];
-    }) 
-    //setLectures(lecturesToday);
-    
-   
-    //오늘 하는 강의 중에서 지금 듣는 강의 
-    const filtered = lecturesToday.filter(lect => calculateTime(lect.Time[2],lect.Time[3]) > now);
-    console.log("filtered------>")
-    console.log(filtered[0]);
-    //setCurrentLecture(filtered[0]);
-    return filtered[0];
-    console.log("lectures today now : home.js--------->");
-    //console.log("currentlecture : "+ currentLecture.name);
-    console.log("lectures today end : home.js");
+
+    const lects = data.lectureList;
+    for(let i =0; i <lects.length; i++){
+      if(lects[i].name == currentlecture.name){
+        console.log("------stamp-----inside current lecture");
+        if(stampStatus == "good") {lects[i].stamp.push(1)}
+        if(stampStatus == "late") {lects[i].stamp.push(0)}
+        if(stampStatus == "absent") {lects[i].stamp.push(-1)}
+
+      }
+    }
+
+    //lecture list에 stamp 값 넣기
+
+    console.log("setinfostamp-------->", stampStatus);
   }
+  
 
   const calculateTime = (hour, min) => {
     return(Number(hour) * 60 + Number(min));}
@@ -88,7 +168,7 @@ const Home = ({navigation}) => {
       </View>
      <View style = {{flex :0.5,flexDirection: "row", justifyContent : 'center'}}>
       <View style = {{flex :1, alignItems : 'flex-start', justifyContent : 'flex-end'}}>
-        <Text style = {styles.welcomeText}>안녕하세요 일소님!</Text>
+  <Text style = {styles.welcomeText}>안녕하세요 일소님!</Text>
       </View>
       <View style = {{flex :1, alignItems : 'flex-end', justifyContent : 'center'}}>
         <TouchableOpacity
@@ -114,7 +194,7 @@ const Home = ({navigation}) => {
       </View>
       <View style = {{flex : 1.7, marginLeft : 16, justifyContent : 'center'}} >
       <ScrollView horizontal = {true}>
-        <Block></Block> 
+        <Block stampStatus = {stampStatus} currentname = {currentlecture.name}></Block> 
         <Text onPress={()=>{ navigation.navigate('InsertMemo');}}></Text>
       </ScrollView>
       </View>
@@ -123,7 +203,7 @@ const Home = ({navigation}) => {
           <Text style = {styles.text_title}>NOW</Text>
       </View>
       <View style = {styles.mainBlock}>
-        <MainBlock currentlecture = {fetchLectureToday()} now = {now} />
+        <MainBlock progress = {progress} status = {status} name = {currentlecture.name} setInfoStamp = {setInfoStamp}/>
       </View>
     </View>
 
