@@ -97,7 +97,7 @@
 	   },
 	   {
 		"name": "캡스톤디자인",
-		"total_num": 24,
+		"total_num": 6,
 		"now_num": 3,
 		"days":["FRI"],
 		"start_date": "20201113",
@@ -125,8 +125,8 @@
 		"stamp": [1,0,-1]
 	   },
 	   {
-		"name": "트랜스 미디어 스토리텔링",
-		"total_num": 24,
+		"name": "트랜스 미디어 스토리텔링22",
+		"total_num":6,
 		"now_num": 3,
 		"days":["FRI"],
 		"start_date": "20201113",
