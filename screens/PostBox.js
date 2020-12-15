@@ -6,7 +6,8 @@ import PostBlocks from './components/home/PostBlocks'
 
 const SWAG_PURPLE = '#5235BB';
 
-//
+
+
 const PostBox = ({navigation}) => {
     const [animals, setAnimals] = useState([]);
     
@@ -54,14 +55,9 @@ const PostBox = ({navigation}) => {
                 <View style ={styles.postblock_container}>
                     <Text style ={styles.year}>2020</Text>
                     <PostBlocks animals = {animals} navigation = {navigation}/>
-                    <PostBlocks animals = {animals} navigation = {navigation}/>
                     
                 </View>
-                <View style = {styles.line}></View>
-                <View style ={styles.postblock_container}>
-                    <Text style ={styles.year}>2019</Text>
-                    <PostBlocks animals = {animals} navigation = {navigation}/>
-                </View>
+
             </ScrollView>
             </View>
         </View>

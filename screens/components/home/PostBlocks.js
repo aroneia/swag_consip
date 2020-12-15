@@ -5,8 +5,14 @@ import * as dummydata from '../../../json/calendar_dummy.json'
 
 const progress =  dummydata.takenLecture /dummydata.totalLecture ;
 
+const images = {
+    1 : require('../../../assets/images/alien1.png'),
+    2 : require('../../../assets/images/alien2.png')
+}
+
 const PostBlock = ({animals, navigation}) => {
     //const nextMonth = animals[animals.length-1].month +1;
+    //console.log(animals);
     return(
         <View>
         <View style ={styles.container}>
@@ -15,9 +21,15 @@ const PostBlock = ({animals, navigation}) => {
                     <TouchableOpacity 
                         style = {{alignItems : 'center'}}
                         title="to AilenFriend"
-                        onPress={() => navigation.navigate('AilenFriend',animal)}>
+                        onPress={() => {navigation.navigate('AilenFriend',{
+                            name: animal.name,
+                            month: animal.month,
+                            friendship: animal.friendship,
+                            image: images[animal.id],
+                            message: animal.message});
+                            }}>
                         <View style = {styles.animalContainer}>
-                        <Image source = {require('../../../assets/images/alien1.png')}
+                        <Image source = {images[animal.id]}
                         style = {styles.animal}
                         />
                         </View>
@@ -34,7 +46,7 @@ const PostBlock = ({animals, navigation}) => {
                     style = {styles.animal_unknown}/>
                     </View>
                     <Text style = {styles.titleGray}>???</Text>
-                    <Text style = {styles.textGray}>11월의 친구</Text>
+                    <Text style = {styles.textGray}>곧 만날 친구</Text>
             </View>
         </View>
         </View>
@@ -113,7 +125,7 @@ const styles = StyleSheet.create({
     animal :{
         aspectRatio : 1,
         height : 70,
-      
+        resizeMode : "contain"
     }
 })
 
