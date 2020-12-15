@@ -143,7 +143,7 @@ export const InsertModal = ({ parentCallback }) => {
    //강의시간 ui 추가하기
    const createUI = () => {
       return timeList.map((el, i) =>
-      <View>
+      <View key = {i}>
       <View style= { {flexDirection:"row"}}>                        
          <Text style= {[styles.sbtext,{width:65,marginRight:16}]}>요일</Text>
          <Text style= {[styles.sbtext, {flex:1,marginRight:50}]}>시작시간</Text>
@@ -379,7 +379,7 @@ export const InsertModal = ({ parentCallback }) => {
                                  placeholder="30"
                                  placeholderTextColor="#A0A3BD"
                                  onChangeText={(lecturecount) => setlecturecount(lecturecount)}
-                                 value={lecturecount} 
+                                 value={lecturecount.toString()} 
                                  /> 
                            <TouchableOpacity
                               style = {[styles.textinput, {flex:1}]}

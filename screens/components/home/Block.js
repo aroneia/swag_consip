@@ -47,6 +47,7 @@ const Block = () => {
 
         <TouchableOpacity 
         style ={styles.container}
+        key = {i}
         >
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
             <Image

@@ -134,7 +134,7 @@ const Report = ({navigation}) => {
                
                 <Text style ={{
                     position : 'absolute',
-                    color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
+                    //color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
                     marginTop: Platform.OS === 'android' ? 4 : 14,
                     marginBottom: Platform.OS === 'android' ? 4 : 'auto',
                     fontFamily : 'NanumSquareB'

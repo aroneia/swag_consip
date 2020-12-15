@@ -6,7 +6,7 @@ import Moment from 'moment';
 
 const AilenFriend = ({route,navigation}) => {
     const { name, month,friendship,image, message } = route.params; 
-    console.log(message);
+    const message_rev = message.reverse()
     return (
         <View style = {styles.container}>
 
@@ -65,7 +65,7 @@ const AilenFriend = ({route,navigation}) => {
             >
                 <Text style = {styles.yeartext} > 2020</Text>
                 <View style = {styles.messageview}>
-                    {message.reverse().map(message => (
+                    {message_rev.map(message => (
                     <View style = {styles.messageitem}>
                         <Text style = {styles.messageyear}>{Moment(message.date).format("YYYY.MM.DD")}</Text>
                         <Text style = {styles.messagecontent}>{message.content}</Text>

@@ -69,7 +69,7 @@ const LectureMode = ({route, navigation}) => {
     const show_keyword = () => {
         var row  = list.map((el, i)=> {
             if(i==0){
-                return <View>
+                return <View key = {el.name}>
                 <View style ={{ flexDirection : "row",paddingTop: 15,}}>
                         <View style = {styles.dot}></View>
                 <Text style={styles.datetext}>{list[i][0]}월 {list[i][1]}일</Text>
