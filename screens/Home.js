@@ -12,7 +12,7 @@ const Home = ({navigation}) => {
   //const [lectures, setLectures]= useState([]); //lecture.json에서 불러온 오늘 들어야하는 강의리스트 
   //let todaystring = ""; //json을 읽기 위해 20201021 같은 형식의 날짜 
   const [loading, setLoading] = useState(false);
-  const [todaystring, setToday ] = useState("20201216");
+  const [todaystring, setToday ] = useState("20201217");
   const [date, setDate] = useState("");//홈화면에서 오늘의 날짜를 표시해주기 위한 EX) 2020년 10월 21
   const [now, setNow] = useState(""); //현재 시간
   const [currentlecture, setCurrentlecture] = useState([]); //현재 수강중(또는 곧 수강할) 강의 
@@ -146,7 +146,7 @@ const Home = ({navigation}) => {
       }else if(isPressed == false && now > end - 10){
         //끝나기 10분전부터 결석처리 
         setStampStatus("absent");
-        stampnow = "absent";s
+        stampnow = "absent";
       }
 
       const lects = data.lectureList;

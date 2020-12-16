@@ -198,7 +198,7 @@ const Report = ({navigation}) => {
                     </View>
                     <View style ={{flex:1}}>
                         <Image
-                        source = {require('../assets/images/animal1.png')}
+                        source = {require('../assets/images/animal2.png')}
                         style = {styles.animalImage}
                         ></Image>
                     </View>
