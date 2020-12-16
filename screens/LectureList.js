@@ -159,8 +159,6 @@ function cal_wan(){
 
 function show_nowpic(idx){
 
-    var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
         
     //if(lastsch>realtoday){  //현재 강의
         return( <Image style={{alignSelf:"center", top: -13}} source={require('../assets/icons/now_lec.png')} ></Image>);
@@ -171,18 +169,17 @@ function show_nowpic(idx){
 function show_lastpic(idx){
 
 
-    var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
-        
-    if(lastsch<realtoday){  //지난 강의
-        var t = lecturedata.lectureList[idx].total_num;
-        var n = lecturedata.lectureList[idx].now_num;
-
+   
+    //if(lastsch<realtoday){  //지난 강의
+        var t = lastleclist[idx].total_num;
+        var n = lastleclist[idx].now_num;
+        console.log("t: "+t);
+        console.log("n: "+n);
         if(t==n){   //완료했다면 완료강의 표시
-            return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/fin_lec.png')} ></Image>);
+            return(<Image style={{alignSelf:"center", top:-13}} source={require('../assets/icons/fin_lec.png')} ></Image>);
         }
-        return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/last_lec.png')} ></Image> );
-    }
+        return(<Image style={{alignSelf:"center", top:-13}} source={require('../assets/icons/last_lec.png')} ></Image> );
+    //}
 
 }
 
@@ -198,6 +195,8 @@ const nowindexlist = makeindexlist(Object.keys(nowleclist).length);
 const lastindexlist = makeindexlist(Object.keys(lastleclist).length);
 console.log("현재 인덱스리스트 길이:"+Object.keys(nowindexlist).length);
 console.log("과거 인덱스리스트 길이:"+Object.keys(lastindexlist).length);
+console.log("lastindexlist[index]값"+lastindexlist[0]);
+console.log("lastindexlist[index]값"+lastindexlist[1]);
 
 
 const LectureMode = ({navigation}) => {
@@ -253,7 +252,7 @@ const LectureMode = ({navigation}) => {
 
         
 
-            <ScrollView style = {{flex: 7.5}}>
+            <ScrollView style = {{flex: 8}}>
 
                 <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
             <View style={{flexDirection:'row'}}>
@@ -300,7 +299,6 @@ const LectureMode = ({navigation}) => {
                     style={styles.lecturecard} 
                     onPress={()=>{navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}}
                     >
-                    
                     {show_lastpic(lastindexlist[index])}
                     <Text style={styles.lecturename} > {item}</Text>
                     <View style = {{flex:1,justifyContent:"flex-end"}}>

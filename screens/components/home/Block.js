@@ -74,9 +74,7 @@ function read_lectime(){
 const lecttimelist = read_lectime();
 console.log("오늘의 강의 시간들은: "+lecttimelist[0]);
 
-lecttimelist.sort(function(a, b) { // 오름차순
-    return a[0] < b[0]  ? -1 : a[0]  > b[0]  ? 1 : 0;
-});
+
 
 
 
