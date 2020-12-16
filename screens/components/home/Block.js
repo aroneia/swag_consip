@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import {View, StyleSheet,Text, Image, TouchableOpacity,Modal} from 'react-native';
-import Dash from 'react-native-dash';
 import data from '../../../json/lecture.json';
 
 
@@ -39,6 +38,7 @@ function checktoday(){
              if(todayday == data.lectureList[i].days[j]){
                  console.log("오늘에 있네요~");
                  todayleclist.push(data.lectureList[i].name);
+                 console.log(data.lectureList[i].name);
                  istoday=1;
              }
         }
@@ -74,9 +74,7 @@ function read_lectime(){
 const lecttimelist = read_lectime();
 console.log("오늘의 강의 시간들은: "+lecttimelist[0]);
 
-lecttimelist.sort(function(a, b) { // 오름차순
-    return a[0] < b[0]  ? -1 : a[0]  > b[0]  ? 1 : 0;
-});
+
 
 
 

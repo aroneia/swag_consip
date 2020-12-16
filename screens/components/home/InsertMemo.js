@@ -7,7 +7,7 @@ const windowWidth = Dimensions.get('window').width;
 
 
 
-const InsertMemo = ({visible,setvisible,lectureName}) => {
+const InsertMemo = ({visible,setvisible,lectureName, setInfoStamp}) => {
   
   console.log(lectureName);
     const handleClose = () => {
@@ -22,6 +22,7 @@ const InsertMemo = ({visible,setvisible,lectureName}) => {
     
     const inputkeymemo = () => {
       
+      setInfoStamp(true);
       var today = new Date();
       var year = today.getFullYear();
       var month = today.getMonth() + 1;  // 월

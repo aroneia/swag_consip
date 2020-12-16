@@ -8,6 +8,7 @@ import InsertMemo from '../home/InsertMemo'
 const MainBlock = ({loading, progress, status, lecturenow, setInfoStamp, timenow}) => {
     const [ visible, setvisible] = useState(false);
     const [ isPressed, setPressed] = useState(false);
+    const [ isPressedEnd, setPressedEnd] = useState(false);
     //pagination 함수랑 같은 원리로
 
     if(loading){
@@ -22,7 +23,6 @@ const MainBlock = ({loading, progress, status, lecturenow, setInfoStamp, timenow
                 return require("../../../assets/icons/buttonColored.png")
                 
             }else{
-            setInfoStamp(true);
             return require("../../../assets/icons/circleButtonOn.png")
             
         }
@@ -144,7 +144,11 @@ const MainBlock = ({loading, progress, status, lecturenow, setInfoStamp, timenow
                 source={require('../../../assets/images/animal2.png')}
                 resizeMode="contain"
             />
-            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lecturenow.name}/>}
+            </View>{visible && <InsertMemo isvisible = {visible} 
+            setvisible ={setvisible} 
+            lectureName = {lecturenow.name}
+            setInfoStamp = {setInfoStamp}
+            />}
         </View>)
 }
 
