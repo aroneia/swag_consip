@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import {View, StyleSheet,Text, Image, TouchableOpacity,Modal} from 'react-native';
-import Dash from 'react-native-dash';
 import data from '../../../json/lecture.json';
 
 
@@ -38,6 +37,7 @@ function checktoday(){
              if(todayday == data.lectureList[i].days[j]){
                  console.log("오늘에 있네요~");
                  todayleclist.push(data.lectureList[i].name);
+                 console.log(data.lectureList[i].name);
                  istoday=1;
              }
         }
