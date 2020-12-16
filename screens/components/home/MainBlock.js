@@ -3,12 +3,16 @@ import {View, Text, StyleSheet, Image, ImageBackground,TouchableOpacity} from 'r
 import ProgressBar from 'react-native-progress/Bar'
 import InsertMemo from '../home/InsertMemo'
 
-let time_before_start = 0;
+//let time_before_start = 0;
 
-const MainBlock = ({progress, status, name, setInfoStamp}) => {
+const MainBlock = ({loading, progress, status, lecturenow, setInfoStamp, timenow}) => {
     const [ visible, setvisible] = useState(false);
     const [ isPressed, setPressed] = useState(false);
     //pagination 함수랑 같은 원리로
+
+    if(loading){
+        return <View>loading..</View>
+    }
     
     //수업 상턔 : before, during, noclass -> noclass는 남은 수업이 하나도 없을 떄  
     //let time_before_start = 1;
@@ -38,11 +42,11 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
             return(
                 <View style= {styles.messageBox}>
                     <Text style = {styles.text_body_highlight}>아직은
-                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{name}</Text>
+                    {"\n"}<Text style = {{fontFamily : 'NanumSquareEB'}}>{lecturenow.name}</Text>
                     </Text>
                     <Text style = {styles.text_body}>수업시간 <Text style= {{fontFamily : 'NanumSquareEB'}}>
                         {toHours()}전</Text> </Text>
-                        {console.log("name: ", name)}
+                        {console.log("name: ", lecturenow.name)}
                 </View> )
             
         }
@@ -50,7 +54,7 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
             return(
                 <View style= {styles.messageBox}>
                     <Text style = {styles.text_body_highlight}>지금은</Text>
-                    <Text style = {styles.text_body_highlight}>{name}</Text>
+                    <Text style = {styles.text_body_highlight}>{lecturenow.name}</Text>
                     <Text style = {styles.text_body}>수업중</Text>
                 </View>
                 ) 
@@ -65,6 +69,8 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
     }
 
     const toHours = () => {
+        const start = calculateTime(lecturenow.Time[0],lecturenow.Time[1]);
+        const time_before_start = start - timenow;
         if( time_before_start> 60) {
            const hour = (time_before_start - (time_before_start%60))/60;
            const minute =time_before_start % 60;
@@ -78,6 +84,8 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
            return hourmin
         }
     }
+    const calculateTime = (hour, min) => {
+        return(Number(hour) * 60 + Number(min));}
 
     
     const onPress = () => {
@@ -86,6 +94,8 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
     }
     
     //#############return for mainblock###################
+    
+    //else
     return(
         <View style = {styles.mainBlock} >
             {setMessage()}
@@ -134,7 +144,7 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
                 source={require('../../../assets/images/animal2.png')}
                 resizeMode="contain"
             />
-            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {name}/>}
+            </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {lecturenow.name}/>}
         </View>)
 }
 

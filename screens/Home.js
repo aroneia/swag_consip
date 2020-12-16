@@ -209,7 +209,13 @@ const Home = ({navigation}) => {
           <Text style = {styles.text_title}>NOW</Text>
       </View>
       <View style = {styles.mainBlock}>
-        <MainBlock progress = {progress} status = {status} name = {loading == true ? "loading" : currentlecture.name} setInfoStamp = {setInfoStamp}/>
+        <MainBlock loading ={loading} 
+        progress = {progress} 
+        status = {status} 
+        lecturenow = {loading == true ? "loading" : currentlecture} 
+        setInfoStamp = {setInfoStamp}
+        timenow = {now}
+        />
       </View>
     </View>
 
