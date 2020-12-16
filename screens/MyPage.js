@@ -4,7 +4,9 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 const MyPage = () => {
     return(
         <View style = {styles.container}>
-        <Text style = {styles.title}>SWAG</Text>
+        <View style = {styles.swag}>
+                <Text style= {styles.swagtext}>SWAG</Text>
+        </View>
         <View style = {{
             flex : 3,
             justifyContent: "center",
@@ -46,7 +48,7 @@ const MyPage = () => {
         borderTopWidth : 1,
         borderTopColor : "#D9DBE9",
         flex : 1}}>
-            <View style= { {flexDirection:"row",justifyContent:"space-between"} }> 
+            <View style= { {flexDirection:"row",justifyContent:"space-between",flex:3} }> 
             <Text style = {styles.text}>앱 버전</Text>
             <Text style = {styles.text}>ver. 1.0 (20201214)</Text>
             </View>
@@ -69,13 +71,17 @@ const styles = StyleSheet.create(
             justifyContent : 'center',
             backgroundColor: '#F7F7FC'
         },
-        title:{
-            top : 80,
-            fontSize: 17,
-            color: '#4F4F4F',
-            alignSelf:'center',
-            fontFamily : 'NanumSquareEB',
+        swag : { 
+          marginTop : 45.25,
+          flex: 0.3,
+          justifyContent : "center",
         },
+        swagtext:{
+            fontFamily: "NanumSquareEB",
+            fontStyle: "normal",
+            fontSize: 17,
+            textAlign: "center",
+          },
         text : {
             marginTop: 20,
             marginBottom: 20,

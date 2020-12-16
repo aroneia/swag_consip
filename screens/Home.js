@@ -174,7 +174,7 @@ const Home = ({navigation}) => {
       </View>
      <View style = {{flex :0.5,flexDirection: "row", justifyContent : 'center'}}>
       <View style = {{flex :1, alignItems : 'flex-start', justifyContent : 'flex-end'}}>
-  <Text style = {styles.welcomeText}>안녕하세요 일소님!</Text>
+      <Text style = {styles.welcomeText}>안녕하세요 일소님!</Text>
       </View>
       <View style = {{flex :1, alignItems : 'flex-end', justifyContent : 'center'}}>
         <TouchableOpacity

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Calendar} from 'react-native-calendars';
-import * as datesdata from '../json/dates.json' 
-import ProgressBar from 'react-native-progress/Bar'
+import * as datesdata from '../json/dates.json';
+import ProgressBar from 'react-native-progress/Bar';
 
 SWAG_PURPLE = '#552DEC';
 LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
@@ -10,6 +10,8 @@ const SQUARESIZE = 48
 let DAYHEIGHT = 0
 let MARGINTOP = SQUARESIZE - DAYHEIGHT;
 let comboCount = 0;
+
+
 
 
 const getYearMonth = (date) =>{
@@ -100,7 +102,7 @@ const Report = ({navigation}) => {
                 <TouchableOpacity
                     style = {{flex:1, justifyContent : 'center',}}
                     title="to Lecture"
-                    onPress={() => navigation.navigate('LectureMode')}
+                    onPress={() => navigation.navigate('LectureMode',{ transition: 'fade' })}
                 >
                     <Text style ={styles.textDark}>강의모드</Text>
                 </TouchableOpacity>
