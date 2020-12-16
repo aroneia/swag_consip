@@ -35,7 +35,6 @@ function checktoday(){
     for(let i=0;i<len;i++){
 
         for(var j=0;j< Object.keys(data.lectureList[i].days).length;j++){
-            console.log(data.lectureList[i].days[j]);
              if(todayday == data.lectureList[i].days[j]){
                  console.log("오늘에 있네요~");
                  todayleclist.push(data.lectureList[i].name);
@@ -62,17 +61,24 @@ function read_lectime(){
             console.log(data.lectureList[i].days[j]);
              if(todayday == data.lectureList[i].days[j]){
                 time=data.lectureList[i].Time;
+                //console.log("여기여기"+ data.lectureList[i].Time[0]);
                 todaylectimelist.push(time);
              }
         }
         
     }
-
-    
     return todaylectimelist;    
 }
+
 const lecttimelist = read_lectime();
-console.log("오늘의 강의 시간들은: "+lecttimelist);
+console.log("오늘의 강의 시간들은: "+lecttimelist[0]);
+
+lecttimelist.sort(function(a, b) { // 오름차순
+    return a[0] < b[0]  ? -1 : a[0]  > b[0]  ? 1 : 0;
+});
+
+
+
 
 const Block = () => {
 
