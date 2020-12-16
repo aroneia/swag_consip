@@ -159,8 +159,6 @@ function cal_wan(){
 
 function show_nowpic(idx){
 
-    var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
         
     //if(lastsch>realtoday){  //현재 강의
         return( <Image style={{alignSelf:"center", top: -13}} source={require('../assets/icons/now_lec.png')} ></Image>);
@@ -171,18 +169,17 @@ function show_nowpic(idx){
 function show_lastpic(idx){
 
 
-    var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
-        
-    if(lastsch<realtoday){  //지난 강의
-        var t = lecturedata.lectureList[idx].total_num;
-        var n = lecturedata.lectureList[idx].now_num;
-
+   
+    //if(lastsch<realtoday){  //지난 강의
+        var t = lastleclist[idx].total_num;
+        var n = lastleclist[idx].now_num;
+        console.log("t: "+t);
+        console.log("n: "+n);
         if(t==n){   //완료했다면 완료강의 표시
-            return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/fin_lec.png')} ></Image>);
+            return(<Image style={{alignSelf:"center", top:-13}} source={require('../assets/icons/fin_lec.png')} ></Image>);
         }
-        return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/last_lec.png')} ></Image> );
-    }
+        return(<Image style={{alignSelf:"center", top:-13}} source={require('../assets/icons/last_lec.png')} ></Image> );
+    //}
 
 }
 
@@ -198,6 +195,8 @@ const nowindexlist = makeindexlist(Object.keys(nowleclist).length);
 const lastindexlist = makeindexlist(Object.keys(lastleclist).length);
 console.log("현재 인덱스리스트 길이:"+Object.keys(nowindexlist).length);
 console.log("과거 인덱스리스트 길이:"+Object.keys(lastindexlist).length);
+console.log("lastindexlist[index]값"+lastindexlist[0]);
+console.log("lastindexlist[index]값"+lastindexlist[1]);
 
 
 const LectureMode = ({navigation}) => {
@@ -210,9 +209,7 @@ const LectureMode = ({navigation}) => {
     return(
         <View style = {styles.container}>
 
-            <View style = {styles.swag}>
-                <Text style= {styles.swagtext}>SWAG</Text>
-            </View>
+            <Text style = {styles.title}>SWAG</Text>
             
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity
@@ -228,7 +225,7 @@ const LectureMode = ({navigation}) => {
                 </View>
             </View>
 
-            <View style={{flexDirection:'row',justifyContent:'center',flex: 1}}>
+            <View style={{flexDirection:'row',justifyContent:'center'}}>
                     <View style={styles.miniblock}>
                         <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/now_lec.png')} ></Image>
                         <Text style={styles.minibtitle}>현재강의</Text>
@@ -252,8 +249,10 @@ const LectureMode = ({navigation}) => {
             </View>
 
             <View style = {styles.shadow}></View>
-            <View style = {{flex: 7.5}}>
-            <ScrollView style = {{flex: 7.5}}>
+
+        
+
+            <ScrollView style = {{flex: 8}}>
 
                 <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
             <View style={{flexDirection:'row'}}>
@@ -300,7 +299,6 @@ const LectureMode = ({navigation}) => {
                     style={styles.lecturecard} 
                     onPress={()=>{navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}}
                     >
-                    
                     {show_lastpic(lastindexlist[index])}
                     <Text style={styles.lecturename} > {item}</Text>
                     <View style = {{flex:1,justifyContent:"flex-end"}}>
@@ -324,7 +322,6 @@ const LectureMode = ({navigation}) => {
             numColumns={3}/>
             </View>
             </ScrollView>
-            </View>
         </View>
         
         
@@ -339,18 +336,8 @@ const styles = StyleSheet.create(
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
             paddingHorizontal : 15,
+            paddingTop : 80,
         },
-        swag : { 
-          marginTop : 61,
-          flex: 0.3,
-          justifyContent : "center",
-        },
-        swagtext:{
-            fontFamily: "NanumSquareEB",
-            fontStyle: "normal",
-            fontSize: 17,
-            textAlign: "center",
-          },
         miniblock:{
             backgroundColor:'white', 
             width: 58, 
@@ -410,15 +397,16 @@ const styles = StyleSheet.create(
             backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
             borderRadius : 30,
+            marginLeft: 80
         },
         buttonContainer : {
             height : 25,
             flexDirection: 'row', 
             justifyContent : 'center',
             borderRadius : 30,
-            marginTop: 15,
+            marginTop: 30,
             marginBottom :20,
-            marginHorizontal :100,
+            marginHorizontal :20,
         },
         lecturecard:{
             backgroundColor: '#ffffff',
