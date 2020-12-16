@@ -379,7 +379,7 @@ export const InsertModal = ({ parentCallback }) => {
                                  placeholder="30"
                                  placeholderTextColor="#A0A3BD"
                                  onChangeText={(lecturecount) => setlecturecount(lecturecount)}
-                                 value={lecturecount.toString()} 
+                                 value={String(lecturecount)} 
                                  /> 
                            <TouchableOpacity
                               style = {[styles.textinput, {flex:1}]}

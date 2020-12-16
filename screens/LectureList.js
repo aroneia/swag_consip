@@ -1,6 +1,5 @@
 import React from 'react';
-import {View, Text,Image,FlatList, StyleSheet,TouchableOpacity} from 'react-native';
-import CardView from 'react-native-cardview'
+import {View, Text,Image,FlatList, StyleSheet,ScrollView,TouchableOpacity} from 'react-native';
 import ProgressCircle from 'react-native-progress-circle'
 import lecturedata from './../json/lecture';
  
@@ -134,7 +133,6 @@ function cal_wan(){
 
     //지난강의인데 완료못함 > 지난강의
     //지난강의인데 완료함 > 완료강의
-
     
     // 강의가 완료되었는지 여부 체크 
     for(var i=0;i<len;i++){
@@ -160,7 +158,7 @@ function show_nowpic(idx){
     var lastsch = lecturedata.lectureList[idx].schedule[schlen-1];
         
     //if(lastsch>realtoday){  //현재 강의
-        return( <Image style={{left:34, top:-25}} source={require('../assets/icons/now_lec.png')} ></Image>);
+        return( <Image style={{alignSelf:"center", top: -13}} source={require('../assets/icons/now_lec.png')} ></Image>);
     //}
 
 }
@@ -176,9 +174,9 @@ function show_lastpic(idx){
         var n = lecturedata.lectureList[idx].now_num;
 
         if(t==n){   //완료했다면 완료강의 표시
-            return(<Image style={{left:34, top:-25}} source={require('../assets/icons/fin_lec.png')} ></Image>);
+            return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/fin_lec.png')} ></Image>);
         }
-        return(<Image style={{left:34, top:-25}} source={require('../assets/icons/last_lec.png')} ></Image> );
+        return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/last_lec.png')} ></Image> );
     }
 
 }
@@ -202,11 +200,10 @@ const LectureMode = ({navigation}) => {
 
 
     return(
-        <View style= {{backgroundColor : "#F7F7FC", flex :1}}>
         <View style = {styles.container}>
+
             <Text style = {styles.title}>SWAG</Text>
-
-
+            
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity
                     style = {{flex:1, justifyContent : 'center'}}
@@ -219,104 +216,87 @@ const LectureMode = ({navigation}) => {
                 <View style ={styles.buttonClicked}>
                     <Text style ={styles.text}>강의모드</Text>
                 </View>
-    
             </View>
-            <View style={styles.minicontainer}>
-                <View style={{backgroundColor:'white', width:68, height:90, borderRadius:16, marginLeft:51, marginRight:5, marginTop:5}}>
-                    <Image style={{ left:21}} source={require('../assets/icons/now_lec.png')} ></Image>
-                    <Text style={{top:10, fontSize:15, textAlign:'center'}}>현재강의 </Text>
-                    <Text style={{top:15,textAlign:'center', fontSize:20, fontFamily : 'NanumSquareB'}}>{totallen-last} </Text>                
-                </View>
-                <View style={{backgroundColor:'white', width:68, height:90, borderRadius:16, margin:5}}>
-                    <Image style={{ left:21}} source={require('../assets/icons/last_lec.png')} ></Image>
-                    <Text style={{top:10, fontSize:15, textAlign:'center'}}> 지난강의 </Text> 
-                    <Text style={{top:15,textAlign:'center', fontSize:20, fontFamily : 'NanumSquareB'}}>{last} </Text>          
-                </View>
-                <View style={{backgroundColor:'white', width:68, height:90, borderRadius:16, margin:5}}>
-                    <Image style={{ left:21}} source={require('../assets/icons/fin_lec.png')} ></Image>
-                    <Text style={{top:10, fontSize:15, textAlign:'center'}}> 완료강의</Text>             
-                    <Text style={{top:15,textAlign:'center', fontSize:20, fontFamily : 'NanumSquareB'}}>{wan} </Text>          
-                </View>
-                <View style={{backgroundColor:'white', width:68, height:90, borderRadius:16, margin:5}}>
-                    <Image style={{ left:21}} source={require('../assets/icons/all_lec.png')} ></Image>
-                    <Text style={{top:10, fontSize:15, textAlign:'center'}}> 전체강의 </Text>    
-                    <Text style={{top:15,textAlign:'center', fontSize:20, fontFamily : 'NanumSquareB'}}>{totallen} </Text>          
-                </View>
+
+            <View style={{flexDirection:'row',justifyContent:'center'}}>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/now_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>현재강의</Text>
+                        <Text style={styles.minibcount}>{totallen-last} </Text>                
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch",top : -1.4}} source={require('../assets/icons/last_lec.png')} ></Image>
+                        <Text style={[styles.minibtitle,{top:0}]}>지난강의</Text> 
+                        <Text style={[styles.minibcount,{top:9}]}>{last} </Text>          
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/fin_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>완료강의</Text>             
+                        <Text style={styles.minibcount}>{wan} </Text>          
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/all_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>전체강의</Text>    
+                        <Text style={styles.minibcount}>{totallen} </Text>          
+                    </View>
             </View>
+
+            <View style = {styles.shadow}></View>
+
+            <ScrollView style = {{flex: 7.5}}>
+
+                <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
+            
+            <View style={{flexDirection:'row'}}>
+                <FlatList
+                    numColumns={3}
+                    data={nowleclist}
+                    renderItem={({ item, index}) => (
+                    <TouchableOpacity
+                        style={styles.lecturecard} 
+                        onPress={()=>{ navigation.navigate('Lecturedetail',{id:item, perc:nowperlist[index]});}}
+                        >
+                        {show_nowpic(indexlist[index])}
+                        <Text style={styles.lecturename} > {item}</Text>
+                        <View style = {{flex:1,justifyContent:"flex-end"}}>
+                        <ProgressCircle
+                                percent={nowperlist[index]}
+                                radius={45}
+                                borderWidth={8}
+                                color="#552DEC"
+                                shadowColor="#D9DBE9"
+                                bgColor="#fff"
+                        >
+                        <Text style={{ fontSize: 18 }}>{nowperlist[index]+'%'}</Text>
+                        </ProgressCircle>
+                        <View style = {{height:10}}></View>
+                        </View> 
+                        
+                    </TouchableOpacity>
+                )}
+                keyExtractor={(game) => game.id}
+                numColumns={3}/>
+            </View>
+
 
             <View style={{backgroundColor:'#F7F7FC'}}>
-                <Text style={{fontSize:18, fontFamily:'NanumSquareB', marginLeft:20, marginBottom:5, marginTop:10}}>현재 강의</Text>
-                
-            </View>
-           
-            <View style={styles.back}>
-            <FlatList
-                data={nowleclist}
-                renderItem={({ item, index}) => (
-                    <View
-                    style={{
-                            backgroundColor: '#ffffff',
-                            padding:10,
-                            margin:10,
-                            width:110,
-                            height:162,
-                            borderRadius:16,
-                        }}  
-                        cardElevation={2}
-                        cardMaxElevation={2}
-                        cornerRadius={16}>
-                    
-                    {show_nowpic(indexlist[index])}
-                    <Text style={{marginTop:-15, fontSize:15, paddingBottom:15,textAlign:'center'}} onPress={()=>{
-                                navigation.navigate('Lecturedetail',{id:item, perc:nowperlist[index]});}
-                            }> {item}</Text>
-                    <ProgressCircle
-                            
-                            percent={nowperlist[index]}
-                            radius={45}
-                            borderWidth={8}
-                            color="#552DEC"
-                            shadowColor="#D9DBE9"
-                            bgColor="#fff"
-                    >
-
-                    <Text style={{ fontSize: 18 }}>{nowperlist[index]+'%'}</Text>
-                    </ProgressCircle> 
-                    
-                </View>
-            )}
-            keyExtractor={(game) => game.id}
-            numColumns={3}/>
+                <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>지난 강의</Text>
             </View>
 
-            <View style={{backgroundColor:'#F7F7FC'}}>
-                <Text style={{fontSize:18, fontFamily:'NanumSquareB', marginLeft:20, marginBottom:5, marginTop:10}}>지난 강의</Text>
-            </View>
-            <View style={styles.back}>
-
+            <View style={{flexDirection:'row'}}>
             <FlatList
                 data={lastleclist}
                 renderItem={({ item, index}) => (
-                    <View
-                    style={{
-                            backgroundColor: '#ffffff',
-                            padding:10,
-                            margin:10,
-                            width:110,
-                            height:162,
-                            borderRadius:16,
-                            
-                        }}  
-                        cardElevation={2}
-                        cardMaxElevation={2}
-                        cornerRadius={16}>
+                    <TouchableOpacity
+                    style={styles.lecturecard} 
+                    onPress={()=>{navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}}
+                    >
                     
                     {show_lastpic(indexlist[index])}
-                    <Text style={{marginTop:-15, fontSize:15, paddingBottom:15,textAlign:'center'}} onPress={()=>{
-                                navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}
-                            }> {item}</Text>
+                    <Text style={styles.lecturename} > {item}</Text>
+                    <View style = {{flex:1,justifyContent:"flex-end"}}>
+
                     <ProgressCircle
-                            
                             percent={lastperlist[index]}
                             radius={45}
                             borderWidth={8}
@@ -327,15 +307,16 @@ const LectureMode = ({navigation}) => {
 
                     <Text style={{ fontSize: 18 }}>{lastperlist[index]+'%'}</Text>
                     </ProgressCircle> 
-                    
-                </View>
+                    <View style = {{height:10}}></View>
+                    </View>
+                    </TouchableOpacity>
             )}
             keyExtractor={(game) => game.id}
             numColumns={3}/>
             </View>
+            </ScrollView>
         </View>
         
-        </View>
         
     );
 }
@@ -347,12 +328,42 @@ const styles = StyleSheet.create(
             flex : 1,
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
+            paddingHorizontal : 15,
             paddingTop : 80,
-            marginHorizontal : 15,
-            marginBottom : 15
         },
-        minicontainer:{
-            flexDirection:'row'
+        miniblock:{
+            backgroundColor:'white', 
+            width: 58, 
+            height:80, 
+            borderRadius:16, 
+            marginHorizontal :6,
+            alignItems : 'center',
+        },
+        minibtitle:{
+            top:3, 
+            fontSize:11,
+            fontFamily : 'NanumSquareR',
+            color:"#4E4B66",
+            textAlign:'center'
+        },
+        minibcount:{
+            top:12,
+            textAlign:'center', 
+            fontSize:18, 
+            color:"#4E4B66",
+            fontFamily : 'NanumSquareEB'
+        },
+        shadow :{
+            height:25,
+            marginHorizontal : -16,
+            backgroundColor:'#F7F7FC',
+            borderBottomWidth:1,
+            borderColor:"#D9DBE9",
+            shadowColor: '#000',
+            shadowOffset: { width:0, height: 4 },
+            shadowOpacity: 0.15,
+            shadowRadius: 2,
+            elevation: 1,
         },
         title:{
             position: 'absolute',
@@ -389,13 +400,28 @@ const styles = StyleSheet.create(
             marginTop: 30,
             marginBottom :20,
             marginHorizontal :20,
-            
         },
-        back:{
-            flex:7.5,
-            backgroundColor : '#F7F7FC',
-            flexDirection:'row'
+        lecturecard:{
+            backgroundColor: '#ffffff',
+            alignItems : "center",
+            marginTop:17,
+            marginHorizontal:5,
+            width: "30%",
+            height:165,
+            borderRadius:16,
+            borderColor : "#D9DBE9",
+            borderWidth:1,
         },
+        lecturename:{
+            marginTop:-5,
+            fontSize:14, 
+            fontFamily:'NanumSquareEB', 
+            color : "#4E4B66", 
+            paddingHorizontal:10,
+            paddingBottom:15,
+            textAlign:'center'
+        }
+        ,
         content:{
             flex:1,
             fontFamily : 'NanumSquareB',
