@@ -96,7 +96,7 @@ const Report = ({navigation}) => {
                 <Text style ={styles.text}>캘린더모드</Text>
             </View>
             <TouchableOpacity
-                style = {{flex:1, justifyContent : 'center',  marginRight: 80}}
+                style = {{flex:1, justifyContent : 'center',}}
                 title="to Lecture"
                 onPress={() => navigation.navigate('LectureMode')}
             >
@@ -134,7 +134,7 @@ const Report = ({navigation}) => {
                
                 <Text style ={{
                     position : 'absolute',
-                    //color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
+                    color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
                     marginTop: Platform.OS === 'android' ? 4 : 14,
                     marginBottom: Platform.OS === 'android' ? 4 : 'auto',
                     fontFamily : 'NanumSquareB'
@@ -255,7 +255,7 @@ const styles = StyleSheet.create(
             backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
             borderRadius : 30,
-            marginLeft: 80
+            marginHorizontal: 10,
         },
         buttonContainer : {
             height : 25,
