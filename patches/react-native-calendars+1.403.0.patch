@@ -1,3 +1,15 @@
+diff --git a/node_modules/react-native-calendars/src/calendar/day/basic/index.js b/node_modules/react-native-calendars/src/calendar/day/basic/index.js
+index 5e50ce4..fbf31ca 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/basic/index.js
++++ b/node_modules/react-native-calendars/src/calendar/day/basic/index.js
+@@ -103,6 +103,7 @@ class Day extends Component {
+         accessibilityLabel={this.props.accessibilityLabel}
+       >
+         <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
++        <Text>ssss</Text>
+         <Dot
+           theme={theme}
+           isMarked={marked}
 diff --git a/node_modules/react-native-calendars/src/calendar/day/basic/style.js b/node_modules/react-native-calendars/src/calendar/day/basic/style.js
 index 14dae05..db82b93 100644
 --- a/node_modules/react-native-calendars/src/calendar/day/basic/style.js
@@ -12,9 +24,16 @@ index 14dae05..db82b93 100644
      today: {
        backgroundColor: appStyle.todayBackgroundColor,
 diff --git a/node_modules/react-native-calendars/src/calendar/day/custom/index.js b/node_modules/react-native-calendars/src/calendar/day/custom/index.js
-index bf62de7..fe99375 100644
+index bf62de7..6eeb1c6 100644
 --- a/node_modules/react-native-calendars/src/calendar/day/custom/index.js
 +++ b/node_modules/react-native-calendars/src/calendar/day/custom/index.js
+@@ -1,5 +1,5 @@
+ import React, {Component} from 'react';
+-import {TouchableOpacity, Text} from 'react-native';
++import {TouchableOpacity, Text, View} from 'react-native';
+ import PropTypes from 'prop-types';
+ 
+ import styleConstructor from './style';
 @@ -11,6 +11,7 @@ class Day extends Component {
    
    static propTypes = {
@@ -23,7 +42,15 @@ index bf62de7..fe99375 100644
      state: PropTypes.oneOf(['selected', 'disabled', 'today', '']),
      // Specify theme properties to override specific styles for calendar parts. Default = {}
      theme: PropTypes.object,
-@@ -67,7 +68,7 @@ class Day extends Component {
+@@ -24,7 +25,6 @@ class Day extends Component {
+     super(props);
+ 
+     this.style = styleConstructor(props.theme);
+-
+     this.onDayPress = this.onDayPress.bind(this);
+     this.onDayLongPress = this.onDayLongPress.bind(this);
+   }
+@@ -67,7 +67,7 @@ class Day extends Component {
        const styles = marking.customStyles;
        if (styles.container) {
          if (styles.container.borderRadius === undefined) {
@@ -32,11 +59,42 @@ index bf62de7..fe99375 100644
          }
          containerStyle.push(styles.container);
        }
+@@ -75,11 +75,16 @@ class Day extends Component {
+         textStyle.push(styles.text);
+       }
+     }
++    //CHANGE HERE --> DAY DESIGN
++    //하루의 성취도 따라 색칠이 표시되도록 하는 코드 짜기
+   
++    //setHeight
++    /*json 불러와서 거기 프로세스 값을 day height으로*/
+     return (
++      <View style = {containerStyle}>
++    
+       <TouchableOpacity
+         testID={this.props.testID}
+-        style={containerStyle}
+         onPress={this.onDayPress}
+         onLongPress={this.onDayLongPress}
+         activeOpacity={marking.activeOpacity}
+@@ -87,8 +92,11 @@ class Day extends Component {
+         accessibilityRole={isDisabled ? undefined : 'button'}
+         accessibilityLabel={this.props.accessibilityLabel}
+       >
+-        <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
++
+       </TouchableOpacity>
++      <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
++      <Text>{console.log(this.props.children)}</Text>
++      </View>
+     );
+   }
+ }
 diff --git a/node_modules/react-native-calendars/src/calendar/day/custom/style.js b/node_modules/react-native-calendars/src/calendar/day/custom/style.js
-index 92bfe7b..f71e3b9 100644
+index 92bfe7b..6bbaf02 100644
 --- a/node_modules/react-native-calendars/src/calendar/day/custom/style.js
 +++ b/node_modules/react-native-calendars/src/calendar/day/custom/style.js
-@@ -7,12 +7,15 @@ export default function styleConstructor(theme={}) {
+@@ -7,27 +7,33 @@ export default function styleConstructor(theme={}) {
    const appStyle = {...defaultStyle, ...theme};
    return StyleSheet.create({
      base: {
@@ -56,8 +114,10 @@ index 92bfe7b..f71e3b9 100644
        fontSize: appStyle.textDayFontSize,
        fontFamily: appStyle.textDayFontFamily,
        fontWeight: appStyle.textDayFontWeight,
-@@ -20,14 +23,16 @@ export default function styleConstructor(theme={}) {
-       backgroundColor: 'rgba(255, 255, 255, 0)'
+       color: appStyle.dayTextColor,
+-      backgroundColor: 'rgba(255, 255, 255, 0)'
++      backgroundColor: 'rgba(255, 255, 255, 0)',
++      position : 'absolute'
      },
      alignedText: {
 -      marginTop: Platform.OS === 'android' ? 4 : 6
@@ -76,7 +136,7 @@ index 92bfe7b..f71e3b9 100644
      },
      todayText: {
        color: appStyle.todayTextColor
-@@ -35,6 +40,7 @@ export default function styleConstructor(theme={}) {
+@@ -35,6 +41,7 @@ export default function styleConstructor(theme={}) {
      selectedText: {
        color: appStyle.selectedDayTextColor
      },
@@ -120,10 +180,10 @@ index dd77e90..4d5ac1a 100644
            <View style={this.style.week}>
              {this.props.weekNumbers &&
 diff --git a/node_modules/react-native-calendars/src/calendar/header/style.js b/node_modules/react-native-calendars/src/calendar/header/style.js
-index 61cb68f..97131de 100644
+index 61cb68f..dc435f4 100644
 --- a/node_modules/react-native-calendars/src/calendar/header/style.js
 +++ b/node_modules/react-native-calendars/src/calendar/header/style.js
-@@ -14,6 +14,21 @@ export default function(theme={}) {
+@@ -14,6 +14,22 @@ export default function(theme={}) {
        marginTop: 6,
        alignItems: 'center'
      },
@@ -137,10 +197,11 @@ index 61cb68f..97131de 100644
 +      marginRight : 3,
 +    },
 +    textLight:{
-+      fontFamily : 'NanumSquareL',
-+      fontSize : 14,
-+      color:'#5235BB',
++      fontFamily : 'NanumSquareR',
++      fontSize : 15,
++      color:'#14142A',
 +      textAlign: 'center' 
++      
 +    },
      headerContainer: {
        flexDirection: 'row'
@@ -158,22 +219,21 @@ index 92d5bd5..27e2307 100644
        </GestureComponent>
      );
 diff --git a/node_modules/react-native-calendars/src/calendar/style.js b/node_modules/react-native-calendars/src/calendar/style.js
-index 358f5b4..f0751dc 100644
+index 358f5b4..7bde2bf 100644
 --- a/node_modules/react-native-calendars/src/calendar/style.js
 +++ b/node_modules/react-native-calendars/src/calendar/style.js
-@@ -7,18 +7,27 @@ export default function getStyle(theme={}) {
+@@ -7,18 +7,26 @@ export default function getStyle(theme={}) {
    const appStyle = {...defaultStyle, ...theme};
    return StyleSheet.create({
      container: {
 -      paddingLeft: 5,
 -      paddingRight: 5,
-+      marginLeft :20,
-+      marginRight :20,
++      marginLeft :0,
++      marginRight :0,
        backgroundColor: appStyle.calendarBackground
      },
      monthView: {
--      backgroundColor: appStyle.calendarBackground
-+      backgroundColor: appStyle.calendarBackground,
+       backgroundColor: appStyle.calendarBackground
 +      //borderColor: '#5235BB',
 +      //borderWidth: 1
 +    },
@@ -182,8 +242,7 @@ index 358f5b4..f0751dc 100644
 +      borderBottomWidth: 2,
 +      marginTop : 0,
 +      marginBottom : 10,
-+      marginLeft : 3,
-+      marginRight : 3,
++     
      },
      week: {
 -      marginTop: 7,
@@ -195,3 +254,13 @@ index 358f5b4..f0751dc 100644
      },
      ...(theme[STYLESHEET_ID] || {})
    });
+diff --git a/node_modules/react-native-calendars/src/style.js b/node_modules/react-native-calendars/src/style.js
+index a1db8eb..0bd5de6 100644
+--- a/node_modules/react-native-calendars/src/style.js
++++ b/node_modules/react-native-calendars/src/style.js
+@@ -1,4 +1,4 @@
+-export const foregroundColor = 'white';
++export const foregroundColor = '#F7F7FC';//default wa white
+ export const backgroundColor = '#f2F4f5'; // Agenda's reservations bg color
+ 
+ export const separatorColor = '#f2F4f5'; // not in use

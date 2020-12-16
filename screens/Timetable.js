@@ -29,7 +29,6 @@ const Timetable = () => {
     const [list,setlist] = useState(tbl_map());
 
     const refresh =(text) => {
-        console.log(text);
         setlist(tbl_map());
     }
 
