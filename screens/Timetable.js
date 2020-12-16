@@ -34,9 +34,11 @@ const Timetable = () => {
 
     return(
         <View style = {styles.container}>
+            <View style = {styles.swag}>
+                <Text style= {styles.swagtext}>SWAG</Text>
+            </View>
 
-                <Text style = {styles.title}>SWAG</Text>
-                <Text style = {styles.subtitle}>시간표</Text>
+            <Text style = {styles.subtitle}>시간표</Text>
 
 
             <View style = {styles.timetable}>
@@ -71,18 +73,22 @@ const styles = StyleSheet.create(
             justifyContent : 'center',
             backgroundColor:'#F7F7FC'
         },
-        title:{
-            flex: 2,
-            top : 80,
+        swag : { 
+             marginTop : 55.5,
+             flex: 0.3,
+            justifyContent : "center",
+            },
+        swagtext:{
+            fontFamily: "NanumSquareEB",
+            fontStyle: "normal",
             fontSize: 17,
-            color: '#4F4F4F',
-            alignSelf:'center',
-            fontFamily : 'NanumSquareEB',
+            textAlign: "center",
         },
         subtitle:{
+            flex: 0.2,
             fontSize: 17,
             color: '#14142A',
-            marginLeft :16,       
+            marginLeft :18,       
             marginBottom:16,     
             fontFamily : 'NanumSquareEB',
         },
@@ -90,10 +96,10 @@ const styles = StyleSheet.create(
             backgroundColor: 'rgba(255,255,255,1.0)',
         },
         timetable:{
-            flex: 11,
+            flex: 6,
             marginLeft :16,
             marginRight :16,
-            marginBottom:24,
+            marginBottom:16,
             borderRadius:16,
             backgroundColor : '#ffffff',
             borderColor:"#D9DBE9",
