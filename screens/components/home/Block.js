@@ -80,10 +80,32 @@ lecttimelist.sort(function(a, b) { // 오름차순
 
 
 
-const Block = () => {
+const Block = ({stampStatus}) => {
+
+    const stampImage = (lectname) =>{
+         //도장의 상태 before, late, absent, good 
+         console.log("------------------stamp----->",stampStatus);
+        if(stampStatus == "before"){
+            return require('../../../assets/icons/stampBefore.png')
+        }else{
+            const lects = data.lectureList;
+            for(let index =0; index <lects.length; index++){
+              if(lects[index].name == lectname){
+                const stamps = lects[index].stamp
+                console.log("stamp value of" + lectname + " is " + stamps[stamps.length -1])
+                //stamp 값이 1 -> good 
+                if(stamps[stamps.length-1] == 1){return require('../../../assets/icons/stampGood.png')}
+                else if(stamps[stamps.length-1] == 0){return require('../../../assets/icons/stampLate.png')}
+                else return require('../../../assets/icons/stampBefore.png');
+                }
+            }
+        }
+    }
+
 
     
     const lectname = checktoday();
+
     const show_name = () => {
         return test.map((el,i) => 
 
@@ -94,7 +116,7 @@ const Block = () => {
             <View style = {{flex:1, alignItems : 'center', justifyContent: 'center'}}>
             <Image
                     style ={styles.stamp}
-                    source={require('../../../assets/icons/circleButtonOff.png')}
+                    source={stampImage(lectname[i])}
                     resizeMode = "contain"
                     >
                 </Image>
@@ -125,7 +147,7 @@ const styles = StyleSheet.create({
     container :{
         width: 123,
         aspectRatio: 11/15,
-        marginRight : 7,
+        marginRight : 8,
         backgroundColor : '#FFF',
         borderRadius : 16,
         borderWidth :1,
@@ -133,8 +155,8 @@ const styles = StyleSheet.create({
         
     },
     stamp:{
-        width : 66,
-        height : 66,
+        width : 80,
+        height : 80,
         aspectRatio: 1,
     },
     blockImage : {
@@ -144,17 +166,18 @@ const styles = StyleSheet.create({
         //borderRadius: 20
     },
     textname : {
-        fontSize :13,
+        fontSize :15,
         textAlign : "center",
         fontFamily : "NanumSquareEB",
         color : "#4E4B66"
     },
     texttime : {
-        fontSize :17,
+        fontSize :18,
         textAlign : "center",
         fontFamily : "NanumSquareR",
         color : "#4E4B66",
-        marginBottom : 7 
+        marginTop : 7
+    
     }
     
 })
