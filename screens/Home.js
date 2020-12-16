@@ -11,7 +11,8 @@ import data from '../json/lecture.json';
 const Home = ({navigation}) => {
   //const [lectures, setLectures]= useState([]); //lecture.json에서 불러온 오늘 들어야하는 강의리스트 
   //let todaystring = ""; //json을 읽기 위해 20201021 같은 형식의 날짜 
-  const [todaystring, setToday ] = useState("20201215");
+  const [loading, setLoading] = useState(false);
+  const [todaystring, setToday ] = useState("20201216");
   const [date, setDate] = useState("");//홈화면에서 오늘의 날짜를 표시해주기 위한 EX) 2020년 10월 21
   const [now, setNow] = useState(""); //현재 시간
   const [currentlecture, setCurrentlecture] = useState([]); //현재 수강중(또는 곧 수강할) 강의 
@@ -25,7 +26,6 @@ const Home = ({navigation}) => {
 
     const fetchToday = async () => {
       const today = await new Date();
-      
       const currentDate = today.getDate();
       const currentDay = today.getDay();
       const yearnow = today.getFullYear();
@@ -46,17 +46,18 @@ const Home = ({navigation}) => {
 
     const fetchLectureToday = () =>{
       //const data = await require('../json/lecture.json');
+      setLoading(true);
       const lects = data.lectureList;
       //console.log(lects)
       let lecturesToday = [];
       for(let l = 0; l < lects.length; l++){
         for(let i =0; i<lects[l].schedule.length; i++){
-          console.log(todaystring)
+          //console.log(todaystring)
           if(lects[l].schedule[i] === todaystring){
             console.log("schedule");
             console.log("today :" ,todaystring);
             //console.log(lects[l].schedule[i]);
-            console.log(lects[l]);
+            //console.log(lects[l]);
             lecturesToday.push(lects[l]);
           }
         } 
@@ -74,6 +75,7 @@ const Home = ({navigation}) => {
       //setCurrentlecture(filtered[0]);
       
       setCurrentlecture( filtered[0] );
+      setLoading(false);
       //return filtered[0];
     }; 
 
@@ -128,33 +130,37 @@ const Home = ({navigation}) => {
   },[]);
 
   const setInfoStamp = (isPressed) =>{
-    const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
-    const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
 
-    if(isPressed == true && now > start + 10){
-      //10분 이후부터 지각으로 처리
-      setStampStatus("late");
-    }else if(isPressed ==true && now <= start +10){
-      setStampStatus("good");
-    }else if(isPressed == false && now > end - 10){
-      //끝나기 10분전부터 결석처리 
-      setStampStatus("absent");
-    }
+    if(loading){console.log("current lecture not loaded inside setInfoStamp")}
+    else{
+      const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
+      const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
 
-    const lects = data.lectureList;
-    for(let i =0; i <lects.length; i++){
-      if(lects[i].name == currentlecture.name){
-        console.log("------stamp-----inside current lecture");
-        if(stampStatus == "good") {lects[i].stamp.push(1)}
-        if(stampStatus == "late") {lects[i].stamp.push(0)}
-        if(stampStatus == "absent") {lects[i].stamp.push(-1)}
-
+      if(isPressed == true && now > start + 10){
+        //10분 이후부터 지각으로 처리
+        setStampStatus("late");
+      }else if(isPressed ==true && now <= start +10){
+        setStampStatus("good");
+      }else if(isPressed == false && now > end - 10){
+        //끝나기 10분전부터 결석처리 
+        setStampStatus("absent");
       }
+
+      const lects = data.lectureList;
+      for(let i =0; i <lects.length; i++){
+        if(lects[i].name == currentlecture.name){
+          console.log("------stamp-----inside current lecture");
+          if(stampStatus == "good") {lects[i].stamp.push(1)}
+          if(stampStatus == "late") {lects[i].stamp.push(0)}
+          if(stampStatus == "absent") {lects[i].stamp.push(-1)}
+
+        }
+      }
+
+      //lecture list에 stamp 값 넣기
+
+      console.log("setinfostamp-------->", stampStatus);
     }
-
-    //lecture list에 stamp 값 넣기
-
-    console.log("setinfostamp-------->", stampStatus);
   }
   
 
@@ -194,7 +200,7 @@ const Home = ({navigation}) => {
       </View>
       <View style = {{flex : 1.7, marginLeft : 16, justifyContent : 'center'}} >
       <ScrollView horizontal = {true}>
-        <Block stampStatus = {stampStatus} currentname = {currentlecture.name}></Block> 
+        <Block stampStatus = {stampStatus} currentname = {loading == true ? "loading" : currentlecture.name}></Block> 
         <Text onPress={()=>{ navigation.navigate('InsertMemo');}}></Text>
       </ScrollView>
       </View>
@@ -203,7 +209,7 @@ const Home = ({navigation}) => {
           <Text style = {styles.text_title}>NOW</Text>
       </View>
       <View style = {styles.mainBlock}>
-        <MainBlock progress = {progress} status = {status} name = {currentlecture.name} setInfoStamp = {setInfoStamp}/>
+        <MainBlock progress = {progress} status = {status} name = {loading == true ? "loading" : currentlecture.name} setInfoStamp = {setInfoStamp}/>
       </View>
     </View>
 
@@ -242,9 +248,9 @@ const styles = StyleSheet.create({
     marginLeft : 16
   },
   text_title : {
-    fontSize : 17,
+    fontSize : 22,
     fontFamily : 'NanumSquareEB',
-    color : '#4E4B66',
+    color : '#14142A',
     textAlign : 'left',
     marginTop : 'auto',
     marginBottom : 'auto'

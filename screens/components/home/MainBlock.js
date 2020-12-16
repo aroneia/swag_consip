@@ -131,7 +131,7 @@ const MainBlock = ({progress, status, name, setInfoStamp}) => {
             <View style = {{flex: 4, justifyContent : 'center' }}>
             <Image
                 style = {styles.animal}
-                source={require('../../../assets/images/alien1.png')}
+                source={require('../../../assets/images/animal2.png')}
                 resizeMode="contain"
             />
             </View>{visible && <InsertMemo isvisible = {visible} setvisible ={setvisible} lectureName = {name}/>}
@@ -157,26 +157,26 @@ const styles = StyleSheet.create({
     },
     text_body :{
         color : '#5235BB',
-        fontSize : 16,
+        fontSize : 18,
         textAlign: 'center',
         lineHeight: 22
     },
     text_body_highlight :{
         color : '#5235BB',
         fontFamily : 'NanumSquareEB',
-        fontSize : 16,
+        fontSize : 18,
         textAlign: 'center',
         lineHeight: 22
     },
     imageContainerL:{
-        width : 60,
+        width : 70,
         marginLeft : 24,
         aspectRatio : 1,
         alignItems : 'center',
         justifyContent : 'center'
     },
     imageContainerR:{
-        width : 60,
+        width : 70,
         aspectRatio : 1,
         marginRight: 24,
         alignItems : 'center',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     {   textAlign : 'center',
         color : '#6E7191',
         fontFamily : 'NanumSquareB',
-        fontSize : 14
+        fontSize : 15
     },
     buttonTextWhite:
     {   textAlign : 'center',
@@ -198,13 +198,13 @@ const styles = StyleSheet.create({
     progressBar :{
         zIndex :0,
         position: 'absolute',
-        top: 14, left: 0, right: 0, bottom: 0, 
+        top: 18, left: 0, right: 0, bottom: 0, 
         justifyContent: 'center', 
         alignItems: 'center'
     },
     buttonImageEnd: {
-        width : 60,
-        height : 60,
+        width : 70,
+        height : 70,
         aspectRatio :1,
         flex: 1,
         resizeMode : 'contain',
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     },
 
     animal:{
-        height: 101,
+        height: 120,
         width: undefined,
         alignSelf : 'stretch'
         

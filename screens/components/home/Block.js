@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     container :{
         width: 123,
         aspectRatio: 11/15,
-        marginRight : 7,
+        marginRight : 8,
         backgroundColor : '#FFF',
         borderRadius : 16,
         borderWidth :1,
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
         
     },
     stamp:{
-        width : 66,
-        height : 66,
+        width : 80,
+        height : 80,
         aspectRatio: 1,
     },
     blockImage : {
@@ -120,17 +120,18 @@ const styles = StyleSheet.create({
         //borderRadius: 20
     },
     textname : {
-        fontSize :13,
+        fontSize :15,
         textAlign : "center",
         fontFamily : "NanumSquareEB",
         color : "#4E4B66"
     },
     texttime : {
-        fontSize :17,
+        fontSize :18,
         textAlign : "center",
         fontFamily : "NanumSquareR",
         color : "#4E4B66",
-        marginBottom : 7 
+        marginTop : 7
+    
     }
     
 })
