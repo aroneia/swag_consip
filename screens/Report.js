@@ -89,69 +89,70 @@ const Report = ({navigation}) => {
     return(
         <View style= {{backgroundColor : "#F7F7FC", flex :1}}>
         <View style = {styles.container}>
-            <Text style = {styles.title}>SWAG</Text>
-            
+            <View style = {styles.swag}>
+                <Text style= {styles.swagtext}>SWAG</Text>
+            </View>
             <View style = {styles.buttonContainer}>
 
-            <View style ={styles.buttonClicked}>
-                <Text style ={styles.text}>캘린더모드</Text>
-            </View>
-            <TouchableOpacity
-                style = {{flex:1, justifyContent : 'center',}}
-                title="to Lecture"
-                onPress={() => navigation.navigate('LectureMode')}
-            >
-                <Text style ={styles.textDark}>강의모드</Text>
-            </TouchableOpacity>
-
-        </View>
-        <View style ={styles.calendarContainer}>
-        <Calendar
-        hideDayNames ={true}
-        style={{
-            height: 450
-          }}
-        theme={{
-            calendarbackgroundColor: '#F7F7FC',
-            arrowColor: SWAG_PURPLE,
-            monthTextColor: SWAG_PURPLE,
-            dayTextColor: SWAG_PURPLE,
-            indicatorColor: SWAG_PURPLE,
-            textDayFontFamily: 'NanumSquareB',
-            textMonthFontFamily: 'NanumSquareB',
-        }}
-        //monthFormat={'yyyy MM'}
-        renderHeader={(date) => {
-        return(<Text style = {styles.textHeader}>{getYearMonth(date)}</Text>)
-        }}
-        // Date marking style [simple/period/multi-dot/single]. Default = 'simple'
-        markingType={'custom'}
-        dayComponent={({date, state}) => {
-            return (
-              <View style= {{width : 50, height :50, borderWidth :1, borderColor : SWAG_PURPLE, alignItems: 'center',}}>
-                <View style = {{height : colorDay(date), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
-            }}>
+                <View style ={styles.buttonClicked}>
+                    <Text style ={styles.text}>캘린더모드</Text>
                 </View>
-               
-                <Text style ={{
-                    position : 'absolute',
-                    color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
-                    marginTop: Platform.OS === 'android' ? 4 : 14,
-                    marginBottom: Platform.OS === 'android' ? 4 : 'auto',
-                    fontFamily : 'NanumSquareB'
+                <TouchableOpacity
+                    style = {{flex:1, justifyContent : 'center',}}
+                    title="to Lecture"
+                    onPress={() => navigation.navigate('LectureMode')}
+                >
+                    <Text style ={styles.textDark}>강의모드</Text>
+                </TouchableOpacity>
+
+            </View>
+            <View style ={styles.calendarContainer}>
+                <Calendar
+                hideDayNames ={true}
+                style={{
+                    height: 450
+                }}
+                theme={{
+                    calendarbackgroundColor: '#F7F7FC',
+                    arrowColor: SWAG_PURPLE,
+                    monthTextColor: SWAG_PURPLE,
+                    dayTextColor: SWAG_PURPLE,
+                    indicatorColor: SWAG_PURPLE,
+                    textDayFontFamily: 'NanumSquareB',
+                    textMonthFontFamily: 'NanumSquareB',
+                }}
+                //monthFormat={'yyyy MM'}
+                renderHeader={(date) => {
+                return(<Text style = {styles.textHeader}>{getYearMonth(date)}</Text>)
+                }}
+                // Date marking style [simple/period/multi-dot/single]. Default = 'simple'
+                markingType={'custom'}
+                dayComponent={({date, state}) => {
+                    return (
+                    <View style= {{width : 50, height :50, borderWidth :1, borderColor : SWAG_PURPLE, alignItems: 'center',}}>
+                        <View style = {{height : colorDay(date), width:SQUARESIZE, marginTop :MARGINTOP ,backgroundColor : '#B9A2FB',
                     }}>
-                  {date.day}
-                </Text>
-              </View>
-            );
-          }}
-       
-        />
-        </View>
-                <View style ={{flex :0.5, justifyContent : 'flex-end'}}>
+                        </View>
+                    
+                        <Text style ={{
+                            position : 'absolute',
+                            color: state === 'disabled' ? '#D9DBE9' : '#2C01A6',
+                            marginTop: Platform.OS === 'android' ? 4 : 14,
+                            marginBottom: Platform.OS === 'android' ? 4 : 'auto',
+                            fontFamily : 'NanumSquareB'
+                            }}>
+                        {date.day}
+                        </Text>
+                    </View>
+                    );
+                }}
+            
+                />
+            </View>
+            <View style ={{flex :0.5, justifyContent : 'flex-end'}}>
                     <Text style ={styles.monthText} >{month}월의 기록</Text>
-                </View> 
-                <View style = {{flex: 2, flexDirection: 'row', alignItems : 'stretch'}}>
+            </View> 
+            <View style = {{flex: 2, flexDirection: 'row', alignItems : 'stretch'}}>
                     <View style ={{flex:2.5,flexDirection: 'column'}}>
                         <View style ={{flex:2, flexDirection : 'row'}}>
                             <View style ={styles.blockContainer}>
@@ -201,7 +202,7 @@ const Report = ({navigation}) => {
                         style = {styles.animalImage}
                         ></Image>
                     </View>
-                </View>
+            </View>
          
         </View>
         </View>
@@ -216,10 +217,20 @@ const styles = StyleSheet.create(
             flex : 1,
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
-            paddingTop : 80,
             marginHorizontal : 15,
             marginBottom : 15
         },
+        swag : { 
+          marginTop : 61,
+          flex: 0.3,
+          justifyContent : "center",
+        },
+        swagtext:{
+            fontFamily: "NanumSquareEB",
+            fontStyle: "normal",
+            fontSize: 17,
+            textAlign: "center",
+          },
         title:{
             position: 'absolute',
             top : 80,
@@ -229,7 +240,7 @@ const styles = StyleSheet.create(
             fontFamily : 'NanumSquareEB',
         },
         calendarContainer:{
-            flex : 5, 
+            flex : 6, 
             marginBottom :10,
             backgroundColor:'#F7F7FC'
         },
@@ -263,9 +274,9 @@ const styles = StyleSheet.create(
             flexDirection: 'row', 
             justifyContent : 'center',
             borderRadius : 30,
-            marginTop: 30,
+            marginTop: 15,
             marginBottom :20,
-            marginHorizontal :20,
+            marginHorizontal :100,
             
         },
         monthText :{

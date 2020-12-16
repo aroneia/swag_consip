@@ -202,7 +202,9 @@ const LectureMode = ({navigation}) => {
     return(
         <View style = {styles.container}>
 
-            <Text style = {styles.title}>SWAG</Text>
+            <View style = {styles.swag}>
+                <Text style= {styles.swagtext}>SWAG</Text>
+            </View>
             
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity
@@ -218,7 +220,7 @@ const LectureMode = ({navigation}) => {
                 </View>
             </View>
 
-            <View style={{flexDirection:'row',justifyContent:'center'}}>
+            <View style={{flexDirection:'row',justifyContent:'center',flex: 1}}>
                     <View style={styles.miniblock}>
                         <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/now_lec.png')} ></Image>
                         <Text style={styles.minibtitle}>현재강의</Text>
@@ -242,7 +244,7 @@ const LectureMode = ({navigation}) => {
             </View>
 
             <View style = {styles.shadow}></View>
-
+            <View style = {{flex: 7.5}}>
             <ScrollView style = {{flex: 7.5}}>
 
                 <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
@@ -315,6 +317,7 @@ const LectureMode = ({navigation}) => {
             numColumns={3}/>
             </View>
             </ScrollView>
+            </View>
         </View>
         
         
@@ -329,8 +332,18 @@ const styles = StyleSheet.create(
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
             paddingHorizontal : 15,
-            paddingTop : 80,
         },
+        swag : { 
+          marginTop : 61,
+          flex: 0.3,
+          justifyContent : "center",
+        },
+        swagtext:{
+            fontFamily: "NanumSquareEB",
+            fontStyle: "normal",
+            fontSize: 17,
+            textAlign: "center",
+          },
         miniblock:{
             backgroundColor:'white', 
             width: 58, 
@@ -390,16 +403,15 @@ const styles = StyleSheet.create(
             backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
             borderRadius : 30,
-            marginLeft: 80
         },
         buttonContainer : {
             height : 25,
             flexDirection: 'row', 
             justifyContent : 'center',
             borderRadius : 30,
-            marginTop: 30,
+            marginTop: 15,
             marginBottom :20,
-            marginHorizontal :20,
+            marginHorizontal :100,
         },
         lecturecard:{
             backgroundColor: '#ffffff',
