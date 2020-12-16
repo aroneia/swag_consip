@@ -97,7 +97,7 @@ const Report = ({navigation}) => {
                 <Text style ={styles.text}>캘린더모드</Text>
             </View>
             <TouchableOpacity
-                style = {{flex:1, justifyContent : 'center',  marginRight: 80}}
+                style = {{flex:1, justifyContent : 'center',}}
                 title="to Lecture"
                 onPress={() => navigation.navigate('LectureMode')}
             >
@@ -256,7 +256,7 @@ const styles = StyleSheet.create(
             backgroundColor : SWAG_PURPLE,
             justifyContent : 'center',
             borderRadius : 30,
-            marginLeft: 80
+            marginHorizontal: 10,
         },
         buttonContainer : {
             height : 25,

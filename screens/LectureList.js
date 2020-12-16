@@ -1,20 +1,22 @@
 import React from 'react';
-import {View, Text,Button,FlatList, StyleSheet,TouchableOpacity} from 'react-native';
-import CardView from 'react-native-cardview'
+import {View, Text,Image,FlatList, StyleSheet,ScrollView,TouchableOpacity} from 'react-native';
 import ProgressCircle from 'react-native-progress-circle'
 import lecturedata from './../json/lecture';
-
-
+ 
 SWAG_PURPLE = '#552DEC';
 LIGHT_PURPLE = 'rgba(82, 53, 187, 0.09)';
 
+const today =new Date();   
+let year = today.getFullYear(); // 년도
+let month = today.getMonth() + 1;  // 월
+let date = today.getDate();  // 날짜
+const realtoday= year+""+month+""+date;
+
 function read_leclist(){
     var ret = [];
-
-    //console.log(typeof(data));
+    
     console.log('-- lec list print----');
     var len = Object.keys(lecturedata.lectureList).length;
-    //console.log(len);
     for(var i=0;i<len;i++){
         console.log(lecturedata.lectureList[i].name);
         ret.push(lecturedata.lectureList[i].name);
@@ -23,70 +25,185 @@ function read_leclist(){
 
 }
 const list = read_leclist();
-console.log("list 내용물은");
-console.log(list);
 
+function read_nowleclist(){
+    var nowlec = [];
 
-function cal_p(){ 
-    var per = [];
     var len = Object.keys(lecturedata.lectureList).length;
-    console.log(len);
     for(var i=0;i<len;i++){
-        var t = lecturedata.lectureList[i].total_num;
-        var n = lecturedata.lectureList[i].now_num;
-        var p = n/t*100;
-        // console.log("총 강의수:" + t);
-        // console.log("들은 강의수:" + n);
-        // console.log("퍼센트: "+p)
-        per.push(p);
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+            
+        if(lastsch>realtoday){  
+            nowlec.push(lecturedata.lectureList[i].name);
+        }    
     }
+    return nowlec;
+}
+const nowleclist = read_nowleclist();
+console.log("현재 강의:"+nowleclist);
 
+function cal_nowp(){ 
+    var per = [];
+
+    var len = Object.keys(lecturedata.lectureList).length;
+    for(var i=0;i<len;i++){
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+            
+        if(lastsch>realtoday){
+            var t = lecturedata.lectureList[i].total_num;   // console.log("총 강의수:" + t);
+            var n = lecturedata.lectureList[i].now_num;     // console.log("들은 강의수:" + n);
+            var p = (n/t*100).toFixed(1);                   // console.log("퍼센트: "+p)
+            per.push(p);
+        }    
+    }
     return per;
 }
 
-const perlist = cal_p();
-console.log(perlist);
+const nowperlist = cal_nowp();
+console.log(nowperlist);
+
+
+function read_lastleclist(){
+    var lastlec = [];
+
+    var len = Object.keys(lecturedata.lectureList).length;
+    for(var i=0;i<len;i++){
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+            
+        if(lastsch<realtoday){  //지난 강의
+            lastlec.push(lecturedata.lectureList[i].name)
+        }  
+    }
+    return lastlec;
+}
+const lastleclist = read_lastleclist();
+console.log("지난강의:"+lastleclist);
+
+
+function cal_lastp(){ 
+    var per = [];
+
+    var len = Object.keys(lecturedata.lectureList).length;
+    for(var i=0;i<len;i++){
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+            
+        if(lastsch<realtoday){
+            var t = lecturedata.lectureList[i].total_num;   // console.log("총 강의수:" + t);
+            var n = lecturedata.lectureList[i].now_num;     // console.log("들은 강의수:" + n);
+            var p = (n/t*100).toFixed(1);                   // console.log("퍼센트: "+p)
+            per.push(p);
+        }    
+    }
+    return per;
+}
+
+const lastperlist = cal_lastp();
+console.log(lastperlist);
+
+
+function cal_last(){
+
+    var len = Object.keys(lecturedata.lectureList).length;
+    var last_lect = 0; // false;
+
+    //지난강의인데 완료못함 > 지난강의
+    //지난강의인데 완료함 > 완료강의
+
+    //강의가 지났는지 여부 체크
+    for(var i=0;i<len;i++){
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        console.log(lastsch);
+        console.log(realtoday);
+        if(lastsch<realtoday)
+            last_lect = last_lect+1;
+    }
+
+    return last_lect;
+}
+
+function cal_wan(){
+
+    var len = Object.keys(lecturedata.lectureList).length;
+    var wan_lect = 0; // false;
+
+    //지난강의인데 완료못함 > 지난강의
+    //지난강의인데 완료함 > 완료강의
+    
+    // 강의가 완료되었는지 여부 체크 
+    for(var i=0;i<len;i++){
+        var schlen = lecturedata.lectureList[i].total_num;
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        
+        if(lastsch<realtoday){  //지난 강의
+            var t = lecturedata.lectureList[i].total_num;
+            var n = lecturedata.lectureList[i].now_num;
+
+            if(t==n){
+                wan_lect = wan_lect+1;
+            }
+        }
+    }
+    return wan_lect;
+}
+
+
+function show_nowpic(idx){
+
+    var schlen = lecturedata.lectureList[idx].total_num;
+    var lastsch = lecturedata.lectureList[idx].schedule[schlen-1];
+        
+    //if(lastsch>realtoday){  //현재 강의
+        return( <Image style={{alignSelf:"center", top: -13}} source={require('../assets/icons/now_lec.png')} ></Image>);
+    //}
+
+}
+
+function show_lastpic(idx){
+
+
+    var schlen = lecturedata.lectureList[idx].total_num;
+    var lastsch = lecturedata.lectureList[idx].schedule[schlen-1];
+        
+    if(lastsch<realtoday){  //지난 강의
+        var t = lecturedata.lectureList[idx].total_num;
+        var n = lecturedata.lectureList[idx].now_num;
+
+        if(t==n){   //완료했다면 완료강의 표시
+            return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/fin_lec.png')} ></Image>);
+        }
+        return(<Image style={{alignSelf:"center", top:-15.5}} source={require('../assets/icons/last_lec.png')} ></Image> );
+    }
+
+}
+
+function makeindexlist(num){
+    var indexlist = [];
+    for(var i=0;i<num;i++){
+        indexlist.push(i);
+    }
+    return indexlist;
+}
+
+const indexlist = makeindexlist(Object.keys(lecturedata.lectureList).length);
+console.log(indexlist);
 
 const LectureMode = ({navigation}) => {
-    
-    // const viewlecture = ({item, i}) => {
-    //     return(
-        //     <CardView
-        //     style={{
-        //             backgroundColor: '#ffffff',
-        //             padding:10,
-        //             margin:10,
-        //             width:110,
-        //             height:162
-        //         }}  
-        //         cardElevation={2}
-        //         cardMaxElevation={2}
-        //         cornerRadius={10}>
-                   
-        //     <Text style={{fontSize:15, paddingBottom:15,textAlign:'center'}} onPress={()=>{
-        //                 navigation.navigate('Lecturedetail',{id:item, perc:perlist[i]});}
-        //             }> {item}</Text>
-        //     <ProgressCircle
-        //             percent={perlist[i]}
-        //             radius={45}
-        //             borderWidth={8}
-        //             color="#552DEC"
-        //             shadowColor="#D9DBE9"
-        //             bgColor="#fff"
-        //     >
-        //     <Text style={{ fontSize: 18 }}>{perlist[i]+'%'}</Text>
-        //     </ProgressCircle>
-        // </CardView>
-    //     )
-        
-    //  };
+    var totallen = Object.keys(lecturedata.lectureList).length;
+
+    var last = cal_last();
+    var wan = cal_wan();
+
 
     return(
-        <View style= {{backgroundColor : "#F7F7FC", flex :1}}>
         <View style = {styles.container}>
+
             <Text style = {styles.title}>SWAG</Text>
-
-
+            
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity
                     style = {{flex:1, justifyContent : 'center'}}
@@ -99,53 +216,107 @@ const LectureMode = ({navigation}) => {
                 <View style ={styles.buttonClicked}>
                     <Text style ={styles.text}>강의모드</Text>
                 </View>
-    
             </View>
 
-            <View style={{backgroundColor:'#F7F7FC'}}>
-                <Text style={{fontSize:18, fontFamily:'NanumSquareB', marginLeft:20, marginBottom:5, marginTop:10}}>현재 강의</Text>
-                
+            <View style={{flexDirection:'row',justifyContent:'center'}}>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/now_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>현재강의</Text>
+                        <Text style={styles.minibcount}>{totallen-last} </Text>                
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch",top : -1.4}} source={require('../assets/icons/last_lec.png')} ></Image>
+                        <Text style={[styles.minibtitle,{top:0}]}>지난강의</Text> 
+                        <Text style={[styles.minibcount,{top:9}]}>{last} </Text>          
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/fin_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>완료강의</Text>             
+                        <Text style={styles.minibcount}>{wan} </Text>          
+                    </View>
+                    <View style={styles.miniblock}>
+                        <Image style={{resizeMode:"stretch"}} source={require('../assets/icons/all_lec.png')} ></Image>
+                        <Text style={styles.minibtitle}>전체강의</Text>    
+                        <Text style={styles.minibcount}>{totallen} </Text>          
+                    </View>
             </View>
-           
-            <View style={styles.back}>
+
+            <View style = {styles.shadow}></View>
+
+            <ScrollView style = {{flex: 7.5}}>
+
+                <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
+            
+            <View style={{flexDirection:'row'}}>
+                <FlatList
+                    numColumns={3}
+                    data={nowleclist}
+                    renderItem={({ item, index}) => (
+                    <TouchableOpacity
+                        style={styles.lecturecard} 
+                        onPress={()=>{ navigation.navigate('Lecturedetail',{id:item, perc:nowperlist[index]});}}
+                        >
+                        {show_nowpic(indexlist[index])}
+                        <Text style={styles.lecturename} > {item}</Text>
+                        <View style = {{flex:1,justifyContent:"flex-end"}}>
+                        <ProgressCircle
+                                percent={nowperlist[index]}
+                                radius={45}
+                                borderWidth={8}
+                                color="#552DEC"
+                                shadowColor="#D9DBE9"
+                                bgColor="#fff"
+                        >
+                        <Text style={{ fontSize: 18 }}>{nowperlist[index]+'%'}</Text>
+                        </ProgressCircle>
+                        <View style = {{height:10}}></View>
+                        </View> 
+                        
+                    </TouchableOpacity>
+                )}
+                keyExtractor={(game) => game.id}
+                numColumns={3}/>
+            </View>
+
+
+            <View style={{backgroundColor:'#F7F7FC'}}>
+                <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>지난 강의</Text>
+            </View>
+
+            <View style={{flexDirection:'row'}}>
             <FlatList
-                data={list}
+                data={lastleclist}
                 renderItem={({ item, index}) => (
-                    <CardView
-                    style={{
-                            backgroundColor: '#ffffff',
-                            padding:10,
-                            margin:10,
-                            width:110,
-                            height:162
-                        }}  
-                        cardElevation={2}
-                        cardMaxElevation={2}
-                        cornerRadius={10}>
-                           
-                    <Text style={{fontSize:15, paddingBottom:15,textAlign:'center'}} onPress={()=>{
-                                navigation.navigate('Lecturedetail',{id:item, perc:perlist[index]});}
-                            }> {item}</Text>
+                    <TouchableOpacity
+                    style={styles.lecturecard} 
+                    onPress={()=>{navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}}
+                    >
+                    
+                    {show_lastpic(indexlist[index])}
+                    <Text style={styles.lecturename} > {item}</Text>
+                    <View style = {{flex:1,justifyContent:"flex-end"}}>
+
                     <ProgressCircle
-                            percent={perlist[index]}
+                            percent={lastperlist[index]}
                             radius={45}
                             borderWidth={8}
                             color="#552DEC"
                             shadowColor="#D9DBE9"
                             bgColor="#fff"
                     >
-                    <Text style={{ fontSize: 18 }}>{perlist[index]+'%'}</Text>
+
+                    <Text style={{ fontSize: 18 }}>{lastperlist[index]+'%'}</Text>
                     </ProgressCircle> 
-                </CardView>
-                )}
-                keyExtractor={(game) => game.id}
-                numColumns={3}/>
-                
+                    <View style = {{height:10}}></View>
+                    </View>
+                    </TouchableOpacity>
+            )}
+            keyExtractor={(game) => game.id}
+            numColumns={3}/>
             </View>
-           
+            </ScrollView>
         </View>
         
-        </View>
         
     );
 }
@@ -157,9 +328,42 @@ const styles = StyleSheet.create(
             flex : 1,
             justifyContent : 'center',
             backgroundColor : '#F7F7FC',
+            paddingHorizontal : 15,
             paddingTop : 80,
-            marginHorizontal : 15,
-            marginBottom : 15
+        },
+        miniblock:{
+            backgroundColor:'white', 
+            width: 58, 
+            height:80, 
+            borderRadius:16, 
+            marginHorizontal :6,
+            alignItems : 'center',
+        },
+        minibtitle:{
+            top:3, 
+            fontSize:11,
+            fontFamily : 'NanumSquareR',
+            color:"#4E4B66",
+            textAlign:'center'
+        },
+        minibcount:{
+            top:12,
+            textAlign:'center', 
+            fontSize:18, 
+            color:"#4E4B66",
+            fontFamily : 'NanumSquareEB'
+        },
+        shadow :{
+            height:25,
+            marginHorizontal : -16,
+            backgroundColor:'#F7F7FC',
+            borderBottomWidth:1,
+            borderColor:"#D9DBE9",
+            shadowColor: '#000',
+            shadowOffset: { width:0, height: 4 },
+            shadowOpacity: 0.15,
+            shadowRadius: 2,
+            elevation: 1,
         },
         title:{
             position: 'absolute',
@@ -196,13 +400,28 @@ const styles = StyleSheet.create(
             marginTop: 30,
             marginBottom :20,
             marginHorizontal :20,
-            
         },
-        back:{
-            flex:7.5,
-            backgroundColor : '#F7F7FC',
-            flexDirection:'row'
+        lecturecard:{
+            backgroundColor: '#ffffff',
+            alignItems : "center",
+            marginTop:17,
+            marginHorizontal:5,
+            width: "30%",
+            height:165,
+            borderRadius:16,
+            borderColor : "#D9DBE9",
+            borderWidth:1,
         },
+        lecturename:{
+            marginTop:-5,
+            fontSize:14, 
+            fontFamily:'NanumSquareEB', 
+            color : "#4E4B66", 
+            paddingHorizontal:10,
+            paddingBottom:15,
+            textAlign:'center'
+        }
+        ,
         content:{
             flex:1,
             fontFamily : 'NanumSquareB',
@@ -224,71 +443,5 @@ const styles = StyleSheet.create(
     }
 )
 
-const hotGame = [
-    {
-      id: "1",
-      game: "애니팡4",
-      text: "다시 한 팡 붙자! 애니팡4!",
-      people: 180,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/j7eg-2020-06-23/13-58-08-879/appIcon.png",
-    },
-    {
-      id: "2",
-      game: "달빛조각사",
-      text: "모험가들의 꿈! 달빛조각사",
-      people: 260,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/jjkt-2020-04-21/11-47-10-291/appIcon.jpeg",
-    },
-    {
-      id: "3",
-      game: "쿵야 캐치마인드",
-      text: "빵터지는 모바일 그림퀴즈 게임!",
-      people: 320,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/t9e4-2019-10-15/23-20-48-778/appIcon.png",
-    },
-    {
-      id: "4",
-      game: "테라 클래식",
-      text: "같지만 또 다른 세계, 테라 클래식!",
-      people: 70,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/1j22-2019-08-09/14-13-27-593/appIcon.jpeg",
-    },
-    {
-      id: "5",
-      game: "프렌즈레이싱",
-      text: "프렌즈와 함께 밟아버려씽!",
-      people: 670,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/0ujp-2020-02-20/15-06-34-246/appIcon.png",
-    },
-    {
-      id: "6",
-      game: "엘더스크롤:블레이드",
-      text: "오리지널 엘더스크롤 시리즈의 신작",
-      people: 300,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/g1vq-2020-07-15/16-54-20-485/appIcon.jpeg",
-    },
-    {
-      id: "7",
-      game: "가디언 테일즈",
-      text: "띵작 어드벤쳐 가디언테일즈",
-      people: 160,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/npr3-2020-06-30/11-09-04-344/appIcon.png",
-    },
-    {
-      id: "8",
-      game: "프렌즈타워",
-      text: "손 끝으로 그리는 퍼즐, 프렌즈타워",
-      people: 190,
-      src:
-        "https://playgame-img.kakaogame.com/production/images/l8yf-2020-03-12/10-40-15-851/appIcon.png",
-    },
-  ];
 
 export default LectureMode;

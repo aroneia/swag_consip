@@ -1,9 +1,12 @@
 import React from 'react'
-import { View, Text,  StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text,  StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar'
+import Moment from 'moment';
 
 
-const AilenFriend = ({animal, navigation}) => {
+const AilenFriend = ({route,navigation}) => {
+    const { name, month,friendship,image, message } = route.params; 
+    const message_rev = message.reverse()
     return (
         <View style = {styles.container}>
 
@@ -21,10 +24,14 @@ const AilenFriend = ({animal, navigation}) => {
             </View>
 
             <View style = {{flex:1.5,flexDirection : "row"}}>
-                <View style = {{flex: 0.8,margin:10,backgroundColor: "blue"}}></View>
+       
+                <Image 
+                style = {styles.animal}
+                source = {image}/>
+                
                 <View style = {{flex:2,marginLeft:8,marginTop:10}}>
-                    <Text style = {{fontSize:17,fontFamily:'NanumSquareEB',marginBottom:5}}>에일루의 편지</Text>
-                    <Text style = {{fontSize:13, fontFamily:'NanumSquareR',marginBottom:2}}>2020년 9월에 함께했던 친구 에일루예요.</Text>
+                    <Text style = {{fontSize:17,fontFamily:'NanumSquareEB',marginBottom:5}}>{name}의 편지</Text>
+                    <Text style = {{fontSize:13, fontFamily:'NanumSquareR',marginBottom:2}}>2020년 {month}월에 함께했던 친구 {name}예요.</Text>
                     <Text style = {{fontSize:13, fontFamily:'NanumSquareR'}}>행복하게 공부했던 그날을 그리워하고 있어요.</Text>
                     <View style ={styles.longBlockContainer}>
                             <Text style= {{flex : 0.8, textAlign : 'center'}}>친밀도</Text>
@@ -35,7 +42,7 @@ const AilenFriend = ({animal, navigation}) => {
                                 ></Image>
                                 <ProgressBar 
                                     style = {{height :10, marginTop :10}}
-                                    progress= {30/100} 
+                                    progress= {friendship/100} 
                                     width={180}
                                     height = {10}
                                     borderRadius ={16} 
@@ -52,22 +59,21 @@ const AilenFriend = ({animal, navigation}) => {
             <View style = {styles.line}></View>
 
             <View style = {{flex: 6}}>
-            <Text style = {styles.yeartext} > 2020</Text>
-            <View style = {styles.messageview}>
-                <View style = {styles.messageitem}>
-                    <Text style = {styles.messageyear}>2020.10. 30</Text>
-                    <Text style = {styles.messagecontent}>잘 지내고 있지? 내가 없어도 다른 친구랑 끝까지 열심히 한 학기 달리기!</Text>
+     
+            <ScrollView 
+            contentContainerStyle={{flexGrow: 1}}
+            >
+                <Text style = {styles.yeartext} > 2020</Text>
+                <View style = {styles.messageview}>
+                    {message_rev.map(message => (
+                    <View style = {styles.messageitem}>
+                        <Text style = {styles.messageyear}>{Moment(message.date).format("YYYY.MM.DD")}</Text>
+                        <Text style = {styles.messagecontent}>{message.content}</Text>
+                    </View>                    
+                    ))
+                    }
                 </View>
-                <View style = {styles.messageitem}>
-                    <Text style = {styles.messageyear}>2020.10. 30</Text>
-                    <Text style = {styles.messagecontent}>잘 지내고 있지? 내가 없어도 다른 친구랑 끝까지 열심히 한 학기 달리기!</Text>
-                </View>
-                <View style = {styles.messageitem}>
-                    <Text style = {styles.messageyear}>2020.10. 30</Text>
-                    <Text style = {styles.messagecontent}>잘 지내고 있지? 내가 없어도 다른 친구랑 끝까지 열심히 한 학기 달리기!</Text>
-                </View>
-
-            </View>
+            </ScrollView >
             </View>
 
         </View>
@@ -121,7 +127,6 @@ const styles = StyleSheet.create({
     messageview : {
         flexDirection : "row",
         alignContent:"center",
-        justifyContent: "center",
         flexWrap: 'wrap',
     },
     messageitem :{
@@ -148,6 +153,13 @@ const styles = StyleSheet.create({
         fontFamily : 'NanumSquareB',
         fontSize : 18,
         color: '#4E4B66'
+    },
+    animal :{
+        flex:0.8, 
+        width: null,
+        height: null,
+
+        resizeMode: 'contain'
     }
 })
 
