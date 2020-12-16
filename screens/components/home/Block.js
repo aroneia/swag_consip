@@ -16,7 +16,7 @@ const checkLength =(name) => {
 
 function getTodayLabel() {
     
-    var week = new Array('SUN','MON', 'TUE', 'WED', 'THUR', 'FRI', 'SAT');
+    var week = new Array('SUN','MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
     
     var today = new Date().getDay();
     var todayLabel = week[today];
@@ -30,11 +30,12 @@ function checktoday(){
     let istoday=0;
 
     const todayday = getTodayLabel();
-    //console.log(todayday);
+    console.log(todayday);
     let len = Object.keys(data.lectureList).length;
     for(let i=0;i<len;i++){
 
         for(var j=0;j< Object.keys(data.lectureList[i].days).length;j++){
+            console.log(data.lectureList[i].days[j]);
              if(todayday == data.lectureList[i].days[j]){
                  console.log("오늘에 있네요~");
                  todayleclist.push(data.lectureList[i].name);

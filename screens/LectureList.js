@@ -32,8 +32,13 @@ function read_nowleclist(){
     var len = Object.keys(lecturedata.lectureList).length;
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
-            
+        //console.log("총 길이"+schlen);
+        //console.log("스케줄 총 길이는: "+Object.keys(lecturedata.lectureList[i].schedule).length);
+        //console.log("설마 schlen의 타입이? "+ (schlen-2));
+        //console.log("수동으로 마지막 날짜 출력하게: "+lecturedata.lectureList[i].schedule[schlen-2]);
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
+        console.log("마지막 날짜는"+lastsch);    
+
         if(lastsch>realtoday){  
             nowlec.push(lecturedata.lectureList[i].name);
         }    
@@ -49,7 +54,7 @@ function cal_nowp(){
     var len = Object.keys(lecturedata.lectureList).length;
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
             
         if(lastsch>realtoday){
             var t = lecturedata.lectureList[i].total_num;   // console.log("총 강의수:" + t);
@@ -71,7 +76,7 @@ function read_lastleclist(){
     var len = Object.keys(lecturedata.lectureList).length;
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
             
         if(lastsch<realtoday){  //지난 강의
             lastlec.push(lecturedata.lectureList[i].name)
@@ -89,7 +94,7 @@ function cal_lastp(){
     var len = Object.keys(lecturedata.lectureList).length;
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
             
         if(lastsch<realtoday){
             var t = lecturedata.lectureList[i].total_num;   // console.log("총 강의수:" + t);
@@ -116,7 +121,7 @@ function cal_last(){
     //강의가 지났는지 여부 체크
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
         console.log(lastsch);
         console.log(realtoday);
         if(lastsch<realtoday)
@@ -137,7 +142,7 @@ function cal_wan(){
     // 강의가 완료되었는지 여부 체크 
     for(var i=0;i<len;i++){
         var schlen = lecturedata.lectureList[i].total_num;
-        var lastsch = lecturedata.lectureList[i].schedule[schlen-1];
+        var lastsch = lecturedata.lectureList[i].schedule[schlen-2];
         
         if(lastsch<realtoday){  //지난 강의
             var t = lecturedata.lectureList[i].total_num;
@@ -155,7 +160,7 @@ function cal_wan(){
 function show_nowpic(idx){
 
     var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-1];
+    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
         
     //if(lastsch>realtoday){  //현재 강의
         return( <Image style={{alignSelf:"center", top: -13}} source={require('../assets/icons/now_lec.png')} ></Image>);
@@ -167,7 +172,7 @@ function show_lastpic(idx){
 
 
     var schlen = lecturedata.lectureList[idx].total_num;
-    var lastsch = lecturedata.lectureList[idx].schedule[schlen-1];
+    var lastsch = lecturedata.lectureList[idx].schedule[schlen-2];
         
     if(lastsch<realtoday){  //지난 강의
         var t = lecturedata.lectureList[idx].total_num;
@@ -189,8 +194,11 @@ function makeindexlist(num){
     return indexlist;
 }
 
-const indexlist = makeindexlist(Object.keys(lecturedata.lectureList).length);
-console.log(indexlist);
+const nowindexlist = makeindexlist(Object.keys(nowleclist).length);
+const lastindexlist = makeindexlist(Object.keys(lastleclist).length);
+console.log("현재 인덱스리스트 길이:"+Object.keys(nowindexlist).length);
+console.log("과거 인덱스리스트 길이:"+Object.keys(lastindexlist).length);
+
 
 const LectureMode = ({navigation}) => {
     var totallen = Object.keys(lecturedata.lectureList).length;
@@ -248,7 +256,6 @@ const LectureMode = ({navigation}) => {
             <ScrollView style = {{flex: 7.5}}>
 
                 <Text style={{fontSize:17, fontFamily:'NanumSquareEB', color : "#14142A",marginBottom:5, marginTop:20}}>현재 강의</Text>
-            
             <View style={{flexDirection:'row'}}>
                 <FlatList
                     numColumns={3}
@@ -258,7 +265,7 @@ const LectureMode = ({navigation}) => {
                         style={styles.lecturecard} 
                         onPress={()=>{ navigation.navigate('Lecturedetail',{id:item, perc:nowperlist[index]});}}
                         >
-                        {show_nowpic(indexlist[index])}
+                        {show_nowpic(nowindexlist[index])}
                         <Text style={styles.lecturename} > {item}</Text>
                         <View style = {{flex:1,justifyContent:"flex-end"}}>
                         <ProgressCircle
@@ -294,7 +301,7 @@ const LectureMode = ({navigation}) => {
                     onPress={()=>{navigation.navigate('Lecturedetail',{id:item, perc:lastperlist[index]});}}
                     >
                     
-                    {show_lastpic(indexlist[index])}
+                    {show_lastpic(lastindexlist[index])}
                     <Text style={styles.lecturename} > {item}</Text>
                     <View style = {{flex:1,justifyContent:"flex-end"}}>
 
