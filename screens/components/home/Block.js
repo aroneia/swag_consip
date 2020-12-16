@@ -4,29 +4,6 @@ import Dash from 'react-native-dash';
 import data from '../../../json/lecture.json';
 
 
-function read_lectname(){
-
-    let fin = [];   
-    
-    let len = Object.keys(data.lectureList).length;
-    for(let i=0;i<len;i++){
-        console.log(data.lectureList[i].name);
-        fin.push(data.lectureList[i].name);
-    }
-    // var keylen = Object.keys(data.lectureList[an].keywords).length;
-    // for(var i=0;i<keylen;i++){
-    //         ret= [];
-    //         ret.push(data.lectureList[an].keywords[i].date.substring(4,6));
-    //         ret.push(data.lectureList[an].keywords[i].date.substring(6,8));
-    //         ret.push(data.lectureList[an].keywords[i].key1);
-    //         ret.push(data.lectureList[an].keywords[i].key2);
-    //         ret.push(data.lectureList[an].keywords[i].key3);
-    //         //console.log(ret);
-    //         fin.push(ret);
-    // }
-
-    return fin;
-}
 
 const checkLength =(name) => {
     if (name.length > 6) {
@@ -37,13 +14,72 @@ const checkLength =(name) => {
 }
 
 
+function getTodayLabel() {
+    
+    var week = new Array('SUN','MON', 'TUE', 'WED', 'THUR', 'FRI', 'SAT');
+    
+    var today = new Date().getDay();
+    var todayLabel = week[today];
+    
+    return todayLabel;
+}
+ 
+
+function checktoday(){
+    let todayleclist =[];
+    let istoday=0;
+
+    const todayday = getTodayLabel();
+    //console.log(todayday);
+    let len = Object.keys(data.lectureList).length;
+    for(let i=0;i<len;i++){
+
+        for(var j=0;j< Object.keys(data.lectureList[i].days).length;j++){
+            console.log(data.lectureList[i].days[j]);
+             if(todayday == data.lectureList[i].days[j]){
+                 console.log("오늘에 있네요~");
+                 todayleclist.push(data.lectureList[i].name);
+                 istoday=1;
+             }
+        }
+    }
+    
+    return todayleclist;    
+}
+const test = checktoday();
+console.log("오늘 강의 목록은 "+test);
+
+function read_lectime(){
+
+    let todaylectimelist =[];
+    let time=[];
+
+    const todayday = getTodayLabel();
+    
+    let len = Object.keys(data.lectureList).length;
+    for(let i=0;i<len;i++){
+        for(var j=0;j< Object.keys(data.lectureList[i].days).length;j++){
+            console.log(data.lectureList[i].days[j]);
+             if(todayday == data.lectureList[i].days[j]){
+                time=data.lectureList[i].Time;
+                todaylectimelist.push(time);
+             }
+        }
+        
+    }
+
+    
+    return todaylectimelist;    
+}
+const lecttimelist = read_lectime();
+console.log("오늘의 강의 시간들은: "+lecttimelist);
+
 const Block = () => {
 
     
-    const lectname = read_lectname();
-
+    const lectname = checktoday();
     const show_name = () => {
-        return lectname.map((el,i) => 
+        return test.map((el,i) => 
 
         <TouchableOpacity 
         style ={styles.container}
@@ -58,8 +94,8 @@ const Block = () => {
                 </Image>
             </View>
             <View style={{flex: 0.5}}>
-                <Text style = {styles.textname}>{checkLength(lectname[i])}</Text>
-                <Text style = {styles.texttime}>11:00</Text>
+                <Text style = {styles.textname}>{checkLength(test[i])}</Text>
+                <Text style = {styles.texttime}>{lecttimelist[i][0]}:{lecttimelist[i][1]}</Text>
             </View>
         </TouchableOpacity>
            
