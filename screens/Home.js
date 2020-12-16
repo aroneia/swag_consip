@@ -135,24 +135,27 @@ const Home = ({navigation}) => {
     else{
       const start = calculateTime(currentlecture.Time[0],currentlecture.Time[1]);
       const end = calculateTime(currentlecture.Time[2],currentlecture.Time[3]);
-
+      let stampnow = ""
       if(isPressed == true && now > start + 10){
         //10분 이후부터 지각으로 처리
         setStampStatus("late");
+        stampnow = "late";
       }else if(isPressed ==true && now <= start +10){
         setStampStatus("good");
+        stampnow = "good";
       }else if(isPressed == false && now > end - 10){
         //끝나기 10분전부터 결석처리 
         setStampStatus("absent");
+        stampnow = "absent";s
       }
 
       const lects = data.lectureList;
       for(let i =0; i <lects.length; i++){
         if(lects[i].name == currentlecture.name){
           console.log("------stamp-----inside current lecture");
-          if(stampStatus == "good") {lects[i].stamp.push(1)}
-          if(stampStatus == "late") {lects[i].stamp.push(0)}
-          if(stampStatus == "absent") {lects[i].stamp.push(-1)}
+          if(stampnow == "good") {lects[i].stamp.push(1)}
+          if(stampnow == "late") {lects[i].stamp.push(0)}
+          if(stampnow == "absent") {lects[i].stamp.push(-1)}
 
         }
       }
