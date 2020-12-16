@@ -212,7 +212,7 @@ const Home = ({navigation}) => {
         <MainBlock loading ={loading} 
         progress = {progress} 
         status = {status} 
-        lecturenow = {loading == true ? "loading" : currentlecture} 
+        lecturenow = {loading == true ? "loading" : currentlecture } 
         setInfoStamp = {setInfoStamp}
         timenow = {now}
         />
