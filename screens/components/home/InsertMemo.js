@@ -57,7 +57,7 @@ const InsertMemo = ({visible,setvisible,lectureName, setInfoStamp}) => {
     return(
         <View style={styles.container}>
             <Modal 
-             visible={visible}
+             visible={modalVisible}
             animationType = {"fade"}
             transparent={true}
             >

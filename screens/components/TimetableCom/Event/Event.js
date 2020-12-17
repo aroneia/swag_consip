@@ -18,12 +18,9 @@ const Event = ({ event, onPress, style }) => {
       }]}
     >
 
-      <Text style={styles.title}>{Moment(event.startTime).format('hh:mm')}</Text>
+      <Text style={styles.title}>{Moment(event.startTime).format('HH:mm')}</Text>
       <Text style={styles.title}>{event.title}</Text>
-      {/* <Text style={styles.location}>{event.location}</Text> */}
-      {/* {event.extra_descriptions.map((description, idx) => (
-        <Text key={idx} style={styles.description}>{description}</Text>
-      ))} */}
+
     </TouchableOpacity>
   );
 };
