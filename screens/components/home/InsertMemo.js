@@ -21,8 +21,7 @@ const InsertMemo = ({visible,setvisible,lectureName, setInfoStamp}) => {
     const [key3, setKey3] = useState('');
     
     const inputkeymemo = () => {
-      
-      setInfoStamp(true);
+    
       var today = new Date();
       var year = today.getFullYear();
       var month = today.getMonth() + 1;  // 월
@@ -42,6 +41,7 @@ const InsertMemo = ({visible,setvisible,lectureName, setInfoStamp}) => {
             if(lecturedata.lectureList[i].name == lectureName);
             lecturedata.lectureList[i].keywords.push(keyword);
         }
+       
         setmodalVisible(false);
         reset();
        
@@ -106,10 +106,15 @@ const InsertMemo = ({visible,setvisible,lectureName, setInfoStamp}) => {
 
                     <TouchableOpacity
                     style={{ ...styles.openButton}}
-                    onPress={() => {handleClose();}}
+                    onPress={() => {
+                      handleClose();
+                      inputkeymemo();
+                      setInfoStamp(true);
+                    }}
                     >
-                     <Text style={styles.textStyle} onPress={()=> {inputkeymemo()}}>저장하기</Text>
+                     <Text style={styles.textStyle}>저장하기</Text>
                     </TouchableOpacity>
+          
                 </View>
             </View>
             </Modal>

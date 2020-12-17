@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Image} from 'react-native';
+import { Image, LogBox} from 'react-native';
 import {AppLoading} from "expo";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,6 +19,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 
+  LogBox.ignoreAllLogs();//Ignore all log notifications
   const icon = []
 
   const [fontsLoaded] = useFonts({

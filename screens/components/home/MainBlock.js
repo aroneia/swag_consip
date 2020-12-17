@@ -132,6 +132,7 @@ const MainBlock = ({loading, progress, status, lecturenow, setInfoStamp, timenow
                     source = {
                         require('../../../assets/icons/circleButtonOff.png')} 
                     style ={styles.buttonImageEnd}
+            
                     >
                  <Text style ={styles.buttonText}>종료</Text>
                 </ImageBackground>
